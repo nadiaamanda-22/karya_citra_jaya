@@ -3,7 +3,7 @@
      <div class="row">
          <?php $bulan = date('m'); ?>
          <p>Rekap Data Bulan <?= $this->fungsional->bulanIndonesia($bulan) . ' ' . date('Y') ?></p>
-         <p>Coba</p>
+        
      </div>
 
      <!-- Content -->
