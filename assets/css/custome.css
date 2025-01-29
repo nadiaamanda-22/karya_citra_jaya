@@ -1,10 +1,16 @@
 .border-left-warnaUtama {
 	border-left: 0.25rem solid #3b5998 !important;
 }
-.warna-utama {
-	background-color: #3b5998;
+.warna-utama,
+.btn-primary {
+	background-color: #3b5998 !important;
 }
 
 .text-utama {
 	color: #3b5998;
+}
+
+table.dataTable thead td {
+	background-color: #3b5998;
+	color: #fff;
 }

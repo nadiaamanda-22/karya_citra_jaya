@@ -2,30 +2,30 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- template -->
     <title><?= $title ?></title>
     <link rel="icon" type="image/png" sizes="50x26" href="<?= base_url('assets/img/logo.png'); ?>">
+    <link href="<?= base_url('assets/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url('assets/') ?>css/custome.css" rel="stylesheet" type="text/css">
 
-    <!-- Custom fonts for this template-->
-    <link href="<?=base_url('assets/')?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="<?=base_url('assets/')?>css/custome.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
+    <!-- CDN -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
+
+    <!-- CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/') ?>css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -46,18 +46,18 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                <i class="bi bi-speedometer2"></i>
+                <a class="nav-link" href="<?= base_url('Dashboard') ?>">
+                    <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
-                <i class="bi bi-basket3-fill"></i>
+                    <i class="bi bi-basket3-fill"></i>
                     <span>Invoice</span></a>
             </li>
 
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listPersediaan"
                     aria-expanded="true" aria-controls="listPersediaan">
                     <i class="bi bi-boxes"></i>
@@ -81,7 +81,7 @@
                 <div id="listAdministrasi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="buttons.html">Customer</a>
-                        <a class="collapse-item" href="cards.html">Supplier</a>
+                        <a class="collapse-item" href="<?= base_url('Supplier') ?>">Supplier</a>
                         <a class="collapse-item" href="cards.html">Rekening</a>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 </div>
             </li>
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -131,6 +131,9 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
+                    <!-- title -->
+                    <h5 class="mb-0 text-gray-800"><?= $title ?></h5>
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -139,7 +142,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle mr-3"
-                                    src="<?=base_url('assets/')?>img/default.svg">
+                                    src="<?= base_url('assets/') ?>img/default.svg">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrator</span>
                             </a>
                             <!-- Dropdown - User Information -->
@@ -151,15 +154,15 @@
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="bi bi-person-plus-fill mr-2"></i>
-                                     Manajemen User
+                                    Manajemen User
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="bi bi-gear-fill mr-2"></i>
-                                     Pengaturan
+                                    Pengaturan
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="bi bi-back mr-2"></i>
-                                     Backup & Restore
+                                    Backup & Restore
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -220,23 +223,26 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="<?= base_url('assets/') ?>vendor/jquery/jquery.min.js"></script>
+    <!-- CDN -->
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- template-->
+    <!-- <script src="<?= base_url('assets/') ?>vendor/jquery/jquery.min.js"></script> -->
     <script src="<?= base_url('assets/') ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="<?= base_url('assets/') ?>vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
+    <!-- <script src="<?= base_url('assets/') ?>vendor/jquery-easing/jquery.easing.min.js"></script> -->
     <script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="<?= base_url('assets/') ?>vendor/chart.js/Chart.min.js"></script>
+    <!-- <script src="<?= base_url('assets/') ?>vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="<?= base_url('assets/') ?>js/demo/chart-area-demo.js"></script>
-    <script src="<?= base_url('assets/') ?>js/demo/chart-pie-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- <script src="<?= base_url('assets/') ?>js/demo/chart-area-demo.js"></script>
+    <script src="<?= base_url('assets/') ?>js/demo/chart-pie-demo.js"></script> -->
+
+    <script>
+        let table = new DataTable('#dataTable-data');
+    </script>
 
 </body>
 

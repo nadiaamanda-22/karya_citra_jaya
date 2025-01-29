@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="<?=base_url('assets/css/sb-admin-2.min.css')?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
 
 </head>
 
@@ -44,19 +44,17 @@
                                         <div class="form-group">
                                             <label for="username">Username</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="username" name="username"
-                                                placeholder="Enter Email Address...">
+                                                id="username" name="username">
                                         </div>
                                         <div class="form-group">
-                                        <label for="username">Password</label>
+                                            <label for="username">Password</label>
                                             <input type="password" class="form-control form-control-user"
-                                                id="password" name="password" placeholder="Password">
+                                                id="password" name="password">
                                         </div>
-                                       
+
                                         <a href="index.html" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
-                                        <hr>
                                     </form>
                                 </div>
                             </div>
