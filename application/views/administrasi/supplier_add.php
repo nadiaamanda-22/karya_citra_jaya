@@ -16,7 +16,7 @@
                              <?php endif; ?>
                          </div>
                          <div class="mb-5">
-                             <small>[*] Kolom harus diisi</small>
+                             <small>[*] Kolom harus diisai</small>
                          </div>
                          <a href="<?= base_url('supplier') ?>" class="btn btn-danger">Batal</a>
                          <button type="submit" class="btn btn-primary">Simpan</button>
