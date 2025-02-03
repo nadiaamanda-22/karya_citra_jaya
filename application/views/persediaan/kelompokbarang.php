@@ -8,16 +8,16 @@
                      <thead>
                          <tr>
                              <td width="8%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="15%" >Kode Kelompok</td>
-                             <td width="62%" style="text-align: center;">Nama Kelompok</td>
-                             <td width="15%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
+                             <td width="22%" style="text-align: center;">Kode</td>
+                             <td width="62%">Kelompok Barang</td>
+                             <td width="8%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>
                      <tbody>
                          <?php
                             $no = 1;
-                            foreach ($kelompokbarang as $kb) { 
-                                ?>
+                            foreach ($kelompokbarang as $kb) {
+                            ?>
                              <tr>
                                  <td style="text-align: center;"><?= $no++ ?></td>
                                  <td style="text-align: center;"><?= $kb->kode_kelompok ?></td>

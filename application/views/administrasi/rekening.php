@@ -8,7 +8,7 @@
                      <thead>
                          <tr>
                              <td width="10%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="75%" style="text-align: center;">Rekening</td>
+                             <td width="75%">Rekening</td>
                              <td width="15%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>
@@ -18,7 +18,7 @@
                             foreach ($rekening as $rk) { ?>
                              <tr>
                                  <td style="text-align: center;"><?= $no++ ?></td>
-                                 <td style="text-align: center;"><?= $rk->rekening ?></td>
+                                 <td><?= $rk->rekening ?></td>
                                  <td style="text-align: center;">
                                      <a href="<?= base_url('rekening/editView/' . $rk->id_rekening) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
                                      <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $rk->id_rekening ?>"><i class="bi bi-trash3-fill"></i></a>
