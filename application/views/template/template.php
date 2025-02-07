@@ -160,7 +160,7 @@
                                     <i class="bi bi-gear-fill mr-2"></i>
                                     Pengaturan
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<?= base_url('Backup') ?>">
                                     <i class="bi bi-back mr-2"></i>
                                     Backup & Restore
                                 </a>

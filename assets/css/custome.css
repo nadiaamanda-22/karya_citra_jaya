@@ -14,3 +14,8 @@ table.dataTable thead td {
 	background-color: #3b5998;
 	color: #fff;
 }
+
+#headerTabel {
+	background-color: #3b5998 !important;
+	color: #fff;
+}
