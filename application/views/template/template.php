@@ -66,7 +66,7 @@
                 <div id="listPersediaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="buttons.html">Stok Barang</a>
-                        <a class="collapse-item" href="cards.html">Kelompok Barang</a>
+                        <a class="collapse-item" href="<?= base_url('Kelompokbarang') ?>">Kelompok Barang</a>
                         <a class="collapse-item" href="cards.html">Pembelian Barang</a>
                     </div>
                 </div>
@@ -80,9 +80,9 @@
                 </a>
                 <div id="listAdministrasi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Customer</a>
+                        <a class="collapse-item" href="<?= base_url('Customer') ?>">Customer</a>
                         <a class="collapse-item" href="<?= base_url('Supplier') ?>">Supplier</a>
-                        <a class="collapse-item" href="cards.html">Rekening</a>
+                        <a class="collapse-item" href="<?= base_url('Rekening') ?>">Rekening</a>
                     </div>
                 </div>
             </li>
