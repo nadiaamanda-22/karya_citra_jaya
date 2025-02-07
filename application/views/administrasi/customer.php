@@ -1,5 +1,5 @@
- <!-- Begin Page Content -->
- <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
      <div class="card shadow mb-4">
          <div class="card-body">
              <a href="<?= base_url('customer/addView') ?>" class="btn btn-primary">Tambah</a>
@@ -8,17 +8,21 @@
                      <thead>
                          <tr>
                              <td width="8%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="82%">Customer</td>
-                             <td width="10%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
+                             <td width="28%" style="text-align: center;">Nama </td>
+                             <td width="18%" style="text-align: center;">No Handphone</td>
+                             <td width="38"  style="text-align: center;">Alamat</td>
+                             <td width="8%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>
                      <tbody>
                          <?php
                             $no = 1;
-                            foreach ($nama_customer as $c) { ?>
+                            foreach ($customer as $c) { ?>
                              <tr>
                                  <td style="text-align: center;"><?= $no++ ?></td>
                                  <td><?= $c->nama_customer ?></td>
+                                 <td style="text-align: center;"><?= $c->no_hp ?></td>
+                                 <td><?= $c->alamat?></td>
                                  <td style="text-align: center;">
                                      <a href="<?= base_url('customer/editView/' . $c->id_customer) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
                                      <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $c->id_customer ?>"><i class="bi bi-trash3-fill"></i></a>

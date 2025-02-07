@@ -6,7 +6,7 @@ class Customer extends CI_Controller
     public function index()
     {
         $data['title'] = 'Customer';
-        $data['nama_customer'] = $this->db->get("t_customer")->result();
+        $data['customer'] = $this->db->get("t_customer")->result();
         $this->template->load('template/template', 'administrasi/customer', $data);
     }
 
@@ -19,9 +19,13 @@ class Customer extends CI_Controller
     public function addData()
     {
         $this->form_validation->set_rules('nama_customer', 'Customer', 'required');
+        $this->form_validation->set_rules('no_hp', 'Customer', 'required');
+        $this->form_validation->set_rules('alamat', 'Customer', 'required');
         if ($this->form_validation->run() != FALSE) {
             $data = [
-                'nama_customer' => $this->input->post('nama_customer')
+                'nama_customer' => $this->input->post('nama_customer'),
+                'no_hp' => $this->input->post('no_hp'),
+                'alamat' => $this->input->post('alamat')
             ];
             $this->db->insert('t_customer', $data);
 
@@ -43,9 +47,13 @@ class Customer extends CI_Controller
     public function editData($id_customer)
     {
         $this->form_validation->set_rules('nama_customer', 'Customer', 'required');
+        $this->form_validation->set_rules('no_hp', 'Customer', 'required');
+        $this->form_validation->set_rules('alamat', 'Customer', 'required');
         if ($this->form_validation->run() != FALSE) {
             $data = [
-                'nama_customer' => $this->input->post('nama_customer')
+                'nama_customer' => $this->input->post('nama_customer'),
+                'no_hp' => $this->input->post('no_hp'),
+                'alamat' => $this->input->post('alamat')
             ];
             $this->db->where('id_customer', $id_customer);
             $this->db->update('t_customer', $data);
