@@ -9,7 +9,7 @@
                          <tr>
                              <td width="8%" style="text-align: center;"><i class="bi bi-circle"></i></td>
                              <td width="22%" style="text-align: center;">Kode</td>
-                             <td width="62%">Kelompok Barang</td>
+                             <td width="62%" style="text-align: center;">Kelompok Barang</td>
                              <td width="8%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>

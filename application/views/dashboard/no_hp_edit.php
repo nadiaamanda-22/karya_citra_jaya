@@ -18,7 +18,7 @@
                          <div class="mb-5">
                              <small>[*] Kolom harus diisi</small>
                          </div>
-                         <a href="<?= base_url('no_hp') ?>" class="btn btn-danger">Batal</a>
+                         <a href="<?= base_url('nohandphone') ?>" class="btn btn-danger">Batal</a>
                          <button type="submit" class="btn btn-primary">Simpan</button>
                      </form>
                  </div>

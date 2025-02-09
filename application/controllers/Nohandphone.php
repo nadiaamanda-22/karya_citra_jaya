@@ -33,10 +33,10 @@ class Nohandphone extends CI_Controller
         }
     }
 
-    public function editView($no_hp)
+    public function editView($id)
     {
         $data['title'] = 'No Handphone';
-        $data['no_hp'] = $this->db->query("SELECT * FROM t_no_hp WHERE no_hp='$no_hp'")->row();
+        $data['no_hp'] = $this->db->query("SELECT * FROM t_no_hp WHERE id='$id'")->row();
         $this->template->load('template/template', 'dashboard/no_hp_edit', $data);
     }
 
@@ -54,14 +54,14 @@ class Nohandphone extends CI_Controller
             redirect('Nohandphone');
         } else {
             $this->session->set_flashdata('message', 'error');
-            redirect('Nohandphone/editView/' . $no_hp);
+            redirect('Nohandphone/editView/' . $id);
         }
     }
 
     public function hapusData()
     {
-        $no_hp = $this->input->post('id');
-        $deleteData = $this->db->delete('t_no_hp', ['no_hp' => $no_hp]);
+        $id = $this->input->post('id');
+        $deleteData = $this->db->delete('t_no_hp', ['id' => $id]);
         if ($deleteData) {
             echo json_encode('berhasil');
         }

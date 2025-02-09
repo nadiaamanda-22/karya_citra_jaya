@@ -8,7 +8,7 @@
                      <thead>
                          <tr>
                              <td width="8%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="82%">Supplier</td>
+                             <td width="82%" style="text-align: center;">Supplier</td>
                              <td width="10%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>

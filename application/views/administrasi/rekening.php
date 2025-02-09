@@ -8,7 +8,7 @@
                      <thead>
                          <tr>
                              <td width="10%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="75%">Rekening</td>
+                             <td width="75%" style="text-align: center;">Rekening</td>
                              <td width="15%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>

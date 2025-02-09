@@ -152,7 +152,7 @@
                                     <i class="bi bi-person-fill mr-2"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
                                     <i class="bi bi-person-plus-fill mr-2"></i>
                                     Manajemen User
                                 </a>
