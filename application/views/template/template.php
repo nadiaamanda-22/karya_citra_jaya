@@ -156,7 +156,7 @@
                                     <i class="bi bi-person-plus-fill mr-2"></i>
                                     Manajemen User
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<?= base_url('Pengaturan') ?>">
                                     <i class="bi bi-gear-fill mr-2"></i>
                                     Pengaturan
                                 </a>
