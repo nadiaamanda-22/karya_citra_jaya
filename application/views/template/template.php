@@ -44,66 +44,109 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="<?= base_url('Dashboard') ?>">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span></a>
-            </li>
+            <?php
+            $username = $this->session->userdata('username');
+            $idUser = $this->db->query("SELECT id_user FROM t_user WHERE username='$username'")->row()->id_user;
+            $menu = [];
+            $getMenu = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$idUser'")->result_array();
+            foreach ($getMenu as $mn) {
+                $menu[] = $mn['id_menu'];
+            }
 
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="bi bi-basket3-fill"></i>
-                    <span>Invoice</span></a>
-            </li>
+            if (in_array(10, $menu)) { ?>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?= base_url('Dashboard') ?>">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span></a>
+                </li>
+            <?php }
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listPersediaan"
-                    aria-expanded="true" aria-controls="listPersediaan">
-                    <i class="bi bi-boxes"></i>
-                    <span>Persediaan</span>
-                </a>
-                <div id="listPersediaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Stok Barang</a>
-                        <a class="collapse-item" href="<?= base_url('Kelompokbarang') ?>">Kelompok Barang</a>
-                        <a class="collapse-item" href="cards.html">Pembelian Barang</a>
+            if (in_array(11, $menu)) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-basket3-fill"></i>
+                        <span>Invoice</span></a>
+                </li>
+            <?php }
+
+            if (!empty(array_intersect([1, 2, 3], $menu))) { ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listPersediaan"
+                        aria-expanded="true" aria-controls="listPersediaan">
+                        <i class="bi bi-boxes"></i>
+                        <span>Persediaan</span>
+                    </a>
+                    <div id="listPersediaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if (in_array(1, $menu)) { ?>
+                                <a class="collapse-item" href="buttons.html">Stok Barang</a>
+                            <?php }
+
+                            if (in_array(2, $menu)) { ?>
+                                <a class="collapse-item" href="<?= base_url('Kelompokbarang') ?>">Kelompok Barang</a>
+                            <?php }
+
+                            if (in_array(3, $menu)) { ?>
+                                <a class="collapse-item" href="cards.html">Pembelian Barang</a>
+                            <?php } ?>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php }
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listAdministrasi"
-                    aria-expanded="true" aria-controls="listAdministrasi">
-                    <i class="bi bi-card-list"></i>
-                    <span>Administrasi</span>
-                </a>
-                <div id="listAdministrasi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="<?= base_url('Customer') ?>">Customer</a>
-                        <a class="collapse-item" href="<?= base_url('Supplier') ?>">Supplier</a>
-                        <a class="collapse-item" href="<?= base_url('Rekening') ?>">Rekening</a>
-                    </div>
-                </div>
-            </li>
+            if (!empty(array_intersect([4, 5, 6], $menu))) { ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listAdministrasi"
+                        aria-expanded="true" aria-controls="listAdministrasi">
+                        <i class="bi bi-card-list"></i>
+                        <span>Administrasi</span>
+                    </a>
+                    <div id="listAdministrasi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if (in_array(4, $menu)) { ?>
+                                <a class="collapse-item" href="<?= base_url('Customer') ?>">Customer</a>
+                            <?php }
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listLaporan"
-                    aria-expanded="true" aria-controls="listLaporan">
-                    <i class="bi bi-journal-bookmark"></i>
-                    <span>Laporan</span>
-                </a>
-                <div id="listLaporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">Penjualan</a>
-                        <a class="collapse-item" href="cards.html">Detail Invoice</a>
-                        <a class="collapse-item" href="cards.html">Detail Invoice Kaca</a>
-                        <a class="collapse-item" href="cards.html">Pembelian Barang</a>
-                        <a class="collapse-item" href="cards.html">Detail Pembelian Barang</a>
-                        <a class="collapse-item" href="cards.html">Stok Barang</a>
+                            if (in_array(5, $menu)) { ?>
+                                <a class="collapse-item" href="<?= base_url('Supplier') ?>">Supplier</a>
+                            <?php }
+
+                            if (in_array(6, $menu)) { ?>
+                                <a class="collapse-item" href="<?= base_url('Rekening') ?>">Rekening</a>
+                            <?php } ?>
+
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php }
+
+            if (!empty(array_intersect([7, 8, 9], $menu))) { ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listLaporan"
+                        aria-expanded="true" aria-controls="listLaporan">
+                        <i class="bi bi-journal-bookmark"></i>
+                        <span>Laporan</span>
+                    </a>
+                    <div id="listLaporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if (in_array(7, $menu)) { ?>
+                                <a class="collapse-item" href="buttons.html">Penjualan</a>
+                                <a class="collapse-item" href="cards.html">Detail Invoice</a>
+                                <a class="collapse-item" href="cards.html">Detail Invoice Kaca</a>
+                            <?php }
+
+                            if (in_array(8, $menu)) { ?>
+                                <a class="collapse-item" href="cards.html">Pembelian Barang</a>
+                                <a class="collapse-item" href="cards.html">Detail Pembelian Barang</a>
+                            <?php }
+
+                            if (in_array(9, $menu)) { ?>
+                                <a class="collapse-item" href="cards.html">Stok Barang</a>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </li>
+            <?php } ?>
 
 
             <!-- Divider -->
@@ -142,8 +185,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle mr-3"
-                                    src="<?= base_url('assets/') ?>img/default.svg">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrator</span>
+                                    src="<?= base_url('assets/img/user/' . $this->session->userdata('image')) ?>">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('username') ?></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -152,10 +195,12 @@
                                     <i class="bi bi-person-fill mr-2"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
-                                    <i class="bi bi-person-plus-fill mr-2"></i>
-                                    Manajemen User
-                                </a>
+                                <?php if ($this->session->userdata('role') == 0) { ?>
+                                    <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
+                                        <i class="bi bi-person-plus-fill mr-2"></i>
+                                        Manajemen User
+                                    </a>
+                                <?php } ?>
                                 <a class="dropdown-item" href="<?= base_url('Pengaturan') ?>">
                                     <i class="bi bi-gear-fill mr-2"></i>
                                     Pengaturan
@@ -209,15 +254,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin keluar?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Pilih "Logout" untuk keluar dari sistem.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="<?= base_url('login/logout') ?>">Logout</a>
                 </div>
             </div>
         </div>

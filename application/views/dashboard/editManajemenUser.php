@@ -116,15 +116,15 @@
                                      <div class="col-4">
                                          <div class="form-check">
                                              <input type="checkbox" class="form-check-input menu" id="lap_invoice" name="menu[]" value="7" <?= in_array(7, $selectedMenu) ? 'checked' : '' ?>>
-                                             <label class="form-check-label" for="lap_invoice">Invoice</label>
+                                             <label class="form-check-label" for="lap_invoice">Laporan Invoice</label>
                                          </div>
                                          <div class="form-check">
                                              <input type="checkbox" class="form-check-input menu" id="lap_pembelian" name="menu[]" value="8" <?= in_array(8, $selectedMenu) ? 'checked' : '' ?>>
-                                             <label class="form-check-label" for="lap_pembelian">Pembelian Barang</label>
+                                             <label class="form-check-label" for="lap_pembelian">Laporan Pembelian Barang</label>
                                          </div>
                                          <div class="form-check">
                                              <input type="checkbox" class="form-check-input menu" id="lap_stok" name="menu[]" value="9" <?= in_array(9, $selectedMenu) ? 'checked' : '' ?>>
-                                             <label class="form-check-label" for="lap_stok">Stok Barang</label>
+                                             <label class="form-check-label" for="lap_stok">Laporan Stok Barang</label>
                                          </div>
                                      </div>
                                  </div>

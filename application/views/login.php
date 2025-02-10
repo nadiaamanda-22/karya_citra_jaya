@@ -20,9 +20,13 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
 
+    <!-- CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
-<body class="bg-gradient-primary">
+<body style="background-color: #3b5998;">
 
     <div class="container">
 
@@ -40,7 +44,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Sign in</h1>
                                     </div>
-                                    <form class="user">
+                                    <form action="<?= base_url('login/login') ?>" method="POST">
                                         <div class="form-group">
                                             <label for="username">Username</label>
                                             <input type="text" class="form-control form-control-user"
@@ -51,10 +55,7 @@
                                             <input type="password" class="form-control form-control-user"
                                                 id="password" name="password">
                                         </div>
-
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <button class="btn btn-user btn-block" type="submit" style="background-color: #3b5998;color:#fff;">Login</button>
                                     </form>
                                 </div>
                             </div>
@@ -77,6 +78,42 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/js/sb-admin-2.min.js') ?>"></script>
+
+    <?php if ($this->session->flashdata('message')) { ?>
+        <script>
+            var message = "<?= $this->session->flashdata('message') ?>";
+            if (message == 'berhasil tambah') {
+                Swal.fire({
+                    title: "Data berhasil ditambah!",
+                    icon: "success",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Ya",
+                    confirmButtonColor: "#3b5998",
+                });
+            } else if (message == 'gagal_login') {
+                Swal.fire({
+                    title: "Terjadi kesalahan!",
+                    text: "Username atau password tidak sesuai!",
+                    icon: "error",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Ya",
+                    confirmButtonColor: "#3b5998",
+                });
+            } else if (message == 'required') {
+                Swal.fire({
+                    title: "Terjadi kesalahan",
+                    text: "Username atau password tidak boleh kosong!",
+                    icon: "error",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Ya",
+                    confirmButtonColor: "#3b5998",
+                });
+            }
+        </script>
+    <?php } ?>
 
 </body>
 
