@@ -79,7 +79,7 @@ class Manajemenuser extends CI_Controller
     {
         $data['title'] = 'Manajemen User';
         $data['user'] = $this->db->query("SELECT * FROM t_user WHERE id_user='$idUser'")->row();
-        $data['menu'] = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$idUser'")->result_array();
+        $data['menu_user'] = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$idUser'")->result_array();
         $this->template->load('template/template', 'dashboard/editManajemenUser', $data);
     }
 

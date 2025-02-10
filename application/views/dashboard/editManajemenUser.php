@@ -1,5 +1,5 @@
  <?php
-    $selectedMenu = array_column($menu, 'id_menu');
+    $selectedMenu = array_column($menu_user, 'id_menu');
     ?>
 
  <!-- Begin Page Content -->

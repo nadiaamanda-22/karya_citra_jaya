@@ -21,6 +21,7 @@ class Login extends CI_Controller
 			if ($getUser) {
 				if (md5($password) == $getUser['password_md5']) {
 					$data_session = [
+						'id_user' => $getUser['id_user'],
 						'username' => $getUser['username'],
 						'nama_user' => $getUser['nama_user'],
 						'level' => $getUser['level'],

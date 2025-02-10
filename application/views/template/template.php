@@ -45,9 +45,7 @@
             <hr class="sidebar-divider my-0">
 
             <?php
-            $username = $this->session->userdata('username');
-            $idUser = $this->db->query("SELECT id_user FROM t_user WHERE username='$username'")->row()->id_user;
-            $menu = [];
+            $idUser = $this->session->userdata('id_user');
             $getMenu = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$idUser'")->result_array();
             foreach ($getMenu as $mn) {
                 $menu[] = $mn['id_menu'];
@@ -186,16 +184,16 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle mr-3"
                                     src="<?= base_url('assets/img/user/' . $this->session->userdata('image')) ?>">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('username') ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('nama_user') ?></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<?= base_url('profil') ?>">
                                     <i class="bi bi-person-fill mr-2"></i>
                                     Profile
                                 </a>
-                                <?php if ($this->session->userdata('role') == 0) { ?>
+                                <?php if ($this->session->userdata('role') == '0') { ?>
                                     <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
                                         <i class="bi bi-person-plus-fill mr-2"></i>
                                         Manajemen User
