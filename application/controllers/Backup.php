@@ -14,7 +14,27 @@ class Backup extends CI_Controller
     public function index()
     {
         $data['title'] = 'Backup & Restore';
-        // $data['supplier'] = $this->db->get("t_supplier")->result();
         $this->template->load('template/template', 'dashboard/backup', $data);
+    }
+
+    public function backupProses()
+    {
+        $this->load->dbutil();
+        $prefs = array(
+            'format'      => 'zip',
+            'filename'    => 'db_karya_citra_jaya-' . date("Y-m-d_H-i-s") . '.sql'
+        );
+        $backup = $this->dbutil->backup($prefs);
+        $db_name = 'db_karya_citra_jaya-' . date("Y-m-d_H-i-s") . '.zip';
+
+        $dataLogs = [
+            'username' => $this->session->userdata('username'),
+            'tanggal' => date("Y-m-d_H-i-s"),
+            'keterangan' => 'melakukan backup database'
+        ];
+        $this->db->insert('t_logs', $dataLogs);
+
+        $this->load->helper('download');
+        force_download($db_name, $backup);
     }
 }
