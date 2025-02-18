@@ -79,7 +79,7 @@
                     <div id="listPersediaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <?php if (in_array(1, $menu)) { ?>
-                                <a class="collapse-item" href="buttons.html">Stok Barang</a>
+                                <a class="collapse-item" href="<?= base_url('Stokbarang') ?>">Stok Barang</a>
                             <?php }
 
                             if (in_array(2, $menu)) { ?>
@@ -87,7 +87,7 @@
                             <?php }
 
                             if (in_array(3, $menu)) { ?>
-                                <a class="collapse-item" href="cards.html">Pembelian Barang</a>
+                                <a class="collapse-item" href="<?= base_url('Pembelianbarang') ?>">Pembelian Barang</a>
                             <?php } ?>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                             <?php }
 
                             if (in_array(9, $menu)) { ?>
-                                <a class="collapse-item" href="cards.html">Stok Barang</a>
+                                <a class="collapse-item" href="<?= base_url('Stokbarang') ?>">Stok Barang</a>
                             <?php } ?>
                         </div>
                     </div>
