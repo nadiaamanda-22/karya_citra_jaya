@@ -19,11 +19,9 @@ class Stokbarang extends CI_Controller
         // $data['stokbarang'] = $this->db->get("t_stok")->join('t_kelompok_barang', 't_stok.id = t_kelompok_barang.id_kelompok')->get()->result();
         $data['stokbarang'] = $this->db->select('*')->from('t_stok')->join('t_kelompok_barang', 't_stok.id_kelompok = t_kelompok_barang.id_kelompok')->get()->result();
         $this->template->load('template/template', 'persediaan/stokbarang', $data);
-
-       
     }
 
-    
+
     public function addView()
     {
         $data['title'] = 'Stok Barang';
@@ -31,7 +29,7 @@ class Stokbarang extends CI_Controller
         $this->template->load('template/template', 'persediaan/stokbarang_add', $data);
     }
 
-    
+
 
     public function addData()
     {
@@ -54,21 +52,14 @@ class Stokbarang extends CI_Controller
                 'harga_jual' => $this->input->post('harga_jual'),
                 'harga_permeter' => $this->input->post('harga_permeter')
             ];
-
-           
-
             $this->db->insert('t_stok', $data);
-           
+
             $this->session->set_flashdata('message', 'berhasil tambah');
             redirect('stokbarang');
         } else {
             $this->session->set_flashdata('message', 'error');
             redirect('stokbarang/addView');
         }
-
-    
-       
-    
     }
 
 
@@ -77,8 +68,7 @@ class Stokbarang extends CI_Controller
         $data['title'] = 'Stok Barang';
         $data['kelompokbarang'] = $this->db->get("t_kelompok_barang")->result();
         $data['stokbarang'] = $this->db->query("SELECT * FROM t_stok WHERE id='$id'")->row();
-        
-        
+
         $this->template->load('template/template', 'persediaan/stokbarang_edit', $data);
     }
 
@@ -114,12 +104,6 @@ class Stokbarang extends CI_Controller
             $this->session->set_flashdata('message', 'error');
             redirect('stokbarang/editView/' . $id);
         }
-
-        
-        echo "<pre>";
-        vardump($data);
-        die;
-        
     }
 
     public function hapusData()
@@ -131,25 +115,3 @@ class Stokbarang extends CI_Controller
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
