@@ -6,7 +6,7 @@
          </div>
          <div class="card-body">
              <div class="row">
-                 <div class="col-md-9">
+                 <div class="col-md-12">
                      <form action="<?= base_url('kelompokbarang/addData') ?>" method="post">
                          <div class="mb-3">
                              <label for="kelompokbarang" class="form-label">Kode *</label>

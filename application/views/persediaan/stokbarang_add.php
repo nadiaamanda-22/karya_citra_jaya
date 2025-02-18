@@ -15,7 +15,7 @@
          </div>
          <div class="card-body">
              <div class="row">
-                 <div class="col-md-9">
+                 <div class="col-md-12">
                      <form action="<?= base_url('stokbarang/addData') ?>" method="post">
                          <div class="mb-3">
                              <label for="stokbarang" class="form-label">Kode Barang *</label>
@@ -45,10 +45,13 @@
                              <div class="col">
                                  <label for="stokbarang" class="form-label">Jumlah Stok *</label>
                                  <input type="text" class="form-control" id="stokbarang" name="stok" placeholder="0">
+                                 <?php if ($this->session->flashdata('message', 'error')): ?>
+                                    <small class="text-danger">Jumlah Stok harus diisi!</small>
+                                 <?php endif; ?>
                              </div>
                              <div class="col">
                                  <label for="stokbarang" class="form-label">Satuan</label>
-                                 <input type="text" class="form-control" id="stokbarang" name="satuan">
+                                 <input type="text" class="form-control" id="stokbarang" name="satuan" required>
                              </div>
                          </div>
                          <div class="mb-3">

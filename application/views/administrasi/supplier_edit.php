@@ -6,7 +6,7 @@
          </div>
          <div class="card-body">
              <div class="row">
-                 <div class="col-md-9">
+                 <div class="col-md-12">
                      <form action="<?= base_url('supplier/editData/' . $supplier->id_supplier) ?>" method="post">
                          <div class="mb-3">
                              <label for="supplier" class="form-label">Supplier *</label>

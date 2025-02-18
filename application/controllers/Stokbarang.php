@@ -40,7 +40,7 @@ class Stokbarang extends CI_Controller
         $this->form_validation->set_rules('satuan', 'Satuan', 'required');
         $this->form_validation->set_rules('harga_beli', 'Harga beli', 'required');
         $this->form_validation->set_rules('harga_jual', 'Harga Jual', 'required');
-        $this->form_validation->set_rules('harga_permeter', 'Satuan', 'required');
+        $this->form_validation->set_rules('harga_permeter', 'Satuan');
         if ($this->form_validation->run() != FALSE) {
             $data = [
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -81,7 +81,7 @@ class Stokbarang extends CI_Controller
         $this->form_validation->set_rules('satuan', 'Satuan', 'required');
         $this->form_validation->set_rules('harga_beli', 'Harga beli', 'required');
         $this->form_validation->set_rules('harga_jual', 'Harga Jual', 'required');
-        $this->form_validation->set_rules('harga_permeter', 'Satuan', 'required');
+        $this->form_validation->set_rules('harga_permeter', 'Satuan');
         if ($this->form_validation->run() != FALSE) {
             $data = [
                 'kode_barang' => $this->input->post('kode_barang'),

@@ -16,10 +16,11 @@ die;
                      <thead>
                          <tr>
                              <td width="6%" style="text-align: center;"><i class="bi bi-circle"></i></td>
-                             <td width="10%" style="text-align: center;">Kode Barang </td>
-                             <td width="26%" style="text-align: center;">Nama Barang</td>
-                             <td width="32"  style="text-align: center;">Kelompok Barang</td>
+                             <td width="16%" style="text-align: center;">Kode Barang </td>
+                             <td width="28%" style="text-align: center;">Nama Barang</td>
+                             <td width="24"  style="text-align: center;">Kelompok Barang</td>
                              <td width="8"  style="text-align: center;">Jumlah Stok</td>
+                             <td width="10"  style="text-align: center;">Harga Beli</td>
                              <td width="10"  style="text-align: center;">Harga Jual</td>
                              <td width="8%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
@@ -34,7 +35,9 @@ die;
                                  <td><?= $sb->nama_barang ?></td>
                                  <td style="text-align: center;"><?= $sb->nama_kelompok?></td>
                                  <td style="text-align: center;"><?= $sb->stok?> <?= $sb->satuan?></td>
+                                 <td style="text-align: center;"><?= $sb->harga_beli?></td>
                                  <td style="text-align: center;"><?= $sb->harga_jual?></td>
+
                                  <td style="text-align: center;">
                                      <a href="<?= base_url('stokbarang/editView/' . $sb->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
                                      <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $sb->id?>"><i class="bi bi-trash3-fill"></i></a>
