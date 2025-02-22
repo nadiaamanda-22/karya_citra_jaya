@@ -200,6 +200,11 @@
                                         <i class="bi bi-person-plus-fill mr-2"></i>
                                         Manajemen User
                                     </a>
+
+                                    <a class="dropdown-item" href="">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        Logs
+                                    </a>
                                 <?php } ?>
                                 <a class="dropdown-item" href="<?= base_url('Pengaturan') ?>">
                                     <i class="bi bi-gear-fill mr-2"></i>
@@ -268,25 +273,49 @@
         </div>
     </div>
 
+    <?php
+    $getSetting = $this->db->query("SELECT * FROM t_pengaturan")->row();
+    $formatPrice = isset($getSetting->format_price) ? $getSetting->format_price : 0;
+    ?>
+
     <!-- CDN -->
     <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-price-format/2.2.0/jquery.priceformat.min.js"></script>
 
     <!-- template-->
-    <!-- <script src="<?= base_url('assets/') ?>vendor/jquery/jquery.min.js"></script> -->
     <script src="<?= base_url('assets/') ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="<?= base_url('assets/') ?>vendor/jquery-easing/jquery.easing.min.js"></script> -->
     <script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <!-- <script src="<?= base_url('assets/') ?>vendor/chart.js/Chart.min.js"></script> -->
-
-    <!-- Page level custom scripts -->
-    <!-- <script src="<?= base_url('assets/') ?>js/demo/chart-area-demo.js"></script>
-    <script src="<?= base_url('assets/') ?>js/demo/chart-pie-demo.js"></script> -->
 
     <script>
         let table = new DataTable('#dataTable-data');
+
+        $('.numeric-only').keypress(function(e) {
+            var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+            if (verified) {
+                e.preventDefault();
+            }
+        });
+
+        // FORMAT PRICE
+        let formatPrice = <?= json_encode($formatPrice) ?>;
+
+        if (formatPrice == 0) {
+            $(".iptPrice").priceFormat({
+                prefix: '', // Tanpa simbol mata uang
+                thousandsSeparator: '.',
+                centsLimit: 0,
+                clearOnEmpty: true
+            });
+        } else {
+            $(".iptPrice").priceFormat({
+                prefix: '', // Tanpa simbol mata uang
+                thousandsSeparator: '.',
+                centsSeparator: ',',
+                centsLimit: 2,
+                clearOnEmpty: true
+            });
+        }
     </script>
 
 </body>
