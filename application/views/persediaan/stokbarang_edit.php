@@ -27,7 +27,7 @@
 
                          <div class="mb-3">
                              <label for="kelompok_barang" class="form-label">Kelompok Barang *</label>
-                             <select name="id_kelompok" id="kelompok_barang" class="form-control" required>
+                             <select name="id_kelompok" id="kelompok_barang" class="form-select" required>
                                  <option value="">--Pilih--</option>
                                  <?php foreach ($kelompokbarang as $value) : ?>
                                      <option value=" <?= $value->id_kelompok ?>" <?php if ($stokbarang->id_kelompok == $value->id_kelompok) { ?>selected="" <?php } ?>> <?= $value->nama_kelompok ?>

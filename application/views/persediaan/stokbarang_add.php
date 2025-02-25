@@ -25,7 +25,7 @@
                          </div>
                          <div class="mb-3">
                              <label for="kelompok_barang" class="form-label">Kelompok Barang</label>
-                             <select name="id_kelompok" id="kelompok_barang" class="form-control">
+                             <select name="id_kelompok" id="kelompok_barang" class="form-select">
                                  <?php foreach ($kelompokbarang as $value) : ?>
                                      <option value="<?= $value->id_kelompok ?>"> <?= $value->nama_kelompok ?>
                                      <?php endforeach ?>

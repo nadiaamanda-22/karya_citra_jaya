@@ -69,11 +69,8 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="format_price" class="form-label">Format Price</label>
-                                    <select class="form-select" name="format_price">
-                                        <option value="0" <?= ($pengaturan->format_price ?? '') == '0' ? 'selected' : '' ?>>Desimal</option>
-                                        <option value="1" <?= ($pengaturan->format_price ?? '') == '1' ? 'selected' : '' ?>>Pecahan</option>
-                                    </select>
+                                    <label for="max_detail_input" class="form-label">Max Detail Input *</label>
+                                    <input type="text" class="form-control" id="pengaturan" name="max_detail_input" value="<?= $pengaturan->max_detail_input ?? '' ?>">
                                 </div>
                             </div>
                             <div class="mb-3 py-4">

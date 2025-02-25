@@ -36,9 +36,9 @@ class Stokbarang extends CI_Controller
         $this->form_validation->set_rules('harga_jual', 'Harga Jual', 'required');
         if ($this->form_validation->run() != FALSE) {
 
-            $hargaBeli = $this->handlePrice($this->input->post('harga_beli'));
-            $hargaJual = $this->handlePrice($this->input->post('harga_jual'));
-            $hargaPerMeter = $this->handlePrice($this->input->post('harga_permeter'));
+            $hargaBeli = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_beli')));
+            $hargaJual = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_jual')));
+            $hargaPerMeter = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_permeter')));
 
             $data = [
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -96,9 +96,9 @@ class Stokbarang extends CI_Controller
         $this->form_validation->set_rules('harga_jual', 'Harga Jual', 'required');
         if ($this->form_validation->run() != FALSE) {
 
-            $hargaBeli = $this->handlePrice($this->input->post('harga_beli'));
-            $hargaJual = $this->handlePrice($this->input->post('harga_jual'));
-            $hargaPerMeter = $this->handlePrice($this->input->post('harga_permeter'));
+            $hargaBeli = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_beli')));
+            $hargaJual = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_jual')));
+            $hargaPerMeter = str_replace(',', '.', str_replace('.', '', $this->input->post('harga_permeter')));
 
             $data = [
                 'kode_barang' => $this->input->post('kode_barang'),
@@ -142,19 +142,6 @@ class Stokbarang extends CI_Controller
             ];
             $this->db->insert('t_logs', $dataLogs);
             echo json_encode('berhasil');
-        }
-    }
-
-    function handlePrice($price)
-    {
-        $getSetting = $this->db->query("SELECT * FROM t_pengaturan")->row();
-        $formatPrice = isset($getSetting->format_price) ? $getSetting->format_price : 0;
-
-        if ($formatPrice == 0) {
-            return str_replace(',', '.', str_replace('.', '', $price));
-        } else {
-            // return str_replace(['.', ','], ['', '.'], ($price));
-            return (float) str_replace(',', '.', str_replace('.', '', $price));
         }
     }
 }

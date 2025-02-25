@@ -25,6 +25,7 @@ class Pengaturan extends CI_Controller
         $this->form_validation->set_rules('no_telp', 'No Telepon', 'required');
         $this->form_validation->set_rules('id_no_hp[]', 'No Handphone', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+        $this->form_validation->set_rules('max_detail_input', 'Max Detail Input', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('message', 'data kosong');
@@ -35,7 +36,7 @@ class Pengaturan extends CI_Controller
             $noHP = $this->input->post('id_no_hp');
             $alamat = $this->input->post('alamat');
             $copy_print = $this->input->post('copy_print');
-            $format_price = $this->input->post('format_price');
+            $max_detail_input = $this->input->post('max_detail_input');
 
             $cekPengaturan = $this->db->query("SELECT * FROM t_pengaturan");
             if ($cekPengaturan->num_rows() > 0) {
@@ -77,7 +78,7 @@ class Pengaturan extends CI_Controller
                     'id_no_hp' => $no_hp_select,
                     'alamat' => $alamat,
                     'copy_nota' => $copy_print,
-                    'format_price' => $format_price,
+                    'max_detail_input' => $max_detail_input,
                     'ttd' => $TTD,
                     'stempel' => $stempel
                 ];
@@ -109,7 +110,7 @@ class Pengaturan extends CI_Controller
                     'id_no_hp' => $no_hp_select,
                     'alamat' => $alamat,
                     'copy_nota' => $copy_print,
-                    'format_price' => $format_price,
+                    'max_detail_input' => $max_detail_input,
                     'ttd' => $TTD,
                     'stempel' => $stempel
                 ];

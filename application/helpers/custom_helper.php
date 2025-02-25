@@ -6,13 +6,27 @@ if (!function_exists('formatPrice')) {
     {
         $CI = &get_instance();
         $CI->load->database();
-        $getSetting = $CI->db->query("SELECT * FROM t_pengaturan")->row();
-        $formatPrice = isset($getSetting->format_price) ? $getSetting->format_price : 0;
+        return number_format($price, 0, ',', '.');
+    }
 
-        if ($formatPrice == 0) {
-            return number_format($price, 0, ',', '.');
-        } else {
-            return number_format($price, 2, ',', '.');
-        }
+    function formatTanggal($date)
+    {
+        $bulan = [
+            "01" => "Januari",
+            "02" => "Februari",
+            "03" => "Maret",
+            "04" => "April",
+            "05" => "Mei",
+            "06" => "Juni",
+            "07" => "Juli",
+            "08" => "Agustus",
+            "09" => "September",
+            "10" => "Oktober",
+            "11" => "November",
+            "12" => "Desember"
+        ];
+
+        $bagian = explode("-", $date);
+        return $bagian[2] . " " . $bulan[$bagian[1]] . " " . $bagian[0];
     }
 }
