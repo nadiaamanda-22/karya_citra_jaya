@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class Pembelianbarang extends CI_Controller
 {
@@ -141,7 +142,7 @@ class Pembelianbarang extends CI_Controller
                 //insert ke t_logs
                 $dataLogs = [
                     'username' => $this->session->userdata('username'),
-                    'tanggal' => date("Y-m-d_H-i-s"),
+                    'tanggal' => date("Y-m-d H-i-s"),
                     'keterangan' => 'Melakukan pembelian barang dengan no transaksi ' . $no_transaksi
                 ];
                 $this->db->insert('t_logs', $dataLogs);

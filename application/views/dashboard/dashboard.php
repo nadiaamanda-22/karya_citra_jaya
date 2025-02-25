@@ -3,7 +3,7 @@
      <div class="row">
          <?php $bulan = date('m'); ?>
          <p>Rekap Data Bulan <?= $this->fungsional->bulanIndonesia($bulan) . ' ' . date('Y') ?></p>
-        
+
      </div>
 
      <!-- Content -->
@@ -33,7 +33,7 @@
                          <div class="col mr-2">
                              <div class="text-xs font-weight-bold text-utama text-uppercase mb-1">
                                  Total Pembelian Barang</div>
-                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 40,000</div>
+                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= formatPrice($pembelian->total_pembelian) ?></div>
                          </div>
                          <div class="col-auto">
                              <i class="bi bi-cash-stack fa-2x text-utama"></i>
@@ -69,7 +69,7 @@
                          <div class="col mr-2">
                              <div class="text-xs font-weight-bold text-utama text-uppercase mb-1">
                                  Total Hutang Toko</div>
-                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 40,000</div>
+                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= formatPrice($hutang_toko->hutang_toko) ?></div>
                          </div>
                          <div class="col-auto">
                              <i class="bi bi-cash-stack fa-2x text-utama"></i>

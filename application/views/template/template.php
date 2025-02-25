@@ -203,7 +203,7 @@
                                         Manajemen User
                                     </a>
 
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="<?= base_url('Logs') ?>">
                                         <i class="bi bi-hourglass-split"></i>
                                         Logs
                                     </a>

@@ -36,7 +36,12 @@
 
                                 <td style="text-align: center;">
                                     <a href="<?= base_url('stokbarang/editView/' . $sb->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $sb->id ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php $cekStok = $this->db->query("SELECT id_barang FROM t_pembelian_barang_detail WHERE id_barang = '$sb->id'");
+                                    if ($cekStok->num_rows() > 0) { ?>
+                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapusV"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php } else { ?>
+                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $sb->id ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -120,6 +125,21 @@
                     }
                 });
             }
+        });
+    })
+
+    $('.tombolHapusV').on('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: "Barang ini tidak bisa dihapus!",
+            text: "Barang sudah terdaftar pada pembelian barang atau penjualan",
+            icon: "warning",
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: "Ya",
+            confirmButtonColor: "#3b5998",
+        }).then((result) => {
+            location.reload();
         });
     })
 </script>

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+date_default_timezone_set('Asia/Jakarta');
 class Stokbarang extends CI_Controller
 {
     public function __construct()
@@ -54,7 +54,7 @@ class Stokbarang extends CI_Controller
 
             $dataLogs = [
                 'username' => $this->session->userdata('username'),
-                'tanggal' => date("Y-m-d_H-i-s"),
+                'tanggal' => date("Y-m-d H-i-s"),
                 'keterangan' => 'Menambah stok barang dengan kode ' . $this->input->post('kode_barang')
             ];
             $this->db->insert('t_logs', $dataLogs);
@@ -116,7 +116,7 @@ class Stokbarang extends CI_Controller
 
             $dataLogs = [
                 'username' => $this->session->userdata('username'),
-                'tanggal' => date("Y-m-d_H-i-s"),
+                'tanggal' => date("Y-m-d H-i-s"),
                 'keterangan' => 'Mengubah stok barang dengan kode ' . $this->input->post('kode_barang')
             ];
             $this->db->insert('t_logs', $dataLogs);
@@ -137,7 +137,7 @@ class Stokbarang extends CI_Controller
         if ($deleteData) {
             $dataLogs = [
                 'username' => $this->session->userdata('username'),
-                'tanggal' => date("Y-m-d_H-i-s"),
+                'tanggal' => date("Y-m-d H-i-s"),
                 'keterangan' => 'Menghapus stok barang dengan kode ' . $kodeBrg
             ];
             $this->db->insert('t_logs', $dataLogs);
