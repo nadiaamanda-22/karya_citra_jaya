@@ -1,32 +1,51 @@
+<?php
+$dateNow = date('Y-m-d');
+$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $dateNow;
+$tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
+$metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
+$status_pembayaran = !empty($_REQUEST['status_pembayaran']) ? $_REQUEST['status_pembayaran'] : '*';
+$supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
+
+?>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
             <a href="<?= base_url('pembelianbarang/addView') ?>" class="btn btn-primary">Tambah</a>
 
-            <form class="row g-3 pt-3">
+            <form class="row g-3 pt-3" action="<?= base_url('Pembelianbarang/filterData') ?>" method="post">
                 <div class="col-sm-2">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" id="tgl_awal" name="tgl_awal" value="<?= $tgl_awal ?>">
                 </div>
                 <div class="col-sm-2">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" name="tgl_akhir" value="<?= $tgl_akhir ?>">
                 </div>
-                <div class="col-sm-3">
-                    <select id="inputState" class="form-select">
-                        <option selected>Semua Pembayaran</option>
-                        <option>Cash</option>
-                        <option>Transfer</option>
-                        <option>Debit</option>
-                    </select>
-                </div>
-                <div class="col-sm-3">
-                    <select id="inputState" class="form-select">
-                        <option selected>Semua Supplier</option>
-                        <option>...</option>
+                <div class="col-sm-2">
+                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
+                        <option value="*" selected>Semua Metode Pembayaran</option>
+                        <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
+                        <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <a class="btn btn-success">Tampilkan</a>
+                    <select id="status_pembayaran" name="status_pembayaran" class="form-select">
+                        <option value="*" selected>Semua Status Pembayaran</option>
+                        <option value="lunas" <?= $status_pembayaran == 'lunas' ? 'selected' : '' ?>>Lunas</option>
+                        <option value="belumlunas" <?= $status_pembayaran == 'belumlunas' ? 'selected' : '' ?>>Belum Lunas</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="supplier" name="supplier" class="form-select">
+                        <option value="*" selected>Semua Supplier</option>
+                        <?php $getSupplier = $this->db->query("SELECT * FROM t_supplier")->result();
+                        foreach ($getSupplier as $gs) { ?>
+                            <option value="<?= $gs->id_supplier ?>" <?= $supplier == $gs->id_supplier ? 'selected' : '' ?>><?= $gs->supplier ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-success" type="submit">Tampilkan</button>
                 </div>
 
             </form>
