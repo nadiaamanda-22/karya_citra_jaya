@@ -219,6 +219,12 @@ class Stokbarang extends CI_Controller
 
         if (!empty($insertData)) {
             $this->db->insert_batch('t_stok', $insertData);
+            $dataLogs = [
+                'username' => $this->session->userdata('username'),
+                'tanggal' => date("Y-m-d H-i-s"),
+                'keterangan' => 'Melakukan import stok barang'
+            ];
+            $this->db->insert('t_logs', $dataLogs);
             $this->session->set_flashdata('message', 'berhasil import');
             redirect('Stokbarang');
         } else {
