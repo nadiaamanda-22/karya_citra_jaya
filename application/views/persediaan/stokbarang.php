@@ -1,9 +1,39 @@
+<?php
+$templateImport = '';
+$templateImport = "<a href='" . base_url() . "assets/template/template_import_stok.xlsx' class='t-green-1'><i>Download Template</i></a>";
+
+?>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-5">
         <div class="card-body">
+            <div id="formImport" class="row mb-3">
+                <div class="col-6">
+                    <p style='background: #3b5998; margin: 0; padding: 10px 20px; color: #fff;'>Import Data</p>
+                    <div class="full pad-1em-2 hide-mode" align="left" style='border: 1px solid #ddd;padding: 10px 20px;background: #ecf0f1;'>
+                        <div class="full clearfix border-a pad-1em gray">
+                            <div class="free-1em clearfix">&nbsp;</div>
+                            <form action="<?= base_url('stokbarang/importStok') ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+                                <div class='row m-bottom-10'>
+                                    <div class='col-12'>
+                                        <input class="form-control" type="file" id="file_stok" name="file_stok" accept=".xlsx">
+                                        <button type="button" class="btn btn-secondary btnClose mt-4">Close</button>
+                                        <span class='input-group-addon mt-4'><button type="submit" name="Submit" value="Upload" class="btn btn-success mt-4"><span class="fa fa-arrow-up">&nbsp;</span> Upload</button></span>
+                                    </div>
+                                </div>
+                                <p class="mt-3">
+                                    <?= $templateImport ?>
+                                </p>
+                            </form>
+                        </div>
+                        <div class="free-1em clearfix">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+
             <a href="<?= base_url('stokbarang/addView') ?>" class="btn btn-primary">Tambah</a>
-            <a class="btn btn-success">Import</a>
+            <a class="btn btn-success" id="importData">Import</a>
 
             <div class="table-responsive mt-4">
                 <table class="table table-bordered" id="dataTable-data" width="100%">
@@ -72,6 +102,51 @@
                 confirmButtonText: "Ya",
                 confirmButtonColor: "#3b5998",
             });
+        } else if (message == 'file kosong') {
+            Swal.fire({
+                title: "Silahkan upload file!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'format tidak sesuai') {
+            Swal.fire({
+                title: "Format tidak sesuai! Silahkan pilih format .xlsx",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'no data') {
+            Swal.fire({
+                title: "Data kosong!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'required') {
+            Swal.fire({
+                title: "Salah satu data pada excel kosong! Silahkan lengkapi data.",
+                icon: "error",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'berhasil import') {
+            Swal.fire({
+                title: "Import data berhasil!",
+                icon: "success",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
         } else {
             Swal.fire({
                 title: "Terjadi kesalahan",
@@ -87,6 +162,8 @@
 <?php } ?>
 
 <script>
+    $('#formImport').hide();
+
     $('.tombolHapus').on('click', function(e) {
         e.preventDefault();
         var id = $(this).data('id');
@@ -141,5 +218,13 @@
         }).then((result) => {
             location.reload();
         });
+    })
+
+    $('#importData').on('click', function() {
+        $('#formImport').show();
+    })
+
+    $('.btnClose').on('click', function() {
+        $('#formImport').hide();
     })
 </script>

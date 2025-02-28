@@ -8,8 +8,9 @@
                      <thead>
                          <tr>
                              <td width="8%" style="text-align: center;"><i class="bi bi-circle"></i></td>
+                             <td width="8%" style="text-align: center;">ID</td>
                              <td width="22%" style="text-align: center;">Kode</td>
-                             <td width="62%" style="text-align: center;">Kelompok Barang</td>
+                             <td width="54%" style="text-align: center;">Kelompok Barang</td>
                              <td width="8%" style="text-align: center;"> <i class="bi bi-gear-fill mr-2"></i></td>
                          </tr>
                      </thead>
@@ -20,6 +21,7 @@
                             ?>
                              <tr>
                                  <td style="text-align: center;"><?= $no++ ?></td>
+                                 <td style="text-align: center;"><?= $kb->id_kelompok ?></td>
                                  <td style="text-align: center;"><?= $kb->kode_kelompok ?></td>
                                  <td><?= $kb->nama_kelompok ?></td>
                                  <td style="text-align: center;">

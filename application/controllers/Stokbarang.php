@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set('Asia/Jakarta');
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class Stokbarang extends CI_Controller
 {
     public function __construct()
@@ -142,6 +145,85 @@ class Stokbarang extends CI_Controller
             ];
             $this->db->insert('t_logs', $dataLogs);
             echo json_encode('berhasil');
+        }
+    }
+
+    public function importStok()
+    {
+        // Cek apakah ada file yang diupload atau tidak
+        if (empty($_FILES['file_stok']['name'])) {
+            $this->session->set_flashdata('message', 'file kosong');
+            redirect('stokbarang');
+        }
+
+        //hanya format xlsx yang bisa di upload
+        $file_tipe = $_FILES['file_stok']['type'];
+        $accept_tipe = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+
+        // Cek format file harus .xlsx
+        if (!in_array($file_tipe, $accept_tipe)) {
+            $this->session->set_flashdata('message', 'format tidak sesuai');
+            redirect('stokbarang');
+        }
+
+        // Lokasi sementara file
+        $file_tmp = $_FILES['file_stok']['tmp_name'];
+
+        // Load file Excel
+        $spreadsheet = IOFactory::load($file_tmp);
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = $sheet->toArray();
+
+        // Cek apakah ada data selain header
+        if (count($data) <= 1) {
+            $this->session->set_flashdata('message', 'no data');
+            redirect('stokbarang');
+        }
+
+        // Hapus header
+        array_shift($data);
+
+        $insert_data = [];
+        foreach ($data as $row) {
+            //kondisi untuk kolom yg kosong
+            if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[5]) || empty($row[7])) {
+                $this->session->set_flashdata('message', 'required');
+                redirect('stokbarang');
+            }
+
+            if ($row[4] == '') {
+                $satuan = '';
+            } else {
+                $satuan = $row[4];
+            }
+
+            if ($row[6] == '') {
+                $hp = '';
+            } else {
+                $hp = $row[6];
+            }
+
+            $insertData[] = [
+                'kode_barang' => $row[0],
+                'nama_barang' => $row[1],
+                'id_kelompok' => $row[2],
+                'stok' => $row[3],
+                'satuan' => $satuan,
+                'harga_jual' => $row[5],
+                'harga_permeter' => $hp,
+                'harga_beli' => $row[7]
+            ];
+        }
+
+        if (!empty($insertData)) {
+            $this->db->insert_batch('t_stok', $insertData);
+            $this->session->set_flashdata('message', 'berhasil import');
+            redirect('Stokbarang');
+        } else {
+            $this->session->set_flashdata('message', 'Tidak ada data yang disimpan.');
+            redirect('Stokbarang');
         }
     }
 }
