@@ -132,18 +132,18 @@
                     <div id="listLaporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <?php if (in_array(7, $menu)) { ?>
-                                <a class="collapse-item" href="buttons.html">Penjualan</a>
-                                <a class="collapse-item" href="cards.html">Detail Invoice</a>
-                                <a class="collapse-item" href="cards.html">Detail Invoice Kaca</a>
+                                <a class="collapse-item" href="<?= base_url('laporanpenjualan') ?>">Penjualan</a>
+                                <a class="collapse-item" href="<?= base_url('laporandetail_invoice') ?>">Detail Invoice</a>
+                                <a class="collapse-item" href="<?= base_url('laporandetail_kaca') ?>">Detail Invoice Kaca</a>
                             <?php }
 
                             if (in_array(8, $menu)) { ?>
-                                <a class="collapse-item" href="cards.html">Pembelian Barang</a>
-                                <a class="collapse-item" href="cards.html">Detail Pembelian Barang</a>
+                                <a class="collapse-item" href="<?= base_url('laporanpembelianbarang') ?>">Pembelian Barang</a>
+                                <a class="collapse-item" href="<?= base_url('laporandetailpembelian_barang') ?>">Detail Pembelian Barang</a>
                             <?php }
 
                             if (in_array(9, $menu)) { ?>
-                                <a class="collapse-item" href="<?= base_url('Stokbarang') ?>">Stok Barang</a>
+                                <a class="collapse-item" href="<?= base_url('laporanstok') ?>">Stok Barang</a>
                             <?php } ?>
                         </div>
                     </div>
