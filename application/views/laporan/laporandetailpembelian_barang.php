@@ -1,13 +1,20 @@
+<?php
+$dateNow = date('Y-m-d');
+$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $dateNow;
+$tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
+$metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
+$supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
+?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
             <form class="row g-3 pt-3" action="<?= base_url('Laporandetailpembelian_barang/filterData') ?>" method="post">
                 <div class="col-sm-2">
-                    <input type="date" class="form-control" id="tgl_awal" name="tgl_awal" value="<?= ($tgl_awal) ?>">
+                    <input type="date" class="form-control" id="tgl_awal" name="tgl_awal" value="<?= $tgl_awal ?>">
                 </div>
                 <div class="col-sm-2">
-                    <input type="date" class="form-control" name="tgl_akhir" value="<?= ($tgl_akhir) ?>">
+                    <input type="date" class="form-control" name="tgl_akhir" value="<?= $tgl_akhir ?>">
                 </div>
                 <div class="col-sm-3">
                     <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
@@ -23,7 +30,7 @@
                         $getSupplier = $this->db->query("SELECT * FROM t_supplier")->result();
                         foreach ($getSupplier as $gs) { ?>
                             <option value="<?= $gs->id_supplier ?>" <?= $supplier == $gs->id_supplier ? 'selected' : '' ?>>
-                                <?= ($gs->supplier) ?>
+                                <?= htmlspecialchars($gs->supplier) ?>
                             </option>
                         <?php } ?>
                     </select>
@@ -32,7 +39,7 @@
                     <button class="btn btn-success" type="submit">Tampilkan</button>
                 </div>
             </form>
-            
+
                 <div class="mt-4">
                     <a class="btn btn-primary">Print</a>
                     <a class="btn btn-success">Export</a>
