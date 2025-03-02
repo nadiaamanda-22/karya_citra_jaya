@@ -245,11 +245,17 @@ class Pembelianbarang extends CI_Controller
         $this->db->where('id_pembelian', $id);
         $this->db->update('t_pembelian_barang', $dataHead);
 
+        //balikin stok sebelumnya
+        $id_barang = $this->db->query("SELECT * FROM t_pembelian_barang_detail WHERE id_pembelian='$id'")->result();
+        foreach ($id_barang as $ib) {
+            $this->db->query("UPDATE t_stok SET stok = stok - " . $ib->stok . " WHERE id = '$ib->id_barang'");
+        }
+
         //hapus detail pembelian
         $this->db->where('id_pembelian', $id);
         $this->db->delete('t_pembelian_barang_detail');
 
-        //insert ulang
+        //insert ulang detail pembelian
         for ($d = 1; $d <= $maxDetailInput; $d++) {
             if (!empty($_REQUEST['nama_barang3' . $d])) {
                 $id_barang = $_REQUEST['id_barang1' . $d];
@@ -274,23 +280,24 @@ class Pembelianbarang extends CI_Controller
                     'jumlah' => $jumlah
                 ];
                 $this->db->insert('t_pembelian_barang_detail', $dataDetail);
+
                 //update stok barang (+)
                 $getStok = $this->db->query("SELECT stok FROM t_stok WHERE id = '$id_barang'")->row()->stok;
                 $stokPembelian = $getStok + $stok;
                 $this->db->query("UPDATE t_stok SET stok = '$stokPembelian' WHERE id = '$id_barang'");
-
-                //insert ke t_logs
-                $dataLogs = [
-                    'username' => $this->session->userdata('username'),
-                    'tanggal' => date("Y-m-d H-i-s"),
-                    'keterangan' => 'Melakukan update pembelian barang dengan no transaksi ' . $no_transaksi
-                ];
-                $this->db->insert('t_logs', $dataLogs);
-
-                $this->session->set_flashdata('message', 'berhasil tambah');
-                redirect('pembelianbarang');
             }
         }
+
+        //insert ke t_logs
+        $dataLogs = [
+            'username' => $this->session->userdata('username'),
+            'tanggal' => date("Y-m-d H-i-s"),
+            'keterangan' => 'Melakukan update pembelian barang dengan no transaksi ' . $no_transaksi
+        ];
+        $this->db->insert('t_logs', $dataLogs);
+
+        $this->session->set_flashdata('message', 'berhasil ubah');
+        redirect('pembelianbarang');
     }
 
     public function hapusData()

@@ -87,7 +87,7 @@
                                      </thead>
                                      <tbody id="tableDynamic">
                                          <tr class="border-b rowItem">
-                                             <td><button type="button" id="btn11" name="btn11" class="btn btn-sm btn-success" disabled><span class="fa fa-exclamation"></span></button></td>
+                                             <td><button type="button" id="btn11" name="btn11" class="btn btn-sm btn-success text-center" disabled><span class="fa fa-exclamation"></span></button></td>
                                              <td class="gray">
                                                  <input type="hidden" id="id_barang11" name="id_barang11" class='form-control text-center id_barang' />
                                                  <input type="text" id="kode21" name="kode21" class='form-control text-center kode' required />
@@ -239,39 +239,56 @@
                          "</tr>"
                      )
                      $('#kode2' + rowstats).focus();
-
-                     //autocomplete
-                     $("#kode2" + rowstats).autocomplete({
-                         source: "<?= base_url() ?>pembelianbarang/searchBarang",
-                         minLength: 1,
-                         select: function(evt, ui) {
-                             var cekValidasi = validasiInput(ui.item.value, rowstats)
-
-                             if (cekValidasi == 0) {
-                                 var stok = ui.item.stok;
-                                 var harga_beli = ui.item.harga_beli;
-
-                                 $('#id_barang1' + rowstats).val(ui.item.id_barang);
-                                 $('#nama_barang3' + rowstats).val(ui.item.nama_barang);
-                                 $('#satuan5' + rowstats).val(ui.item.satuan);
-                                 $('#harga_beli6' + rowstats).val(formatHarga(harga_beli));
-                                 $('#diskon_nominal8' + rowstats).val(0);
-                                 $('#diskon_persen7' + rowstats).val(0);
-                                 $('#stok4' + rowstats).focus();
-                                 totalGen();
-                             } else {
-                                 alert('Kode barang tidak boleh double!');
-                                 $("#plus-content").prop('disabled', true);
-                                 $(".btnSimpan").prop('disabled', true);
-                                 return false;
-                             }
-
-                         }
-                     });
-                     //end autocomplete
                      break;
                  }
              }
+
+             //autocomplete
+             $("#kode2" + rowstats).autocomplete({
+                 source: "<?= base_url() ?>pembelianbarang/searchBarang",
+                 minLength: 1,
+                 select: function(evt, ui) {
+                     var cekValidasi = validasiInput(ui.item.value, rowstats)
+
+                     if (cekValidasi == 0) {
+                         var stok = ui.item.stok;
+                         var harga_beli = ui.item.harga_beli;
+
+                         $('#id_barang1' + rowstats).val(ui.item.id_barang);
+                         $('#nama_barang3' + rowstats).val(ui.item.nama_barang);
+                         $('#satuan5' + rowstats).val(ui.item.satuan);
+                         $('#harga_beli6' + rowstats).val(formatHarga(harga_beli));
+                         $('#diskon_nominal8' + rowstats).val(0);
+                         $('#diskon_persen7' + rowstats).val(0);
+                         $('#stok4' + rowstats).focus();
+                         totalGen();
+                     } else {
+                         alert('Kode barang tidak boleh double!');
+                         $("#plus-content").prop('disabled', true);
+                         $(".btnSimpan").prop('disabled', true);
+                         return false;
+                     }
+
+                 }
+             });
+             //end autocomplete
+
+             // FORMAT PRICE
+             $(".iptPrice").priceFormat({
+                 prefix: '', // Tanpa simbol mata uang
+                 thousandsSeparator: '.',
+                 centsLimit: 0,
+                 clearOnEmpty: true
+             });
+
+             //numeric only
+             $('.numeric-only').keypress(function(e) {
+                 var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                 if (verified) {
+                     e.preventDefault();
+                 }
+             });
+
              var rows = parseInt($("#rowsCount").val());
              $("#rowsCount").val(rows + 1);
              if ((rows + 1) == <?= $maxDetailInput ?>) {
@@ -302,26 +319,26 @@
 
          var total = 0;
          for (r = 1; r <= <?= $maxDetailInput ?>; r++) {
-             if ($('#inp1' + r).length != 0) {
+             if ($('#stok4' + r).length != 0) {
                  jumlah = parseHarga($("#jumlah9" + r).val());
                  total += Number(jumlah);
              }
          }
          total = Math.round(total);
-         $("#total").val(total);
+         $("#total").val(formatHarga(total));
 
          var i = 1;
          $('.rowItem').each(function() {
              var hapus = $(this).find('.hapus');
-             var id_barang = $(this).find('.id_barang1');
-             var kode = $(this).find('.kode2');
-             var nama_barang = $(this).find('.nama_barang3');
-             var stok = $(this).find('.stok4');
-             var satuan = $(this).find('.satuan5');
-             var harga_beli = $(this).find('.harga_beli6');
-             var diskon_persen = $(this).find('.diskon_persen7');
-             var diskon_nominal = $(this).find('.diskon_nominal8');
-             var jumlah = $(this).find('.jumlah9');
+             var id_barang = $(this).find('.id_barang');
+             var kode = $(this).find('.kode');
+             var nama_barang = $(this).find('.nama_barang');
+             var stok = $(this).find('.stok');
+             var satuan = $(this).find('.satuan');
+             var harga_beli = $(this).find('.harga_beli');
+             var diskon_persen = $(this).find('.diskon_persen');
+             var diskon_nominal = $(this).find('.diskon_nominal');
+             var jumlah = $(this).find('.jumlah');
 
              hapus.attr('id', 'btn1' + i);
              id_barang.attr('id', 'id_barang1' + i);
