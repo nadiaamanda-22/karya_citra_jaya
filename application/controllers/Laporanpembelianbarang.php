@@ -55,21 +55,13 @@ class Laporanpembelianbarang extends CI_Controller
         $metode_pembayaran = $this->input->get('metode_pembayaran');
         $supplier = $this->input->get('supplier');
 
-        // Filter berdasarkan metode pembayaran
+
         $mp = ($metode_pembayaran == '*') ? "" : "AND metode_pembayaran = '$metode_pembayaran'";
-        
-        // Filter berdasarkan supplier
         $s = ($supplier == '*') ? "" : "AND id_supplier = '$supplier'";
 
-        // Query data laporan pembelian barang
-        $data['laporanpembelianbarang'] = $this->db->query("
-            SELECT * FROM t_pembelian_barang 
-            WHERE tgl_pembelian BETWEEN '$tgl_awal' AND '$tgl_akhir' $mp $s
-        ")->result();
-
+        $data['laporanpembelianbarang'] = $this->db->query("SELECT * FROM t_pembelian_barang WHERE tgl_pembelian BETWEEN '$tgl_awal' AND '$tgl_akhir' $mp $s")->result();
         $data['title'] = 'Cetak Laporan Pembelian Barang';
-        
-        // Load tampilan khusus cetak
+ 
         $this->load->view('laporan/cetak_laporanpembelianbarang', $data);
     }
 
