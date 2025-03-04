@@ -21,7 +21,7 @@
         }
         @media print {
             .btn-print {
-                display: none; /* Sembunyikan tombol saat print */
+                display: none;
             }
         }
     </style>
@@ -47,16 +47,10 @@
     <tbody>
         <?php 
         foreach ($laporanpembelianbarang as $pb) { 
-            // Ambil nama supplier
             $supplier = $this->db->query("SELECT supplier FROM t_supplier WHERE id_supplier = $pb->id_supplier")->row()->supplier;
-            
-            // Status Pembayaran
             $sp = ($pb->status_pembayaran == 'lunas') ? 'Lunas' : 'Belum Lunas';
-
-            // Metode Pembayaran
             $mp = ($pb->metode_pembayaran == 'tunai') ? 'Tunai' : 'Non Tunai';
-
-            // Hitung subtotal (Total + Diskon)
+            // Hitung subtotal
             $subtotal = $pb->total + $pb->diskon;
         ?>
         <tr>
@@ -74,7 +68,7 @@
     </tbody>
 </table>
 
-<!-- Tombol Print -->
+
 <div style="text-align: center; margin-top: 20px;">
     <button class="btn-print" onclick="window.print()">Print</button>
 </div>
