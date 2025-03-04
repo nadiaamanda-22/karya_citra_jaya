@@ -16,6 +16,7 @@ class Laporandetail_kaca extends CI_Controller
     {
         $data['title'] = 'Laporan Detail Invoice Kaca';
         $tgl =  date('Y-m-d');
+        $tglawal =  date('Y-m-01');
         $data['laporandetail_kaca'] = $this->db->get("t_invoice_detail_kaca")->result();
         $this->template->load('template/template', 'laporan/laporandetail_kaca', $data);
     }

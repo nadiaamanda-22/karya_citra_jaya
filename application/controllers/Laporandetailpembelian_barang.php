@@ -16,6 +16,7 @@ class Laporandetailpembelian_barang extends CI_Controller
     {
         $data['title'] = 'Laporan Detail Pembelian Barang';
         $tgl =  date('Y-m-d');
+        $tglawal =  date('Y-m-01');
         $data['laporandetailpembelian_barang'] = $this->db->get("t_pembelian_barang_detail")->result();
         $this->template->load('template/template', 'laporan/laporandetailpembelian_barang', $data);
         

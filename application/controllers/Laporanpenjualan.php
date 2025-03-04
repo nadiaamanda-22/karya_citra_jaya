@@ -16,6 +16,7 @@ class Laporanpenjualan extends CI_Controller
     {
         $data['title'] = 'Laporan Penjualan';
         $tgl =  date('Y-m-d');
+        $tglawal =  date('Y-m-01');
         $data['laporanpenjualan'] =  $this->db->query("SELECT * FROM t_invoice WHERE tgl_jual = '$tgl'")->result();
         $this->template->load('template/template', 'laporan/laporanpenjualan', $data);
     }

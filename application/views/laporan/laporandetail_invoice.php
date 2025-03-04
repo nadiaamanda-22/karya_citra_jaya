@@ -1,6 +1,7 @@
 <?php
 $dateNow = date('Y-m-d');
-$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $dateNow;
+$tglawal = date('Y-m-01');
+$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $tglawal;
 $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
@@ -51,7 +52,7 @@ $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice']
             </form>
 
                 <div class="mt-4">
-                    <a class="btn btn-primary">Print</a>
+                    <a class="btn btn-primary" onclick="printLaporan()">Print</a>
                     <a class="btn btn-success">Export</a>
                 </div>
                 
