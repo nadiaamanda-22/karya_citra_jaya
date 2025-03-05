@@ -10,7 +10,7 @@ $filterTahun = !empty($_REQUEST['filterTahun']) ? $_REQUEST['filterTahun'] : '*'
             <form class="row g-3 pt-3" action="<?= base_url('logs/filterData') ?>" method="post">
                 <div class="col-sm-2">
                     <select id="filterBulan" name="filterBulan" class="form-select">
-                        <option value="*">Semua bulan</option>
+                        <option value="*">Semua Bulan</option>
                         <?php for ($i = 1; $i <= 12; $i++):
                             $value = str_pad($i, 2, "0", STR_PAD_LEFT);
                         ?>
@@ -35,7 +35,7 @@ $filterTahun = !empty($_REQUEST['filterTahun']) ? $_REQUEST['filterTahun'] : '*'
             </form>
 
             <div class="table-responsive mt-4">
-                <table class="table table-bordered" id="dataTable-data" width="100%">
+                <table class="table table-bordered" id="logs_table" width="100%">
                     <thead>
                         <tr>
                             <td width="22%" style="text-align: center;">Tanggal</td>

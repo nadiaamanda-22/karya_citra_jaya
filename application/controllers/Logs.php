@@ -14,7 +14,7 @@ class Logs extends CI_Controller
     public function index()
     {
         $data['title'] = 'Logs';
-        $data['data'] = $this->db->get('t_logs')->result();
+        $data['data'] = $this->db->query("SELECT * FROM t_logs ORDER BY tanggal DESC")->result();
         $this->template->load('template/template', 'dashboard/logs', $data);
     }
 

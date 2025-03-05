@@ -65,7 +65,7 @@
 
             if (in_array(11, $menu)) { ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<?= base_url('penjualan') ?>">
                         <i class="bi bi-basket3-fill"></i>
                         <span>Invoice</span></a>
                 </li>
@@ -286,6 +286,10 @@
 
     <script>
         let table = new DataTable('#dataTable-data');
+
+        let tableLogs = new DataTable('#logs_table', {
+            order: [] // nonaktifkan sorting otomatis
+        });
 
         $('.numeric-only').keypress(function(e) {
             var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
