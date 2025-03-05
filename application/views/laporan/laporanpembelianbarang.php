@@ -1,6 +1,7 @@
 <?php
 $dateNow = date('Y-m-d');
-$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $dateNow;
+$tglawal = date('Y-m-01');
+$tgl_awal = !empty($_REQUEST['tgl_awal']) ? $_REQUEST['tgl_awal'] : $tglawal;
 $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
@@ -36,12 +37,12 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
                     <button class="btn btn-success" type="submit">Tampilkan</button>
                 </div>
             </form>
+            <div class="mt-4">
+                <a href="<?= base_url('Laporanpembelianbarang/printData') ?>?tgl_awal=<?= $tgl_awal ?>&tgl_akhir=<?= $tgl_akhir ?>&metode_pembayaran=<?= $metode_pembayaran ?>&supplier=<?= $supplier ?>" 
+                class="btn btn-primary" target="_blank"> Print</a>
+                <a class="btn btn-success">Export</a>
+            </div>
 
-                <div class="mt-4">
-                    <a class="btn btn-primary">Print</a>
-                    <a class="btn btn-success">Export</a>
-                </div>
-                
              <div class="table-responsive mt-4">
                  <table class="table table-bordered" id="dataTable-data" width="100%">
                      <thead>
@@ -60,20 +61,45 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
                      <tbody>
                          <?php
                             $no = 1;
-                            foreach ($laporanpembelianbarang as $lpb) { ?>
+                            $totalHutang = 0;
+                            $total = 0;
+                            foreach ($laporanpembelianbarang as $lpb) {
+                                $supplier = $this->db->query("SELECT supplier FROM t_supplier WHERE id_supplier = $lpb->id_supplier")->row()->supplier;
+                                if ($lpb->status_pembayaran == 'lunas') {
+                                    $sp = 'Lunas';
+                                } else {
+                                    $sp = 'Belum Lunas';
+                                }
+    
+                                if ($lpb->metode_pembayaran == 'tunai') {
+                                    $mp = 'Tunai';
+                                } else {
+                                    $mp = 'Non Tunai';
+                                }
+    
+                                $totalHutang += $lpb->hutang;
+                                $total += $lpb->total;
+                            ?>
                              <tr>
                                  <td style="text-align: center;"><?= $lpb->no_transaksi ?></td>
-                                 <td style="text-align: center;"><?= $lpb->tgl_pembelian?></td>
+                                 <td style="text-align: center;"><?= formatTanggal($lpb->tgl_pembelian) ?></td>
                                  <td style="text-align: center;"><?= $lpb->id_supplier?> </td>
-                                 <td style="text-align: center;"><?= $lpb->total?></td>
-                                 <td style="text-align: center;"><?= $lpb->diskon?></td>
-                                 <td style="text-align: center;"><?= $lpb->total?></td>
-                                 <td style="text-align: center;"><?= $lpb->status_pembayaran?></td>
-                                 <td style="text-align: center;"><?= $lpb->hutang?></td>
-                                 <td style="text-align: center;"><?= $lpb->metode_pembayaran?></td>
+                                 <td style="text-align: center;"><<?= formatPrice($lpb->total) ?></td>
+                                 <td style="text-align: center;"><?= formatPrice($lpb->diskon) ?></td>
+                                 <td style="text-align: center;"><?= $sp ?></td>
+                                 <td style="text-align: center;"><?= formatPrice($lpb->hutang) ?></td>
+                                 <td style="text-align: center;"><?= $mp ?></td>
                              </tr>
                          <?php } ?>
-                     </tbody>
+                     </tbody>   
+                     <tfoot>
+                        <tr>
+                            <td colspan="6" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
+                            <td style="text-align: right;"><?= formatPrice($totalHutang) ?></td>
+                            <td style="text-align: right;"><?= formatPrice($total) ?></td>
+                            <td style="background-color: #3b5998;"></td>
+                        </tr>
+                    </tfoot>
                  </table>
              </div>
          </div>

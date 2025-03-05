@@ -16,6 +16,7 @@ class Laporandetail_invoice extends CI_Controller
     {
         $data['title'] = 'Laporan Detail Invoice';
         $tgl = date('Y-m-d');
+        $tglawal =  date('Y-m-01');
         $data['laporandetail_invoice'] = $this->db->select('*')->from('t_invoice_detail')->join('t_invoice', 't_invoice_detail.id_invoice = t_invoice.id_invoice')->where('tgl_jual', $tgl)->get()->result();
         $this->template->load('template/template', 'laporan/laporandetail_invoice', $data);
     }
