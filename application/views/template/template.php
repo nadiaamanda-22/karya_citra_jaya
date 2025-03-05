@@ -55,7 +55,7 @@
                 $menu[] = $mn['id_menu'];
             }
 
-            if (in_array(10, $menu)) { ?>
+            if (in_array(1, $menu)) { ?>
                 <li class="nav-item active">
                     <a class="nav-link" href="<?= base_url('Dashboard') ?>">
                         <i class="bi bi-speedometer2"></i>
@@ -63,7 +63,7 @@
                 </li>
             <?php }
 
-            if (in_array(11, $menu)) { ?>
+            if (in_array(2, $menu)) { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('penjualan') ?>">
                         <i class="bi bi-basket3-fill"></i>
@@ -71,7 +71,7 @@
                 </li>
             <?php }
 
-            if (!empty(array_intersect([1, 2, 3], $menu))) { ?>
+            if (!empty(array_intersect([3, 4, 5], $menu))) { ?>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listPersediaan"
                         aria-expanded="true" aria-controls="listPersediaan">
@@ -80,15 +80,15 @@
                     </a>
                     <div id="listPersediaan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if (in_array(1, $menu)) { ?>
+                            <?php if (in_array(3, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Stokbarang') ?>">Stok Barang</a>
                             <?php }
 
-                            if (in_array(2, $menu)) { ?>
+                            if (in_array(4, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Kelompokbarang') ?>">Kelompok Barang</a>
                             <?php }
 
-                            if (in_array(3, $menu)) { ?>
+                            if (in_array(5, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Pembelianbarang') ?>">Pembelian Barang</a>
                             <?php } ?>
                         </div>
@@ -96,7 +96,7 @@
                 </li>
             <?php }
 
-            if (!empty(array_intersect([4, 5, 6], $menu))) { ?>
+            if (!empty(array_intersect([6, 7, 8], $menu))) { ?>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listAdministrasi"
                         aria-expanded="true" aria-controls="listAdministrasi">
@@ -105,15 +105,15 @@
                     </a>
                     <div id="listAdministrasi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if (in_array(4, $menu)) { ?>
+                            <?php if (in_array(6, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Customer') ?>">Customer</a>
                             <?php }
 
-                            if (in_array(5, $menu)) { ?>
+                            if (in_array(7, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Supplier') ?>">Supplier</a>
                             <?php }
 
-                            if (in_array(6, $menu)) { ?>
+                            if (in_array(8, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('Rekening') ?>">Rekening</a>
                             <?php } ?>
 
@@ -122,7 +122,7 @@
                 </li>
             <?php }
 
-            if (!empty(array_intersect([7, 8, 9], $menu))) { ?>
+            if (!empty(array_intersect([9, 10, 11], $menu))) { ?>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listLaporan"
                         aria-expanded="true" aria-controls="listLaporan">
@@ -131,18 +131,18 @@
                     </a>
                     <div id="listLaporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if (in_array(7, $menu)) { ?>
+                            <?php if (in_array(9, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('laporanpenjualan') ?>">Penjualan</a>
                                 <a class="collapse-item" href="<?= base_url('laporandetail_invoice') ?>">Detail Invoice</a>
                                 <a class="collapse-item" href="<?= base_url('laporandetail_kaca') ?>">Detail Invoice Kaca</a>
                             <?php }
 
-                            if (in_array(8, $menu)) { ?>
+                            if (in_array(10, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('laporanpembelianbarang') ?>">Pembelian Barang</a>
                                 <a class="collapse-item" href="<?= base_url('laporandetailpembelian_barang') ?>">Detail Pembelian Barang</a>
                             <?php }
 
-                            if (in_array(9, $menu)) { ?>
+                            if (in_array(11, $menu)) { ?>
                                 <a class="collapse-item" href="<?= base_url('laporanstok') ?>">Stok Barang</a>
                             <?php } ?>
                         </div>

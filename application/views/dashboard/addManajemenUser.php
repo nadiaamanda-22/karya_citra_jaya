@@ -68,52 +68,52 @@
                              <div class="row">
                                  <div class="col-4">
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="dashboard" name="menu[]" value="10">
+                                         <input type="checkbox" class="form-check-input menu" id="dashboard" name="menu[]" value="1">
                                          <label class="form-check-label" for="dashboard">Dashboard</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="invoice" name="menu[]" value="11">
+                                         <input type="checkbox" class="form-check-input menu" id="invoice" name="menu[]" value="2">
                                          <label class="form-check-label" for="invoice">Invoice</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="stok_barang" name="menu[]" value="1">
+                                         <input type="checkbox" class="form-check-input menu" id="stok_barang" name="menu[]" value="3">
                                          <label class="form-check-label" for="stok_barang">Stok Barang</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="kelompok_barang" name="menu[]" value="2">
+                                         <input type="checkbox" class="form-check-input menu" id="kelompok_barang" name="menu[]" value="4">
                                          <label class="form-check-label" for="kelompok_barang">Kelompok Barang</label>
                                      </div>
                                  </div>
 
                                  <div class="col-4">
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="pembelian_barang" name="menu[]" value="3">
+                                         <input type="checkbox" class="form-check-input menu" id="pembelian_barang" name="menu[]" value="5">
                                          <label class="form-check-label" for="pembelian_barang">Pembelian Barang</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="customer" name="menu[]" value="4">
+                                         <input type="checkbox" class="form-check-input menu" id="customer" name="menu[]" value="6">
                                          <label class="form-check-label" for="customer">Customer</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="supplier" name="menu[]" value="5">
+                                         <input type="checkbox" class="form-check-input menu" id="supplier" name="menu[]" value="7">
                                          <label class="form-check-label" for="supplier">Supplier</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="rekening" name="menu[]" value="6">
+                                         <input type="checkbox" class="form-check-input menu" id="rekening" name="menu[]" value="8">
                                          <label class="form-check-label" for="rekening">Rekening Barang</label>
                                      </div>
                                  </div>
                                  <div class="col-4">
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="lap_invoice" name="menu[]" value="7">
+                                         <input type="checkbox" class="form-check-input menu" id="lap_invoice" name="menu[]" value="9">
                                          <label class="form-check-label" for="lap_invoice">Laporan Invoice</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="lap_pembelian" name="menu[]" value="8">
+                                         <input type="checkbox" class="form-check-input menu" id="lap_pembelian" name="menu[]" value="10">
                                          <label class="form-check-label" for="lap_pembelian">Laporan Pembelian Barang</label>
                                      </div>
                                      <div class="form-check">
-                                         <input type="checkbox" class="form-check-input menu" id="lap_stok" name="menu[]" value="9">
+                                         <input type="checkbox" class="form-check-input menu" id="lap_stok" name="menu[]" value="11">
                                          <label class="form-check-label" for="lap_stok">Laporan Stok Barang</label>
                                      </div>
                                  </div>

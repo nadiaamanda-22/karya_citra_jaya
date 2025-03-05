@@ -30,7 +30,12 @@ class Login extends CI_Controller
 						'is_login' => true
 					];
 					$this->session->set_userdata($data_session);
-					redirect('Dashboard');
+					$cekUser = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$getUser[id_user]' AND id_menu = '1'");
+					if ($cekUser->num_rows() > 0) {
+						redirect('Dashboard');
+					} else {
+						redirect('Welcome');
+					}
 				} else {
 					$this->session->set_flashdata('message', 'gagal_login');
 					redirect('login');
