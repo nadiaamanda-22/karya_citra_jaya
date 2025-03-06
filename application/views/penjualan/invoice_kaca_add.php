@@ -384,6 +384,8 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
         subtotal = Math.round(subtotal);
         $("#subtotal").val(formatHarga(subtotal));
 
+        totalGen();
+
         var i = 1;
         $('.rowItem').each(function() {
             var hapus = $(this).find('.hapus');

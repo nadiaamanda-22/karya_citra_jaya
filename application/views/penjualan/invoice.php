@@ -5,6 +5,7 @@ $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $status_pembayaran = !empty($_REQUEST['status_pembayaran']) ? $_REQUEST['status_pembayaran'] : '*';
 $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
+$jenis_invoice = isset($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] : '*';
 ?>
 
 <!-- Begin Page Content -->
@@ -45,6 +46,13 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
                     </select>
                 </div>
                 <div class="col-sm-2">
+                    <select id="jenis_invoice" name="jenis_invoice" class="form-select">
+                        <option value="*" selected>Semua Jenis Invoice</option>
+                        <option value="0" <?= $jenis_invoice == '0' ? 'selected' : '' ?>>Invoice Biasa</option>
+                        <option value="1" <?= $jenis_invoice == '1' ? 'selected' : '' ?>>Invoice Kaca</option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
                     <button class="btn btn-success" type="submit">Tampilkan</button>
                 </div>
             </form>
@@ -122,7 +130,11 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <a href="<?= base_url('penjualan/editView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                            <?php if ($pb->jenis_invoice == '0') { ?>
+                                                <a href="<?= base_url('penjualan/editView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                            <?php } else { ?>
+                                                <a href="<?= base_url('penjualan/editKacaView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                            <?php } ?>
                                         </div>
                                         <div class="col-6">
                                             <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $pb->id_invoice ?>"><i class="bi bi-trash3-fill"></i></a>

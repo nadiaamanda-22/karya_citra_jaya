@@ -122,7 +122,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                         <tbody>
                             <?php
                             $no = 1;
-                            foreach ($detail as $r) {
+                            foreach ($detailkaca as $r) {
                                 $stok = $this->db->query("SELECT * FROM t_stok WHERE id = '$r->id_barang'")->row();
                             ?>
                                 <tr>

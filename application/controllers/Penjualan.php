@@ -66,6 +66,7 @@ class Penjualan extends CI_Controller
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         $status_pembayaran = $this->input->post('status_pembayaran');
         $customer = $this->input->post('customer');
+        $jenis_invoice = $this->input->post('jenis_invoice');
 
         if ($metode_pembayaran == '*') {
             $mp = "";
@@ -79,6 +80,13 @@ class Penjualan extends CI_Controller
             $sp = "AND status_pembayaran = '$status_pembayaran'";
         }
 
+
+        if ($jenis_invoice == '*') {
+            $jp = "";
+        } else {
+            $jp = "AND jenis_invoice = '$jenis_invoice'";
+        }
+
         if ($customer == '*') {
             $cus = "";
         } else {
@@ -86,7 +94,7 @@ class Penjualan extends CI_Controller
         }
 
         $data['title'] = 'Invoice';
-        $data['invoice'] = $this->db->query("SELECT * FROM t_invoice WHERE tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir' $mp $sp $cus")->result();
+        $data['invoice'] = $this->db->query("SELECT * FROM t_invoice WHERE tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir' $mp $sp $jp $cus")->result();
         $this->template->load('template/template', 'penjualan/invoice', $data);
     }
 
@@ -199,9 +207,16 @@ class Penjualan extends CI_Controller
 
     public function detailData($id)
     {
-        $data['title'] = 'Detail Invoice';
+        $jenisInv = $this->db->query("SELECT jenis_invoice FROM t_invoice WHERE id_invoice='$id'")->row()->jenis_invoice;
+        if ($jenisInv == '0') {
+            $data['title'] = 'Detail Invoice';
+        } else {
+            $data['title'] = 'Detail Invoice Kaca';
+        }
+
         $data['data'] = $this->db->query("SELECT * FROM t_invoice WHERE id_invoice='$id'")->row();
         $data['detail'] = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+        $data['detailkaca'] = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
         $this->template->load('template/template', 'penjualan/inv_detail', $data);
     }
 
@@ -437,7 +452,7 @@ class Penjualan extends CI_Controller
                             'diskon_nominal' => $diskon_nominal,
                             'jumlah' => $jumlah
                         ];
-                        $this->db->insert('t_invoice_detail', $dataDetail);
+                        $this->db->insert('t_invoice_detail_kaca', $dataDetail);
 
                         //update stok barang (-)
                         $getStok = $this->db->query("SELECT stok FROM t_stok WHERE id = '$id_barang'")->row()->stok;
@@ -460,6 +475,125 @@ class Penjualan extends CI_Controller
             $this->session->set_flashdata('message', 'error');
             redirect('penjualan/addViewKaca');
         }
+    }
+
+    public function editKacaView($id)
+    {
+        $data['title'] = 'Invoice Kaca';
+        $data['data'] = $this->db->query("SELECT * FROM t_invoice WHERE id_invoice='$id'")->row();
+        $data['detail'] = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
+        $this->template->load('template/template', 'penjualan/invoice_kaca_edit', $data);
+    }
+
+    public function editDataKaca($id)
+    {
+
+        $maxDetailInput = $this->db->query("SELECT max_detail_input FROM t_pengaturan")->row()->max_detail_input;
+
+        $id_customer = $this->input->post('id_customer');
+        $tgl_jual = $this->input->post('tgl_jual');
+        $jatuh_tempo = $this->input->post('jatuh_tempo');
+        $spg = $this->input->post('spg');
+        $term = $this->input->post('term');
+
+        $subtotal = str_replace(',', '.', str_replace('.', '', $this->input->post('subtotal')));
+        $ongkir = str_replace(',', '.', str_replace('.', '', $this->input->post('ongkir')));
+        $total = str_replace(',', '.', str_replace('.', '', $this->input->post('total')));
+
+        $status_pembayaran = $this->input->post('status_pembayaran');
+        if ($status_pembayaran == 'lunas') {
+            $hutang = '0';
+        } else {
+            $hutang = $total;
+        }
+
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
+        if ($metode_pembayaran == 'tunai') {
+            $id_rekening = '0';
+        } else {
+            $id_rekening = $this->input->post('id_rekening');
+        }
+
+        $no_invoice = $this->db->query("SELECT no_invoice FROM t_invoice WHERE id_invoice='$id'")->row()->no_invoice;
+
+        $dataHead = [
+            'no_invoice' => $no_invoice,
+            'id_customer' => $id_customer,
+            'tgl_jual' => $tgl_jual,
+            'jatuh_tempo' => $jatuh_tempo,
+            'term' => $term,
+            'spg' => $spg,
+            'jenis_invoice' => '1',
+            'status_pembayaran' => $status_pembayaran,
+            'hutang' => $hutang,
+            'metode_pembayaran' => $metode_pembayaran,
+            'id_rekening' => $id_rekening,
+            'subtotal' => $subtotal,
+            'ongkir' => $ongkir,
+            'total' => $total
+        ];
+        $this->db->where('id_invoice', $id);
+        $this->db->update('t_invoice', $dataHead);
+
+        //balikin stok sebelumnya
+        $id_barang = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
+        foreach ($id_barang as $ib) {
+            $this->db->query("UPDATE t_stok SET stok = stok + " . $ib->stok . " WHERE id = '$ib->id_barang'");
+        }
+
+        //hapus detail pembelian
+        $this->db->where('id_invoice', $id);
+        $this->db->delete('t_invoice_detail_kaca');
+
+        //insert ulang detail pembelian
+        for ($d = 1; $d <= $maxDetailInput; $d++) {
+            if (!empty($_REQUEST['nama_barang3' . $d])) {
+                $id_barang = $_REQUEST['id_barang1' . $d];
+                $nama_barang = $_REQUEST['nama_barang3' . $d];
+                $stok = $_REQUEST['stok4' . $d];
+                $satuan = $_REQUEST['satuan5' . $d];
+                $panjang = $_REQUEST['panjang' . $d];
+                $lebar = $_REQUEST['lebar' . $d];
+                $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                $harga_permeter = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_permeter' . $d]));
+                $diskon_persen = $_REQUEST['diskon_persen7' . $d];
+                $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
+                $jumlah = str_replace(',', '.', str_replace('.', '', $_REQUEST['jumlah9' . $d]));
+
+                $dataDetail = [
+                    'id_invoice' => $id,
+                    'no_invoice' => $no_invoice,
+                    'id_barang' => $id_barang,
+                    'nama_barang' => $nama_barang,
+                    'harga_jual' => $harga_jual,
+                    'harga_permeter' => $harga_permeter,
+                    'stok' => $stok,
+                    'satuan' => $satuan,
+                    'panjang' => $panjang,
+                    'lebar' => $lebar,
+                    'diskon_persen' => $diskon_persen,
+                    'diskon_nominal' => $diskon_nominal,
+                    'jumlah' => $jumlah
+                ];
+                $this->db->insert('t_invoice_detail_kaca', $dataDetail);
+
+                //update stok barang (-)
+                $getStok = $this->db->query("SELECT stok FROM t_stok WHERE id = '$id_barang'")->row()->stok;
+                $stokAkhir = $getStok - $stok;
+                $this->db->query("UPDATE t_stok SET stok = '$stokAkhir' WHERE id = '$id_barang'");
+            }
+        }
+
+        //insert ke t_logs
+        $dataLogs = [
+            'username' => $this->session->userdata('username'),
+            'tanggal' => date("Y-m-d H-i-s"),
+            'keterangan' => 'Melakukan update transaksi invoice kaca dengan no invoice ' . $no_invoice
+        ];
+        $this->db->insert('t_logs', $dataLogs);
+
+        $this->session->set_flashdata('message', 'berhasil ubah');
+        redirect('penjualan');
     }
 
     // END INVOICE KACA
