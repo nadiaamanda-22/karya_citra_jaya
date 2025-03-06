@@ -53,6 +53,7 @@ class Penjualan extends CI_Controller
                 "stok" => $r['stok'],
                 "satuan" => $r['satuan'],
                 "harga_jual" =>  intval($r['harga_jual']),
+                "harga_permeter" =>  intval($r['harga_permeter'])
             );
         }
         echo json_encode($data);
@@ -320,22 +321,28 @@ class Penjualan extends CI_Controller
     public function hapusData()
     {
         $id = $this->input->post('id');
+        $jenis_inv = $this->db->query("SELECT jenis_invoice FROM t_invoice WHERE id_invoice ='$id'")->row()->jenis_invoice;
         $no_invoice = $this->db->query("SELECT no_invoice FROM t_invoice WHERE id_invoice ='$id'")->row()->no_invoice;
         $deleteData = $this->db->delete('t_invoice', ['id_invoice' => $id]);
         if ($deleteData) {
             //balikin stok barang ke semula
             $id_barang = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
             foreach ($id_barang as $ib) {
-                $this->db->query("UPDATE t_stok SET stok = stok - " . $ib->stok . " WHERE id = '$ib->id_barang'");
+                $this->db->query("UPDATE t_stok SET stok = stok + " . $ib->stok . " WHERE id = '$ib->id_barang'");
             }
 
             //hapus di t_pembelian_barang_detail
             $this->db->delete('t_invoice_detail', ['id_invoice' => $id]);
             //insert ke t_logs
+            if ($jenis_inv == '0') {
+                $keterangan = 'Menghapus invoice dengan no invoice ' . $no_invoice;
+            } else {
+                $keterangan = 'Menghapus invoice kaca dengan no invoice ' . $no_invoice;
+            }
             $dataLogs = [
                 'username' => $this->session->userdata('username'),
                 'tanggal' => date("Y-m-d H-i-s"),
-                'keterangan' => 'Menghapus invoice dengan no invoice ' . $no_invoice
+                'keterangan' => $keterangan
             ];
             $this->db->insert('t_logs', $dataLogs);
             echo json_encode('berhasil');
@@ -355,14 +362,16 @@ class Penjualan extends CI_Controller
         $this->form_validation->set_rules('term', 'Term', 'required');
         if ($this->form_validation->run() != FALSE) {
             $maxDetailInput = $this->db->query("SELECT max_detail_input FROM t_pengaturan")->row()->max_detail_input;
-            // $total = str_replace(',', '.', str_replace('.', '', $this->input->post('total')));
+
             $id_customer = $this->input->post('id_customer');
             $tgl_jual = $this->input->post('tgl_jual');
             $jatuh_tempo = $this->input->post('jatuh_tempo');
             $spg = $this->input->post('spg');
             $term = $this->input->post('term');
 
-            $total = '10000';
+            $subtotal = str_replace(',', '.', str_replace('.', '', $this->input->post('subtotal')));
+            $ongkir = str_replace(',', '.', str_replace('.', '', $this->input->post('ongkir')));
+            $total = str_replace(',', '.', str_replace('.', '', $this->input->post('total')));
 
             $status_pembayaran = $this->input->post('status_pembayaran');
             if ($status_pembayaran == 'lunas') {
@@ -392,10 +401,61 @@ class Penjualan extends CI_Controller
                 'hutang' => $hutang,
                 'metode_pembayaran' => $metode_pembayaran,
                 'id_rekening' => $id_rekening,
+                'subtotal' => $subtotal,
+                'ongkir' => $ongkir,
                 'total' => $total
             ];
             $this->db->insert('t_invoice', $dataHead);
-            // $id_pembelian_barang = $this->db->insert_id();
+            $id_invoice = $this->db->insert_id();
+            if ($id_invoice) {
+                for ($d = 1; $d <= $maxDetailInput; $d++) {
+                    if (!empty($_REQUEST['nama_barang3' . $d])) {
+                        $id_barang = $_REQUEST['id_barang1' . $d];
+                        $nama_barang = $_REQUEST['nama_barang3' . $d];
+                        $stok = $_REQUEST['stok4' . $d];
+                        $satuan = $_REQUEST['satuan5' . $d];
+                        $panjang = $_REQUEST['panjang' . $d];
+                        $lebar = $_REQUEST['lebar' . $d];
+                        $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                        $harga_permeter = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_permeter' . $d]));
+                        $diskon_persen = $_REQUEST['diskon_persen7' . $d];
+                        $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
+                        $jumlah = str_replace(',', '.', str_replace('.', '', $_REQUEST['jumlah9' . $d]));
+
+                        $dataDetail = [
+                            'id_invoice' => $id_invoice,
+                            'no_invoice' => $no_invoice,
+                            'id_barang' => $id_barang,
+                            'nama_barang' => $nama_barang,
+                            'harga_jual' => $harga_jual,
+                            'harga_permeter' => $harga_permeter,
+                            'stok' => $stok,
+                            'satuan' => $satuan,
+                            'panjang' => $panjang,
+                            'lebar' => $lebar,
+                            'diskon_persen' => $diskon_persen,
+                            'diskon_nominal' => $diskon_nominal,
+                            'jumlah' => $jumlah
+                        ];
+                        $this->db->insert('t_invoice_detail', $dataDetail);
+
+                        //update stok barang (-)
+                        $getStok = $this->db->query("SELECT stok FROM t_stok WHERE id = '$id_barang'")->row()->stok;
+                        $jmlStok = $getStok - $stok;
+                        $this->db->query("UPDATE t_stok SET stok = '$jmlStok' WHERE id = '$id_barang'");
+                    }
+                }
+                //insert ke t_logs
+                $dataLogs = [
+                    'username' => $this->session->userdata('username'),
+                    'tanggal' => date("Y-m-d H-i-s"),
+                    'keterangan' => 'Transaksi invoice kaca dengan no invoice ' . $no_invoice
+                ];
+                $this->db->insert('t_logs', $dataLogs);
+
+                $this->session->set_flashdata('message', 'berhasil tambah');
+                redirect('penjualan');
+            }
         } else {
             $this->session->set_flashdata('message', 'error');
             redirect('penjualan/addViewKaca');

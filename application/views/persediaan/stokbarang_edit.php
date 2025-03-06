@@ -11,7 +11,7 @@
                          <div class="mb-3">
                              <label for="kode_barang" class="form-label">Kode Barang *</label>
                              <input type="hidden" name="id" id="id" value="<? $stokbarang->id ?>" />
-                             <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="<?= $stokbarang->kode_barang ?>">
+                             <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="<?= $stokbarang->kode_barang ?>" readonly>
                              <?php if ($this->session->flashdata('message', 'error')): ?>
                                  <small class="text-danger">Kode barang harus diisi!</small>
                              <?php endif; ?>

@@ -7,12 +7,12 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <p class="m-0">Tambah Invoice</p>
+            <p class="m-0">Tambah Invoice Kaca</p>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="<?= base_url('penjualan/addData') ?>" method="post">
+                    <form action="<?= base_url('penjualan/addDataInvKaca') ?>" method="post">
                         <div class="row align-items-start mb-3">
                             <div class="col-6">
                                 <label for="customer" class="form-label">Customer *</label>
@@ -88,14 +88,17 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                     <thead>
                                         <tr align="center">
                                             <td width="5%" id="headerTabel">&nbsp;</td>
-                                            <td width="10%" id="headerTabel">Kode</td>
-                                            <td id="headerTabel">Nama Barang</td>
-                                            <td width="9%" id="headerTabel">Stok</td>
-                                            <td width="10%" id="headerTabel">Satuan</td>
-                                            <td width="10%" id="headerTabel">Harga Jual</td>
-                                            <td width="10%" id="headerTabel">Diskon (%)</td>
-                                            <td width="10%" id="headerTabel">Diskon</td>
-                                            <td width="10%" id="headerTabel">Jumlah</td>
+                                            <td width="8%" id="headerTabel">Kode</td>
+                                            <td width="15%" id="headerTabel">Nama Barang</td>
+                                            <td width="6%" id="headerTabel">Stok</td>
+                                            <td width="8%" id="headerTabel">Satuan</td>
+                                            <td width="7%" id="headerTabel">Panjang</td>
+                                            <td width="7%" id="headerTabel">Lebar</td>
+                                            <td width="9%" id="headerTabel">Harga Permeter</td>
+                                            <td width="9%" id="headerTabel">Harga Jual</td>
+                                            <td width="7%" id="headerTabel">Diskon (%)</td>
+                                            <td width="9%" id="headerTabel">Diskon</td>
+                                            <td width="9%" id="headerTabel">Jumlah</td>
                                         </tr>
                                     </thead>
                                     <tbody id="tableDynamic">
@@ -114,6 +117,17 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                             <td class="gray">
                                                 <input type="text" id="satuan51" name="satuan51" class='form-control text-center satuan' readonly />
                                             </td>
+                                            <td>
+                                                <input type="text" id="panjang1" name="panjang1" placeholder='0' class='form-control text-center panjang numeric-only' onKeyUp="accSum(1,2)" />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="lebar1" name="lebar1" placeholder='0' class='form-control text-center lebar numeric-only' onKeyUp="accSum(1,3)" />
+                                            </td>
+
+                                            <td>
+                                                <input type="text" id="harga_permeter1" name="harga_permeter1" placeholder='0' class='form-control text-right harga_permeter numeric-only iptPrice' readonly />
+                                            </td>
+
                                             <td>
                                                 <input type="text" id="harga_jual61" name="harga_jual61" placeholder='0' class='form-control text-right harga_jual numeric-only iptPrice' readonly required />
                                             </td>
@@ -135,7 +149,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                             <td>
                                                 <button type="button" id="plus-content" class="btn btn-sm btn-primary" style='width: 100%'><span class="fa fa-plus"></span></button>
                                             </td>
-                                            <td colspan="5">&nbsp;</td>
+                                            <td colspan="8">&nbsp;</td>
                                             <td>SUBTOTAL</td>
                                             <td class="gray">
                                                 <input type="text" id="subtotal" name="subtotal" class='form-control text-right' readonly placeholder="0" />
@@ -143,7 +157,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td colspan="6">&nbsp;</td>
+                                            <td colspan="9">&nbsp;</td>
                                             <td>ONGKIR</td>
                                             <td class="gray">
                                                 <input type="text" id="ongkir" name="ongkir" class='form-control text-right iptPrice numeric-only' placeholder="0" />
@@ -151,7 +165,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td colspan="6">&nbsp;</td>
+                                            <td colspan="9">&nbsp;</td>
                                             <td>TOTAL</td>
                                             <td class="gray">
                                                 <input type="text" id="total" name="total" class='form-control text-right' readonly placeholder="0" />
@@ -227,11 +241,13 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             select: function(evt, ui) {
                 var stok = ui.item.stok;
                 var harga_jual = ui.item.harga_jual;
+                var harga_permeter = ui.item.harga_permeter;
 
                 $('#nama_barang31').val(ui.item.nama_barang);
                 $('#id_barang11').val(ui.item.id_barang);
                 $('#satuan51').val(ui.item.satuan);
                 $('#harga_jual61').val(formatHarga(harga_jual));
+                $('#harga_permeter1').val(formatHarga(harga_permeter));
                 $('#diskon_nominal81').val(0);
                 $('#diskon_persen71').val(0);
                 $('#stok41').focus();
@@ -258,6 +274,12 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
 
                         "<td><input type='text' id='satuan5" + rowstats + "' name='satuan5" + rowstats + "' class='form-control text-center satuan' readonly/></td>" +
 
+                        "<td><input type='text' id='panjang" + rowstats + "' name='panjang" + rowstats + "' class='form-control text-center panjang numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",2)'/></td>" +
+
+                        "<td><input type='text' id='lebar" + rowstats + "' name='lebar" + rowstats + "' class='form-control text-center stok numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",3)'/></td>" +
+
+                        "<td><input type='text' id='harga_permeter" + rowstats + "' name='harga_permeter" + rowstats + "' class='form-control text-right harga_permeter numeric-only iptPrice' placeholder='0'/></td>" +
+
                         "<td><input type='text' id='harga_jual6" + rowstats + "' name='harga_jual6" + rowstats + "' class='form-control text-right harga_jual numeric-only iptPrice' readonly placeholder='0' required/></td>" +
 
                         "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen numeric-only' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
@@ -282,11 +304,13 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                     if (cekValidasi == 0) {
                         var stok = ui.item.stok;
                         var harga_jual = ui.item.harga_jual;
+                        var harga_permeter = ui.item.harga_permeter;
 
                         $('#id_barang1' + rowstats).val(ui.item.id_barang);
                         $('#nama_barang3' + rowstats).val(ui.item.nama_barang);
                         $('#satuan5' + rowstats).val(ui.item.satuan);
                         $('#harga_jual6' + rowstats).val(formatHarga(harga_jual));
+                        $('#harga_permeter' + rowstats).val(formatHarga(harga_permeter));
                         $('#diskon_nominal8' + rowstats).val(0);
                         $('#diskon_persen7' + rowstats).val(0);
                         $('#stok4' + rowstats).focus();
@@ -368,7 +392,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             var nama_barang = $(this).find('.nama_barang');
             var stok = $(this).find('.stok');
             var satuan = $(this).find('.satuan');
+            var panjang = $(this).find('.panjang');
+            var lebar = $(this).find('.lebar');
             var harga_jual = $(this).find('.harga_jual');
+            var harga_permeter = $(this).find('.harga_permeter');
             var diskon_persen = $(this).find('.diskon_persen');
             var diskon_nominal = $(this).find('.diskon_nominal');
             var jumlah = $(this).find('.jumlah');
@@ -379,7 +406,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             nama_barang.attr('id', 'nama_barang3' + i);
             stok.attr('id', 'stok4' + i);
             satuan.attr('id', 'satuan5' + i);
+            panjang.attr('id', 'panjang' + i);
+            lebar.attr('id', 'lebar' + i);
             harga_jual.attr('id', 'harga_jual6' + i);
+            harga_permeter.attr('id', 'harga_permeter' + i);
             diskon_persen.attr('id', 'diskon_persen7' + i);
             diskon_nominal.attr('id', 'diskon_nominal8' + i);
             jumlah.attr('id', 'jumlah9' + i);
@@ -390,12 +420,17 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             nama_barang.attr('name', 'nama_barang3' + i);
             stok.attr('name', 'stok4' + i);
             satuan.attr('name', 'satuan5' + i);
+            panjang.attr('name', 'panjang' + i);
+            lebar.attr('name', 'lebar' + i);
             harga_jual.attr('name', 'harga_jual6' + i);
+            harga_permeter.attr('name', 'harga_permeter' + i);
             diskon_persen.attr('name', 'diskon_persen7' + i);
             diskon_nominal.attr('name', 'diskon_nominal8' + i);
             jumlah.attr('name', 'jumlah9' + i);
 
             stok.attr('onKeyUp', 'accSum(' + i + ',1)');
+            panjang.attr('onKeyUp', 'accSum(' + i + ',2)');
+            lebar.attr('onKeyUp', 'accSum(' + i + ',3)');
             i++;
         })
     }
@@ -404,17 +439,29 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
         setTimeout(() => {
             var stok = $("#stok4" + row).val();
             var harga_jual = parseHarga($("#harga_jual6" + row).val()) || '';
+            var harga_permeter = parseHarga($("#harga_permeter" + row).val()) || '';
             var diskon_nominal = parseHarga($("#diskon_nominal8" + row).val());
+            var panjang = $("#panjang" + row).val() || '';
+            var lebar = $("#lebar" + row).val() || '';
 
-            if (diskon_nominal > harga_jual) {
+            if (panjang != '' || lebar != '') {
+                hargaJual = panjang * lebar * harga_permeter
+            } else {
+                hargaJual = harga_jual;
+            }
+            $("#harga_jual6" + row).val(formatHarga(hargaJual));
+
+            if (diskon_nominal > hargaJual) {
                 alert("Diskon tidak boleh melebihi harga beli!");
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
-                jumlah = stok * harga_jual;
+                jumlah = stok * hargaJual;
             } else {
-                var diskonPersen = (diskon_nominal / harga_jual) * 100;
-                $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                jumlah = stok * harga_jual - diskon_nominal;
+                if (hargaJual != 0) {
+                    var diskonPersen = (diskon_nominal / hargaJual) * 100;
+                    $("#diskon_persen7" + row).val(Math.round(diskonPersen));
+                    jumlah = stok * hargaJual - diskon_nominal;
+                }
             }
 
             $("#jumlah9" + row).val(formatHarga(jumlah));

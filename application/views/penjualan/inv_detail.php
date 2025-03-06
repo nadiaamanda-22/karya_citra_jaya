@@ -65,41 +65,85 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                 </tr>
             </table>
 
-            <div class="row table-responsive mt-4">
-                <table class="table table-bordered" id="tabelDetail" width="100%">
-                    <thead>
-                        <tr>
-                            <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
-                            <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode </td>
-                            <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
-                            <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
-                            <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
-                            <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
-                            <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
-                            <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $no = 1;
-                        foreach ($detail as $r) {
-                            $stok = $this->db->query("SELECT * FROM t_stok WHERE id = '$r->id_barang'")->row();
-                        ?>
+            <?php if ($data->jenis_invoice == '0') { ?>
+                <div class="row table-responsive mt-4">
+                    <table class="table table-bordered" id="tabelDetail" width="100%">
+                        <thead>
                             <tr>
-                                <td style="text-align: center;"><?= $no++ ?></td>
-                                <td style="text-align: center;"><?= $stok->kode_barang ?></td>
-                                <td><?= $r->nama_barang ?></td>
-                                <td style="text-align: center;"><?= $r->stok ?> </td>
-                                <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
-                                <td style="text-align: center;"><?= $r->diskon_persen ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
+                                <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
+                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode </td>
+                                <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
+                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
+                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
                             </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            foreach ($detail as $r) {
+                                $stok = $this->db->query("SELECT * FROM t_stok WHERE id = '$r->id_barang'")->row();
+                            ?>
+                                <tr>
+                                    <td style="text-align: center;"><?= $no++ ?></td>
+                                    <td style="text-align: center;"><?= $stok->kode_barang ?></td>
+                                    <td><?= $r->nama_barang ?></td>
+                                    <td style="text-align: center;"><?= $r->stok ?> </td>
+                                    <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                    <td style="text-align: center;"><?= $r->diskon_persen ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
 
-            </div>
+                </div>
+            <?php } else { ?>
+                <div class="row table-responsive mt-4">
+                    <table class="table table-bordered" id="tabelDetail" width="100%">
+                        <thead>
+                            <tr>
+                                <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
+                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode </td>
+                                <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
+                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
+                                <td width="5" style="text-align: center; background-color:#3b5998; color:#fff;">Panjang</td>
+                                <td width="5" style="text-align: center; background-color:#3b5998; color:#fff;">Lebar</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Permeter</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
+                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
+                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            foreach ($detail as $r) {
+                                $stok = $this->db->query("SELECT * FROM t_stok WHERE id = '$r->id_barang'")->row();
+                            ?>
+                                <tr>
+                                    <td style="text-align: center;"><?= $no++ ?></td>
+                                    <td style="text-align: center;"><?= $stok->kode_barang ?></td>
+                                    <td><?= $r->nama_barang ?></td>
+                                    <td style="text-align: center;"><?= $r->stok ?> </td>
+                                    <td style="text-align: center;"><?= $r->panjang ?> </td>
+                                    <td style="text-align: center;"><?= $r->lebar ?> </td>
+                                    <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                    <td style="text-align: center;"><?= $r->diskon_persen ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            <?php } ?>
         </div>
     </div>
     <a href="<?= base_url('penjualan') ?>" class="btn btn-danger">Kembali</a>
