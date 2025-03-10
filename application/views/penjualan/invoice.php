@@ -125,7 +125,7 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] 
                                             <a href="<?= base_url('penjualan/detailData/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Detail" class="mr-2"><i class="bi bi-eye-fill"></i></a>
                                         </div>
                                         <div class="col-6">
-                                            <a href="<?= base_url('pembelianbarang/detailData/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Nota Invoice" class="mr-2"><i class="bi bi-printer-fill"></i></a>
+                                            <a href="<?= base_url('penjualan/cetakInvoice/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Nota Invoice" class="mr-2"><i class="bi bi-printer-fill"></i></a>
                                         </div>
                                     </div>
                                     <div class="row">

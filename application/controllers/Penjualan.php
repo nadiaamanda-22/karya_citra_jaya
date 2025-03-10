@@ -364,6 +364,11 @@ class Penjualan extends CI_Controller
         }
     }
 
+    public function cetakInvoice($id)
+    {
+        $this->load->view('penjualan/cetak_invoice');
+    }
+
     // INVOICE KACA
     public function addViewKaca()
     {
