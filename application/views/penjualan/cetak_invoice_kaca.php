@@ -103,12 +103,11 @@
                     <thead>
                         <tr>
                             <td width="5%" id="headerTbl" style="text-align: center;">No</td>
-                            <td width="27%" id="headerTbl">Nama Barang</td>
-                            <td width="9" id="headerTbl" style="text-align: center;">Qty</td>
-                            <td width="11" id="headerTbl" style="text-align: center;">Ukuran</td>
+                            <td width="37%" id="headerTbl">Nama Barang</td>
+                            <td width="10" id="headerTbl" style="text-align: center;">Qty</td>
+                            <td width="12" id="headerTbl" style="text-align: center;">Ukuran</td>
                             <td width="12" id="headerTbl" style="text-align: right;">Harga Per Meter</td>
                             <td width="12" id="headerTbl" style="text-align: right;">Harga Jual</td>
-                            <td width="12" id="headerTbl" style="text-align: right;">Diskon</td>
                             <td width="12" id="headerTbl" style="text-align: right;">Jumlah</td>
                         </tr>
                     </thead>
@@ -126,7 +125,6 @@
                                 <td style="text-align: center;"><?= $r->panjang ?> x <?= $r->lebar ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
                         <?php } ?>

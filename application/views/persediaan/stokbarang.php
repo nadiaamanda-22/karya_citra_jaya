@@ -46,7 +46,7 @@ $templateImport = "<a href='" . base_url() . "assets/template/template_import_st
                             <td width="8" style="text-align: center;">Jumlah Stok</td>
                             <td width="10" style="text-align: center;">Harga Beli</td>
                             <td width="10" style="text-align: center;">Harga Jual</td>
-                            <td width="10" style="text-align: center;">Harga Per meter</td>
+                            <td width="10" style="text-align: center;">Harga Per Meter</td>
                             <td width="8%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
                         </tr>
                     </thead>

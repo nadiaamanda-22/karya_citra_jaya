@@ -86,7 +86,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                             <td width="8%" id="headerTabel">Satuan</td>
                                             <td width="7%" id="headerTabel">Panjang</td>
                                             <td width="7%" id="headerTabel">Lebar</td>
-                                            <td width="9%" id="headerTabel">Harga Permeter</td>
+                                            <td width="9%" id="headerTabel">Harga Per Meter</td>
                                             <td width="9%" id="headerTabel">Harga Jual</td>
                                             <td width="7%" id="headerTabel">Diskon (%)</td>
                                             <td width="9%" id="headerTabel">Diskon</td>
@@ -119,10 +119,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                                     <input type="text" id="satuan5<?= $c ?>" name="satuan5<?= $c ?>" class='form-control text-center satuan' readonly value="<?= $dt->satuan ?>" />
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="panjang<?= $c ?>" name="panjang<?= $c ?>" placeholder='0' class='form-control text-center panjang numeric-only' onKeyUp="accSum(<?= $c ?>,2)" value="<?= $dt->panjang ?>" />
+                                                    <input type="text" id="panjang<?= $c ?>" name="panjang<?= $c ?>" placeholder='0' class='form-control text-center panjang' onKeyUp="accSum(<?= $c ?>,2)" value="<?= $dt->panjang ?>" />
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="lebar<?= $c ?>" name="lebar<?= $c ?>" placeholder='0' class='form-control text-center lebar numeric-only' onKeyUp="accSum(<?= $c ?>,3)" value="<?= $dt->lebar ?>" />
+                                                    <input type="text" id="lebar<?= $c ?>" name="lebar<?= $c ?>" placeholder='0' class='form-control text-center lebar' onKeyUp="accSum(<?= $c ?>,3)" value="<?= $dt->lebar ?>" />
                                                 </td>
                                                 <td>
                                                     <input type="text" id="harga_permeter<?= $c ?>" name="harga_permeter<?= $c ?>" placeholder='0' class='form-control text-right harga_permeter numeric-only iptPrice' readonly value="<?= formatPrice($dt->harga_permeter) ?>" />
@@ -282,9 +282,9 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
 
                         "<td><input type='text' id='satuan5" + rowstats + "' name='satuan5" + rowstats + "' class='form-control text-center satuan' readonly/></td>" +
 
-                        "<td><input type='text' id='panjang" + rowstats + "' name='panjang" + rowstats + "' class='form-control text-center panjang numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",2)'/></td>" +
+                        "<td><input type='text' id='panjang" + rowstats + "' name='panjang" + rowstats + "' class='form-control text-center panjang' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",2)'/></td>" +
 
-                        "<td><input type='text' id='lebar" + rowstats + "' name='lebar" + rowstats + "' class='form-control text-center stok numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",3)'/></td>" +
+                        "<td><input type='text' id='lebar" + rowstats + "' name='lebar" + rowstats + "' class='form-control text-center lebar' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",3)'/></td>" +
 
                         "<td><input type='text' id='harga_permeter" + rowstats + "' name='harga_permeter" + rowstats + "' class='form-control text-right harga_permeter numeric-only iptPrice' placeholder='0'/></td>" +
 

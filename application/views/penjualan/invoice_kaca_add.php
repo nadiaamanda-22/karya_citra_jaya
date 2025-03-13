@@ -94,7 +94,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                             <td width="8%" id="headerTabel">Satuan</td>
                                             <td width="7%" id="headerTabel">Panjang</td>
                                             <td width="7%" id="headerTabel">Lebar</td>
-                                            <td width="9%" id="headerTabel">Harga Permeter</td>
+                                            <td width="9%" id="headerTabel">Harga Per Meter</td>
                                             <td width="9%" id="headerTabel">Harga Jual</td>
                                             <td width="7%" id="headerTabel">Diskon (%)</td>
                                             <td width="9%" id="headerTabel">Diskon</td>
@@ -118,10 +118,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                                 <input type="text" id="satuan51" name="satuan51" class='form-control text-center satuan' readonly />
                                             </td>
                                             <td>
-                                                <input type="text" id="panjang1" name="panjang1" placeholder='0' class='form-control text-center panjang numeric-only' onKeyUp="accSum(1,2)" />
+                                                <input type="text" id="panjang1" name="panjang1" placeholder='0' class='form-control text-center panjang' onKeyUp="accSum(1,2)" />
                                             </td>
                                             <td>
-                                                <input type="text" id="lebar1" name="lebar1" placeholder='0' class='form-control text-center lebar numeric-only' onKeyUp="accSum(1,3)" />
+                                                <input type="text" id="lebar1" name="lebar1" placeholder='0' class='form-control text-center lebar' onKeyUp="accSum(1,3)" />
                                             </td>
 
                                             <td>
@@ -274,9 +274,9 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
 
                         "<td><input type='text' id='satuan5" + rowstats + "' name='satuan5" + rowstats + "' class='form-control text-center satuan' readonly/></td>" +
 
-                        "<td><input type='text' id='panjang" + rowstats + "' name='panjang" + rowstats + "' class='form-control text-center panjang numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",2)'/></td>" +
+                        "<td><input type='text' id='panjang" + rowstats + "' name='panjang" + rowstats + "' class='form-control text-center panjang' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",2)'/></td>" +
 
-                        "<td><input type='text' id='lebar" + rowstats + "' name='lebar" + rowstats + "' class='form-control text-center stok numeric-only' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",3)'/></td>" +
+                        "<td><input type='text' id='lebar" + rowstats + "' name='lebar" + rowstats + "' class='form-control text-center lebar' placeholder='0' autocomplete='off' onKeyUp='accSum(" + rowstats + ",3)'/></td>" +
 
                         "<td><input type='text' id='harga_permeter" + rowstats + "' name='harga_permeter" + rowstats + "' class='form-control text-right harga_permeter numeric-only iptPrice' placeholder='0'/></td>" +
 

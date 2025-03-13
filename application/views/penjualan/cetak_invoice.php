@@ -103,11 +103,10 @@
                     <thead>
                         <tr>
                             <td width="8%" id="headerTbl" style="text-align: center;">No</td>
-                            <td width="35%" id="headerTbl">Nama Barang</td>
-                            <td width="12" id="headerTbl" style="text-align: center;">Qty</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Harga Jual</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Diskon</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Jumlah</td>
+                            <td width="40%" id="headerTbl">Nama Barang</td>
+                            <td width="13" id="headerTbl" style="text-align: center;">Qty</td>
+                            <td width="17" id="headerTbl" style="text-align: right;">Harga Jual</td>
+                            <td width="17" id="headerTbl" style="text-align: right;">Jumlah</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +121,6 @@
                                 <td><?= $r->nama_barang ?></td>
                                 <td style="text-align: center;"><?= $r->stok ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
                         <?php } ?>

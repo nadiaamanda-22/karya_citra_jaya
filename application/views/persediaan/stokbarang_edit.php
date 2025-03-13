@@ -62,7 +62,7 @@
                                  <?php endif; ?>
                              </div>
                              <div class="mb-3">
-                                 <label for="harga_permeter" class="form-label">Harga Per meter </label>
+                                 <label for="harga_permeter" class="form-label">Harga Per Meter </label>
                                  <input type="text" class="form-control numeric-only iptPrice" id="harga_permeter" name="harga_permeter" value="<?= formatPrice($stokbarang->harga_permeter) ?>">
                              </div>
                              <div class="mb-5">

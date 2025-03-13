@@ -214,7 +214,7 @@
                                 </a>
                                 <a class="dropdown-item" href="<?= base_url('Backup') ?>">
                                     <i class="bi bi-back mr-2"></i>
-                                    Backup & Restore
+                                    Backup Database
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
