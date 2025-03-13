@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- template -->
-    <title>Cetak Invoice</title>
+    <title>Cetak Invoice Kaca</title>
     <link rel="icon" type="image/png" sizes="50x26" href="<?= base_url('assets/img/logo.png'); ?>">
     <link href="<?= base_url('assets/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/') ?>css/custome.css" rel="stylesheet" type="text/css">
@@ -102,12 +102,14 @@
                 <table class="table table-sm table-bordered" width="100%">
                     <thead>
                         <tr>
-                            <td width="8%" id="headerTbl" style="text-align: center;">No</td>
-                            <td width="35%" id="headerTbl">Nama Barang</td>
-                            <td width="12" id="headerTbl" style="text-align: center;">Qty</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Harga Jual</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Diskon</td>
-                            <td width="15" id="headerTbl" style="text-align: right;">Jumlah</td>
+                            <td width="5%" id="headerTbl" style="text-align: center;">No</td>
+                            <td width="27%" id="headerTbl">Nama Barang</td>
+                            <td width="9" id="headerTbl" style="text-align: center;">Qty</td>
+                            <td width="11" id="headerTbl" style="text-align: center;">Ukuran</td>
+                            <td width="12" id="headerTbl" style="text-align: right;">Harga Per Meter</td>
+                            <td width="12" id="headerTbl" style="text-align: right;">Harga Jual</td>
+                            <td width="12" id="headerTbl" style="text-align: right;">Diskon</td>
+                            <td width="12" id="headerTbl" style="text-align: right;">Jumlah</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,6 +123,8 @@
                                 <td style="text-align: center;"><?= $no++ ?></td>
                                 <td><?= $r->nama_barang ?></td>
                                 <td style="text-align: center;"><?= $r->stok ?></td>
+                                <td style="text-align: center;"><?= $r->panjang ?> x <?= $r->lebar ?></td>
+                                <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>

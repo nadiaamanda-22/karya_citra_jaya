@@ -366,7 +366,17 @@ class Penjualan extends CI_Controller
 
     public function cetakInvoice($id)
     {
-        $this->load->view('penjualan/cetak_invoice');
+        $data['setting'] = $this->db->query("SELECT * FROM t_pengaturan")->row();
+        $data['inv'] = $this->db->query("SELECT * FROM t_invoice WHERE id_invoice='$id'")->row();
+
+        $jenisInv = $this->db->query("SELECT jenis_invoice FROM t_invoice WHERE id_invoice='$id'")->row()->jenis_invoice;
+        if ($jenisInv == '0') {
+            $data['detail'] = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+            $this->load->view('penjualan/cetak_invoice', $data);
+        } else {
+            $data['detail'] = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
+            $this->load->view('penjualan/cetak_invoice_kaca', $data);
+        }
     }
 
     // INVOICE KACA
