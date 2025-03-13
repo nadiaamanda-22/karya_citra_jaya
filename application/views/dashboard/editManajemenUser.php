@@ -4,6 +4,19 @@
 
  <!-- Begin Page Content -->
  <div class="container-fluid">
+     <div class="row">
+         <div class="col-6">
+             <div class="alert alert-warning">
+                 <h6 align="center"><i class="icon fa fa-info"></i> Perhatian!</h6>
+                 <small>Kolom dengan tanda [*] harus diisi</small>
+                 <br><small>Password minimal 5 karakter</small>
+                 <br><small>Password harus mengandung setidaknya 1 huruf kapital</small>
+                 <br><small> Password harus mengandung minimal 1 angka</small>
+                 <br><small> Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)</small>
+                 <br><small> Minimal ada 1 menu yang dipilih</small>
+             </div>
+         </div>
+     </div>
      <div class="card shadow mb-4">
          <div class="card-header py-3">
              <p class="m-0">Edit User</p>
@@ -14,48 +27,58 @@
                      <form action="<?= base_url('manajemenuser/editData/' . $user->id_user) ?>" method="post" enctype="multipart/form-data">
                          <div class="mb-3">
                              <label for="nama_user" class="form-label">Nama *</label>
+                             <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user->id_user ?>">
                              <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>">
-                             <?php if ($this->session->flashdata('message', 'error')): ?>
-                                 <small class="text-danger">Nama harus diisi!</small>
-                             <?php endif; ?>
                          </div>
                          <div class="mb-3">
                              <div class="row">
                                  <div class="col-6">
                                      <label for="username" class="form-label">Username *</label>
                                      <input type="text" class="form-control" id="username" name="username" value="<?= $user->username ?>">
-                                     <?php if ($this->session->flashdata('message', 'error')): ?>
-                                         <small class="text-danger">Username harus diisi!</small>
-                                     <?php endif; ?>
                                  </div>
 
                                  <div class="col-6">
                                      <label for="password" class="form-label">Password *</label>
                                      <input type="text" class="form-control" id="password" name="password" value="<?= $user->password ?>">
-                                     <?php if ($this->session->flashdata('message', 'error')): ?>
-                                         <small class="text-danger">Password harus diisi!</small>
-                                     <?php endif; ?>
                                  </div>
                              </div>
                          </div>
                          <div class="mb-3">
                              <div class="row">
-                                 <div class="col-6">
-                                     <label for="level" class="form-label">Level</label>
-                                     <select class="form-select mb-3" name="level" id="level">
-                                         <option value="0" <?= $user->level == '0' ? 'selected' : '' ?>>Add/Edit/Delete</option>
-                                         <option value="1" <?= $user->level == '1' ? 'selected' : '' ?>>Add</option>
-                                         <option <?= $user->level == '2' ? 'selected' : '' ?>>Read</option>
-                                     </select>
-                                 </div>
+                                 <?php if ($user->id_user != '1') { ?>
+                                     <div class="col-6">
+                                         <label for="level" class="form-label">Level</label>
+                                         <select class="form-select mb-3" name="level" id="level">
+                                             <option value="0" <?= $user->level == '0' ? 'selected' : '' ?>>Add/Edit/Delete</option>
+                                             <option value="1" <?= $user->level == '1' ? 'selected' : '' ?>>Add</option>
+                                             <option <?= $user->level == '2' ? 'selected' : '' ?>>Read</option>
+                                         </select>
+                                     </div>
+                                 <?php } else { ?>
+                                     <div class="col-6">
+                                         <label for="level" class="form-label">Level</label>
+                                         <select class="form-select mb-3" name="level" id="level">
+                                             <option value="0" <?= $user->level == '0' ? 'selected' : '' ?>>Add/Edit/Delete</option>
+                                         </select>
+                                     </div>
+                                 <?php } ?>
 
-                                 <div class="col-6">
-                                     <label for="role" class="form-label">Role</label>
-                                     <select class="form-select mb-3" name="role" id="role" onchange="selectRole(this)">
-                                         <option value="1" <?= $user->role == '1' ? 'selected' : '' ?>>Not Admin</option>
-                                         <option value="0" <?= $user->role == '0' ? 'selected' : '' ?>>Admin</option>
-                                     </select>
-                                 </div>
+                                 <?php if ($user->id_user != '1') { ?>
+                                     <div class="col-6">
+                                         <label for="role" class="form-label">Role</label>
+                                         <select class="form-select mb-3" name="role" id="role">
+                                             <option value="1" <?= $user->role == '1' ? 'selected' : '' ?>>Not Admin</option>
+                                             <option value="0" <?= $user->role == '0' ? 'selected' : '' ?>>Admin</option>
+                                         </select>
+                                     </div>
+                                 <?php } else { ?>
+                                     <div class="col-6">
+                                         <label for="role" class="form-label">Role</label>
+                                         <select class="form-select mb-3" name="role" id="role">
+                                             <option value="0" <?= $user->role == '0' ? 'selected' : '' ?>>Admin</option>
+                                         </select>
+                                     </div>
+                                 <?php } ?>
                              </div>
                          </div>
                          <div class="mb-3">
@@ -68,10 +91,7 @@
                                      <input type="file" class="form-control" id="image" name="image">
                                  </div>
                              </div>
-                             <div class="mt-4">
-                                 <small>[*] Kolom harus diisai</small>
-                             </div>
-                             <div class="mt-3">
+                             <div class="mt-5">
                                  <p>Hak Akses User</p>
                              </div>
                              <div class="mb-3">
@@ -130,14 +150,16 @@
                                  </div>
                              </div>
 
-                             <div class="row">
-                                 <div class="md-12">
-                                     <div class="checkAll" style="text-align: left; padding:10px;">
-                                         <button name="cmdselectall" type="button" onClick="checkAll()" class="btn btn-secondary"><span class="fa fa-check-square">&nbsp;</span>Pilih Semua</button> &nbsp;
-                                         <button name="cmddeselect" type="button" onClick="uncheckAll()" class="btn btn-secondary reset"><span class="fa fa-square-o">&nbsp;</span>Reset</button>
+                             <?php if ($user->id_user != '1') { ?>
+                                 <div class="row">
+                                     <div class="md-12">
+                                         <div class="checkAll" style="text-align: left; padding:10px;">
+                                             <button name="cmdselectall" type="button" onClick="checkAll()" class="btn btn-secondary"><span class="fa fa-check-square">&nbsp;</span>Pilih Semua</button> &nbsp;
+                                             <button name="cmddeselect" type="button" onClick="uncheckAll()" class="btn btn-secondary reset"><span class="fa fa-square-o">&nbsp;</span>Reset</button>
+                                         </div>
                                      </div>
                                  </div>
-                             </div>
+                             <?php } ?>
 
 
                              <div class="mt-5">
@@ -151,6 +173,77 @@
      </div>
  </div>
 
+ <?php if ($this->session->flashdata('message')) { ?>
+     <script>
+         var message = "<?= $this->session->flashdata('message') ?>";
+         if (message == 'karakter kurang') {
+             Swal.fire({
+                 title: "Password minimal 5 karakter!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'required') {
+             Swal.fire({
+                 title: "Kolom dengan tanda [*] harus diisi!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'kapital') {
+             Swal.fire({
+                 title: "Password harus mengandung setidaknya 1 huruf kapital!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'angka') {
+             Swal.fire({
+                 title: "Password harus mengandung minimal 1 angka!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'karakter khusus') {
+             Swal.fire({
+                 title: "Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'menu') {
+             Swal.fire({
+                 title: "Minimal ada 1 menu yang dipilih!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else {
+             Swal.fire({
+                 title: "Terjadi kesalahan",
+                 text: "Silahkan ulangi proses!",
+                 icon: "error",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         }
+     </script>
+ <?php } ?>
+
  <script>
      $(document).ready(function() {
          $('.menu').change(function() {
@@ -160,6 +253,16 @@
                  $(this).val(0); // Jika tidak diceklis, ubah menjadi 0
              }
          });
+
+         var idUser = $('#id_user').val();
+         if (idUser == '1') {
+             document.querySelectorAll('.menu').forEach(checkbox => {
+                 checkbox.checked = true;
+                 checkbox.addEventListener('click', function(event) {
+                     event.preventDefault();
+                 });
+             });
+         }
      });
 
      function checkAll() {
@@ -168,16 +271,5 @@
 
      function uncheckAll() {
          $(".menu").prop("checked", false);
-     }
-
-     function selectRole(selectValue) {
-         var role = selectValue.value;
-         if (role == '0') {
-             $('.menu').prop("checked", true);
-             $('.reset').prop('disabled', true);
-         } else {
-             $('.menu').prop("checked", false);
-             $('.reset').prop('disabled', false);
-         }
      }
  </script>

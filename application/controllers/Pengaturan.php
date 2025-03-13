@@ -77,7 +77,6 @@ class Pengaturan extends CI_Controller
                     'no_telp' => $noTelp,
                     'id_no_hp' => $no_hp_select,
                     'alamat' => $alamat,
-                    'copy_nota' => $copy_print,
                     'max_detail_input' => $max_detail_input,
                     'ttd' => $TTD,
                     'stempel' => $stempel
@@ -109,7 +108,6 @@ class Pengaturan extends CI_Controller
                     'no_telp' => $noTelp,
                     'id_no_hp' => $no_hp_select,
                     'alamat' => $alamat,
-                    'copy_nota' => $copy_print,
                     'max_detail_input' => $max_detail_input,
                     'ttd' => $TTD,
                     'stempel' => $stempel

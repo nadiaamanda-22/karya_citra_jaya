@@ -30,6 +30,14 @@ class Login extends CI_Controller
 						'is_login' => true
 					];
 					$this->session->set_userdata($data_session);
+
+					$dataLogs = [
+						'username' => $getUser['username'],
+						'tanggal' => date("Y-m-d H-i-s"),
+						'keterangan' => $getUser['nama_user'] . ' melakukan login'
+					];
+					$this->db->insert('t_logs', $dataLogs);
+
 					$cekUser = $this->db->query("SELECT id_menu FROM t_user_menu WHERE id_user = '$getUser[id_user]' AND id_menu = '1'");
 					if ($cekUser->num_rows() > 0) {
 						redirect('Dashboard');
@@ -52,6 +60,13 @@ class Login extends CI_Controller
 
 	public function logout()
 	{
+		$dataLogs = [
+			'username' => $this->session->userdata('username'),
+			'tanggal' => date("Y-m-d H-i-s"),
+			'keterangan' =>  $this->session->userdata('nama_user') . ' logout dari aplikasi'
+		];
+		$this->db->insert('t_logs', $dataLogs);
+
 		$this->session->sess_destroy();
 		redirect('Login');
 	}

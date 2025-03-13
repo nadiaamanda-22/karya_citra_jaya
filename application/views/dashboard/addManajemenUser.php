@@ -1,5 +1,18 @@
  <!-- Begin Page Content -->
  <div class="container-fluid">
+     <div class="row">
+         <div class="col-6">
+             <div class="alert alert-warning">
+                 <h6 align="center"><i class="icon fa fa-info"></i> Perhatian!</h6>
+                 <small>Kolom dengan tanda [*] harus diisi</small>
+                 <br><small>Password minimal 5 karakter</small>
+                 <br><small>Password harus mengandung setidaknya 1 huruf kapital</small>
+                 <br><small> Password harus mengandung minimal 1 angka</small>
+                 <br><small> Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)</small>
+                 <br><small> Minimal ada 1 menu yang dipilih</small>
+             </div>
+         </div>
+     </div>
      <div class="card shadow mb-4">
          <div class="card-header py-3">
              <p class="m-0">Tambah User</p>
@@ -11,26 +24,17 @@
                          <div class="mb-3">
                              <label for="nama_user" class="form-label">Nama *</label>
                              <input type="text" class="form-control" id="nama_user" name="nama_user">
-                             <?php if ($this->session->flashdata('message', 'error')): ?>
-                                 <small class="text-danger">Nama harus diisi!</small>
-                             <?php endif; ?>
                          </div>
                          <div class="mb-3">
                              <div class="row">
                                  <div class="col-6">
                                      <label for="username" class="form-label">Username *</label>
                                      <input type="text" class="form-control" id="username" name="username">
-                                     <?php if ($this->session->flashdata('message', 'error')): ?>
-                                         <small class="text-danger">Username harus diisi!</small>
-                                     <?php endif; ?>
                                  </div>
 
                                  <div class="col-6">
                                      <label for="password" class="form-label">Password *</label>
                                      <input type="text" class="form-control" id="password" name="password">
-                                     <?php if ($this->session->flashdata('message', 'error')): ?>
-                                         <small class="text-danger">Password harus diisi!</small>
-                                     <?php endif; ?>
                                  </div>
                              </div>
                          </div>
@@ -58,10 +62,7 @@
                              <label for="image" class="form-label">Image</label>
                              <input type="file" class="form-control" id="image" name="image">
                          </div>
-                         <div class="mb-4">
-                             <small>[*] Kolom harus diisai</small>
-                         </div>
-                         <div class="mb-3">
+                         <div class="mb-3 mt-5">
                              <p>Hak Akses User</p>
                          </div>
                          <div class="mb-3">
@@ -140,6 +141,77 @@
          </div>
      </div>
  </div>
+
+ <?php if ($this->session->flashdata('message')) { ?>
+     <script>
+         var message = "<?= $this->session->flashdata('message') ?>";
+         if (message == 'karakter kurang') {
+             Swal.fire({
+                 title: "Password minimal 5 karakter!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'required') {
+             Swal.fire({
+                 title: "Kolom dengan tanda [*] harus diisi!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'kapital') {
+             Swal.fire({
+                 title: "Password harus mengandung setidaknya 1 huruf kapital!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'angka') {
+             Swal.fire({
+                 title: "Password harus mengandung minimal 1 angka!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'karakter khusus') {
+             Swal.fire({
+                 title: "Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else if (message == 'menu') {
+             Swal.fire({
+                 title: "Minimal ada 1 menu yang dipilih!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         } else {
+             Swal.fire({
+                 title: "Terjadi kesalahan",
+                 text: "Silahkan ulangi proses!",
+                 icon: "error",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
+         }
+     </script>
+ <?php } ?>
 
  <script>
      $(document).ready(function() {

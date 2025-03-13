@@ -60,15 +60,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-start">
-                                <div class="col">
-                                    <label for="copy_print" class="form-label">Copy Print</label>
-                                    <select class="form-select" name="copy_print">
-                                        <option value="0" <?= ($pengaturan->copy_nota ?? '') == '0' ? 'selected' : '' ?>>Enable</option>
-                                        <option value="1" <?= ($pengaturan->copy_nota ?? '') == '1' ? 'selected' : '' ?>>Disable</option>
-                                    </select>
-                                </div>
-                                <div class="col">
+                            <div class="row">
+                                <div class="col-6">
                                     <label for="max_detail_input" class="form-label">Max Detail Input *</label>
                                     <input type="text" class="form-control" id="pengaturan" name="max_detail_input" value="<?= $pengaturan->max_detail_input ?? '' ?>">
                                 </div>

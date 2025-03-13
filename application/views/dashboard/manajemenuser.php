@@ -34,7 +34,9 @@
                                 <td style="text-align: center;"><?= $level ?></td>
                                 <td style="text-align: center;">
                                     <a href="<?= base_url('manajemenuser/editView/' . $r->id_user) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $r->id_user ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php if ($r->id_user != '1') { ?>
+                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $r->id_user ?>"><i class="bi bi-trash3-fill" disabled></i></a>
+                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>

@@ -12,7 +12,7 @@
     <title>Karya Citra Jaya</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -25,6 +25,8 @@
     <!-- CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -52,11 +54,16 @@
                                             <input type="text" class="form-control form-control-user"
                                                 id="username" name="username">
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="username">Password</label>
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" name="password">
+                                            <label for="password">Password</label>
+                                            <div class="input-group mb-3">
+                                                <input type="password" class="form-control form-control-user" id="password" name="password">
+                                                <span class="input-group-text" id="openPassword"><i class="bi bi-eye-fill" style="color: #3b5998;"></i></span>
+                                                <span class="input-group-text" id="closePassword"><i class="bi bi-eye-slash-fill" style="color: #3b5998;"></i></span>
+                                            </div>
                                         </div>
+
                                         <button class="btn btn-user btn-block" type="submit" style="background-color: #3b5998;color:#fff;">Login</button>
                                     </form>
                                 </div>
@@ -72,6 +79,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="<?= base_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
     <script src="<?= base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 
@@ -117,6 +125,30 @@
         </script>
     <?php } ?>
 
+
+    <script>
+        $('#closePassword').hide();
+
+        const showPassword = document.getElementById("openPassword");
+        const closePassword = document.getElementById("closePassword");
+        const inputPassword = document.getElementById("password");
+
+        showPassword.addEventListener("click", function() {
+            const type = inputPassword.type === "password" ? "text" : "password";
+            inputPassword.type = type;
+
+            $('#openPassword').hide();
+            $('#closePassword').show();
+        });
+
+        closePassword.addEventListener("click", function() {
+            const type = inputPassword.type === "text" ? "password" : "text";
+            inputPassword.type = type;
+
+            $('#openPassword').show();
+            $('#closePassword').hide();
+        });
+    </script>
 </body>
 
 </html>

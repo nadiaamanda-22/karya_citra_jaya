@@ -35,10 +35,38 @@ class Manajemenuser extends CI_Controller
         if ($this->form_validation->run() != FALSE) {
             $namaUser = $this->input->post('nama_user');
             $username = $this->input->post('username');
-            $password = $this->input->post('password');
             $level = $this->input->post('level');
             $role = $this->input->post('role');
             $menu = $this->input->post('menu');
+            $password = $this->input->post('password');
+
+            if (strlen($password) < 5) {
+                $this->session->set_flashdata('message', 'karakter kurang');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            } else if (!preg_match('/[A-Z]/', $password)) {
+                $this->session->set_flashdata('message', 'kapital');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            } else if (!preg_match('/\d/', $password)) {
+                $this->session->set_flashdata('message', 'angka');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            } else if (!preg_match('/[_\-\!]/', $password)) {
+                $this->session->set_flashdata('message', 'karakter khusus');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            } else {
+                $inputPassword = $password;
+            }
+
+            if ($menu == null) {
+                $this->session->set_flashdata('message', 'menu');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            } else {
+                $inputMenu = $menu;
+            }
 
             //cek ada gambar yg di upload atau tidak
             if (!empty($_FILES['image']['name'])) {
@@ -51,8 +79,8 @@ class Manajemenuser extends CI_Controller
             $insertData = [
                 'nama_user' => $namaUser,
                 'username' => $username,
-                'password' => $password,
-                'password_md5' => md5($password),
+                'password' => $inputPassword,
+                'password_md5' => md5($inputPassword),
                 'level' => $level,
                 'role' => $role,
                 'image' => $image
@@ -60,7 +88,7 @@ class Manajemenuser extends CI_Controller
             $this->db->insert('t_user', $insertData);
             $idUser = $this->db->insert_id();
 
-            foreach ($menu as $sm) {
+            foreach ($inputMenu as $sm) {
                 $data = [
                     'id_user' => $idUser,
                     'id_menu' => $sm
@@ -70,7 +98,7 @@ class Manajemenuser extends CI_Controller
             $this->session->set_flashdata('message', 'berhasil tambah');
             redirect('manajemenuser');
         } else {
-            $this->session->set_flashdata('message', 'error');
+            $this->session->set_flashdata('message', 'required');
             redirect('manajemenuser/addManajemenUser');
         }
     }
@@ -99,6 +127,34 @@ class Manajemenuser extends CI_Controller
             $newImg = $_FILES['image']['name'];
             $oldImg = $this->db->query("SELECT image FROM t_user WHERE id_user='$idUser'")->row()->image;
 
+            if (strlen($password) < 5) {
+                $this->session->set_flashdata('message', 'karakter kurang');
+                redirect('manajemenuser/editView/' . $idUser);
+                return false;
+            } else if (!preg_match('/[A-Z]/', $password)) {
+                $this->session->set_flashdata('message', 'kapital');
+                redirect('manajemenuser/editView/' . $idUser);
+                return false;
+            } else if (!preg_match('/\d/', $password)) {
+                $this->session->set_flashdata('message', 'angka');
+                redirect('manajemenuser/editView/' . $idUser);
+                return false;
+            } else if (!preg_match('/[_\-\!]/', $password)) {
+                $this->session->set_flashdata('message', 'karakter khusus');
+                redirect('manajemenuser/editView/' . $idUser);
+                return false;
+            } else {
+                $inputPassword = $password;
+            }
+
+            if ($menu == null) {
+                $this->session->set_flashdata('message', 'menu');
+                redirect('manajemenuser/editView/' . $idUser);
+                return false;
+            } else {
+                $inputMenu = $menu;
+            }
+
             //cek ada gambar yg di upload atau tidak
             if (!empty($newImg)) {
                 if ($oldImg != 'default.png') {
@@ -113,8 +169,8 @@ class Manajemenuser extends CI_Controller
             $updateData = [
                 'nama_user' => $namaUser,
                 'username' => $username,
-                'password' => $password,
-                'password_md5' => md5($password),
+                'password' => $inputPassword,
+                'password_md5' => md5($inputPassword),
                 'level' => $level,
                 'role' => $role,
                 'image' => $image
@@ -125,7 +181,7 @@ class Manajemenuser extends CI_Controller
             //hapus menu-menu user
             $this->db->delete('t_user_menu', ['id_user' => $idUser]);
             //insert ulang menu user
-            foreach ($menu as $sm) {
+            foreach ($inputMenu as $sm) {
                 $data = [
                     'id_user' => $idUser,
                     'id_menu' => $sm
@@ -135,7 +191,7 @@ class Manajemenuser extends CI_Controller
             $this->session->set_flashdata('message', 'berhasil ubah');
             redirect('manajemenuser');
         } else {
-            $this->session->set_flashdata('message', 'error');
+            $this->session->set_flashdata('message', 'required');
             redirect('manajemenuser/editView/' . $idUser);
         }
     }

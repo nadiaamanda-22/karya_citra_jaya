@@ -37,6 +37,26 @@ class Profil extends CI_Controller
             $newImg = $_FILES['image']['name'];
             $oldImg = $this->db->query("SELECT image FROM t_user WHERE id_user='$idUser'")->row()->image;
 
+            if (strlen($password) < 5) {
+                $this->session->set_flashdata('message', 'karakter kurang');
+                redirect('profil');
+                return false;
+            } else if (!preg_match('/[A-Z]/', $password)) {
+                $this->session->set_flashdata('message', 'kapital');
+                redirect('profil');
+                return false;
+            } else if (!preg_match('/\d/', $password)) {
+                $this->session->set_flashdata('message', 'angka');
+                redirect('profil');
+                return false;
+            } else if (!preg_match('/[_\-\!]/', $password)) {
+                $this->session->set_flashdata('message', 'karakter khusus');
+                redirect('profil');
+                return false;
+            } else {
+                $inputPassword = $password;
+            }
+
             //cek ada gambar yg di upload atau tidak
             if (!empty($newImg)) {
                 if ($oldImg != 'default.png') {
@@ -51,8 +71,8 @@ class Profil extends CI_Controller
             $updateData = [
                 'nama_user' => $nama_user,
                 'username' => $username,
-                'password' => $password,
-                'password_md5' => md5($password),
+                'password' => $inputPassword,
+                'password_md5' => md5($inputPassword),
                 'image' => $image
             ];
             $this->db->where('id_user', $idUser);
@@ -65,7 +85,7 @@ class Profil extends CI_Controller
             $this->session->set_flashdata('message', 'berhasil ubah');
             redirect('profil');
         } else {
-            $this->session->set_flashdata('message', 'error');
+            $this->session->set_flashdata('message', 'required');
             redirect('profil');
         }
     }

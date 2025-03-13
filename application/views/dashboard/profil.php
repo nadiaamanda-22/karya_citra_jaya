@@ -1,5 +1,17 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <div class="alert alert-warning">
+                <h6 align="center"><i class="icon fa fa-info"></i> Perhatian!</h6>
+                <small>Kolom dengan tanda [*] harus diisi</small>
+                <br><small>Password minimal 5 karakter</small>
+                <br><small>Password harus mengandung setidaknya 1 huruf kapital</small>
+                <br><small> Password harus mengandung minimal 1 angka</small>
+                <br><small> Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)</small>
+            </div>
+        </div>
+    </div>
     <div class="card shadow mb-4">
         <div class="card-header">
             <p class="m-0">Profil</p>
@@ -34,9 +46,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-2 py-4">
-                            <small>[*] Kolom harus diisi</small>
-                        </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
@@ -52,6 +61,60 @@
             Swal.fire({
                 title: "Profil berhasil diubah!",
                 icon: "success",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'karakter kurang') {
+            Swal.fire({
+                title: "Password minimal 5 karakter!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'required') {
+            Swal.fire({
+                title: "Kolom dengan tanda [*] harus diisi!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'kapital') {
+            Swal.fire({
+                title: "Password harus mengandung setidaknya 1 huruf kapital!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'angka') {
+            Swal.fire({
+                title: "Password harus mengandung minimal 1 angka!",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'karakter khusus') {
+            Swal.fire({
+                title: "Password harus mengandung minimal 1 karakter khusus ( _ atau - atau !)",
+                icon: "warning",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'menu') {
+            Swal.fire({
+                title: "Minimal ada 1 menu yang dipilih!",
+                icon: "warning",
                 showDenyButton: false,
                 showCancelButton: false,
                 confirmButtonText: "Ya",

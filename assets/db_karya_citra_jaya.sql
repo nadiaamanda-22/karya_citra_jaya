@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.11
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 07, 2025 at 10:10 AM
--- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
--- PHP Version: 7.2.34-54+ubuntu22.04.1+deb.sury.org+1
+-- Generation Time: Mar 13, 2025 at 02:22 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -240,7 +239,6 @@ CREATE TABLE `t_pengaturan` (
   `alamat` text NOT NULL,
   `ttd` varchar(100) NOT NULL,
   `stempel` varchar(100) NOT NULL,
-  `copy_nota` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0:enable, 1:disable',
   `max_detail_input` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
