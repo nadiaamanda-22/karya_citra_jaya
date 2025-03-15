@@ -2,10 +2,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set('Asia/Jakarta');
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 
 
@@ -23,15 +24,10 @@ class Laporandetail_kaca extends CI_Controller
     public function index()
     {
         $data['title'] = 'Laporan Detail Invoice Kaca';
-        $tgl =  date('Y-m-d');
-        $tglawal =  date('Y-m-01');
-     
-        $this->db->select('t_invoice_detail_kaca.*, t_invoice.tgl_jual, t_customer.nama_customer');
-        $this->db->from('t_invoice_detail_kaca');
-        $this->db->join('t_invoice', 't_invoice.id_invoice = t_invoice_detail_kaca.id_invoice', 'left');
-        $this->db->join('t_customer', 't_customer.id_customer = t_invoice.id_customer', 'left');
-        
-        $data['laporandetail_kaca'] = $this->db->get()->result();
+        $tgl_awal =  date('Y-m-01');
+        $tgl_akhir =  date('Y-m-d');
+
+        $data['laporandetail_kaca'] = $this->db->query("SELECT d.*, i.no_invoice, i.tgl_jual, i.id_customer FROM t_invoice_detail_kaca AS d JOIN t_invoice AS i ON i.id_invoice = d.id_invoice WHERE i.jenis_invoice='1' AND i.tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir'")->result();
         $this->template->load('template/template', 'laporan/laporandetail_kaca', $data);
     }
 
@@ -39,59 +35,16 @@ class Laporandetail_kaca extends CI_Controller
     {
         $tgl_awal = $this->input->post('tgl_awal');
         $tgl_akhir = $this->input->post('tgl_akhir');
-        $metode_pembayaran = $this->input->post('metode_pembayaran');
-        $customer = $this->input->post('customer');
-    
-        if (empty($tgl_awal)) {
-            $tgl_awal = date('Y-m-01'); 
-        }
-        if (empty($tgl_akhir)) {
-            $tgl_akhir = date('Y-m-d');
+        $no_invoice = $this->input->post('no_invoice');
+
+        if ($no_invoice == '*') {
+            $nt = "";
+        } else {
+            $nt = "AND i.id_invoice = '$no_invoice'";
         }
 
-        $this->db->select('t_invoice_detail_kaca.*, t_invoice.tgl_jual, t_customer.nama_customer');
-        $this->db->from('t_invoice_detail_kaca');
-        $this->db->join('t_invoice', 't_invoice.id_invoice = t_invoice_detail_kaca.id_invoice', 'left');
-        $this->db->join('t_customer', 't_customer.id_customer = t_invoice.id_customer', 'left');
-        $this->db->where('t_invoice.tgl_jual >=', $tgl_awal);
-        $this->db->where('t_invoice.tgl_jual <=', $tgl_akhir);
-    
-        if ($metode_pembayaran !== '*') {
-            $this->db->where('t_invoice.metode_pembayaran', $metode_pembayaran);
-        }
-        if ($customer !== '*') {
-            $this->db->where('t_invoice.id_customer', $customer);
-        }
-    
         $data['title'] = 'Laporan Detail Invoice Kaca';
-        $data['laporandetail_kaca'] = $this->db->get()->result();
-    
-        $this->template->load('template/template', 'laporan/laporandetail_kaca', $data);
-    }
-    
-
-    public function printData()
-    {
-        $tgl_awal = $this->input->get('tgl_awal');
-        $tgl_akhir = $this->input->get('tgl_akhir');
-        $metode_pembayaran = $this->input->get('metode_pembayaran');
-        $customer = $this->input->get('customer');
-
-        $this->db->select('t_invoice_detail_kaca.*, t_invoice.tgl_jual, t_customer.nama_customer');
-        $this->db->from('t_invoice_detail_kaca');
-        $this->db->join('t_invoice', 't_invoice.id_invoice = t_invoice_detail_kaca.id_invoice', 'left');
-        $this->db->join('t_customer', 't_customer.id_customer = t_invoice.id_customer', 'left');
-        $this->db->where('t_invoice.tgl_jual >=', $tgl_awal);
-        $this->db->where('t_invoice.tgl_jual <=', $tgl_akhir);
-
-        if ($metode_pembayaran !== '*') {
-            $this->db->where('t_invoice.metode_pembayaran', $metode_pembayaran);
-        }
-        if ($customer !== '*') {
-            $this->db->where('t_invoice.id_customer', $customer);
-        }
-
-        $data['laporandetail_kaca'] = $this->db->get()->result();
+        $data['laporandetail_kaca'] = $this->db->query("SELECT d.*, i.no_invoice, i.tgl_jual, i.id_customer FROM t_invoice_detail_kaca AS d JOIN t_invoice AS i ON i.id_invoice = d.id_invoice WHERE i.jenis_invoice='1' AND i.tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir' $nt")->result();
 
         $this->template->load('template/template', 'laporan/laporandetail_kaca', $data);
     }
@@ -99,20 +52,33 @@ class Laporandetail_kaca extends CI_Controller
 
     public function export()
     {
+        $tgl_awal = $this->input->get('tgl_awal');
+        $tgl_akhir = $this->input->get('tgl_akhir');
+        $no_invoice = $this->input->get('no_invoice');
+
+        if ($no_invoice == '*') {
+            $nt = "";
+        } else {
+            $nt = "AND i.id_invoice = '$no_invoice'";
+        }
+
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         // Tambahkan data ke spreadsheet
         $sheet->setCellValue('A1', 'No Invoice');
-        $sheet->setCellValue('B1', 'Tanggal');
+        $sheet->setCellValue('B1', 'Tanggal Jual');
         $sheet->setCellValue('C1', 'Customer');
-        $sheet->setCellValue('D1', 'Subtotal');
-        $sheet->setCellValue('E1', 'Diskon');
-        $sheet->setCellValue('F1', 'Ongkir');
-        $sheet->setCellValue('G1', 'Total');
-        $sheet->setCellValue('H1', 'Status Pembayaran');
-        $sheet->setCellValue('I1', 'Hutang');
-        $sheet->setCellValue('J1', 'Metode Pembayaran');
+        $sheet->setCellValue('D1', 'Kode Barang');
+        $sheet->setCellValue('E1', 'Nama Barang');
+        $sheet->setCellValue('F1', 'Stok');
+        $sheet->setCellValue('G1', 'Satuan');
+        $sheet->setCellValue('H1', 'Harga Per Meter');
+        $sheet->setCellValue('I1', 'Harga Jual');
+        $sheet->setCellValue('J1', 'Diskon (%)');
+        $sheet->setCellValue('K1', 'Diskon');
+        $sheet->setCellValue('L1', 'Jumlah');
+
 
         // Styling Header (warna abu-abu)
         $styleArray = [
@@ -129,40 +95,58 @@ class Laporandetail_kaca extends CI_Controller
         ];
 
         // Terapkan gaya ke header
-        $sheet->getStyle('A1:J1')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:L1')->applyFromArray($styleArray);
         //get data dari database
-        $data = $this->db->query("SELECT t_invoice.*, t_customer.nama_customer FROM t_invoice LEFT JOIN t_customer ON t_customer.id_customer = t_invoice.id_customer")->result_array();
+        $data = $this->db->query("SELECT d.*, i.no_invoice, i.tgl_jual, i.id_customer FROM t_invoice_detail_kaca AS d JOIN t_invoice AS i ON i.id_invoice = d.id_invoice WHERE i.jenis_invoice='1' AND i.tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir' $nt")->result_array();
 
         // Memasukkan data ke dalam sheet
         $row = 2;
-        foreach ($data as $item) {
-            $sheet->setCellValue('A' . $row, $item['no_invoice']);
-            $sheet->setCellValue('B' . $row, $item['tgl_jual']);
-            $sheet->setCellValue('C' . $row, $item['nama_customer']);
-            $sheet->setCellValue('D' . $row, $item['subtotal']);
-            $sheet->setCellValue('E' . $row, $item['diskon_nominal']);
-            $sheet->setCellValue('F' . $row, $item['ongkir']);
-            $sheet->setCellValue('G' . $row, $item['total']);
-            $sheet->setCellValue('H' . $row, $item['status_pembayaran']);
-            $sheet->setCellValue('I' . $row, $item['hutang']);
-            $sheet->setCellValue('J' . $row, $item['metode_pembayaran']);
+        $diskon = 0;
+        $total = 0;
+        foreach ($data as $data) {
+            $diskon += $data['diskon_nominal'];
+            $total += $data['jumlah'];
+
+            $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_customer = ?", [$data['id_customer']])->row()->nama_customer;
+
+            $kodeBrg = $this->db->query("SELECT kode_barang FROM t_stok WHERE id = ?", [$data['id_barang']])->row()->kode_barang;
+
+            $sheet->setCellValue('A' . $row, $data['no_invoice']);
+            $sheet->setCellValue('B' . $row, $data['tgl_jual']);
+            $sheet->setCellValue('C' . $row, $customer);
+            $sheet->setCellValue('D' . $row, $kodeBrg);
+            $sheet->setCellValue('E' . $row, $data['nama_barang']);
+            $sheet->setCellValue('F' . $row, $data['stok']);
+            $sheet->setCellValue('G' . $row, $data['panjang'] . ' x ' . $data['lebar']);
+            $sheet->setCellValue('H' . $row, $data['harga_permeter']);
+            $sheet->setCellValue('I' . $row, $data['harga_jual']);
+            $sheet->setCellValue('J' . $row, $data['diskon_persen']);
+            $sheet->setCellValue('K' . $row, $data['diskon_nominal']);
+            $sheet->setCellValue('L' . $row, $data['jumlah']);
             $row++;
         }
+        // Total
+        $sheet->mergeCells("A$row:J$row");
+        $sheet->setCellValue("A$row", "Total");
+        $sheet->setCellValue("K$row", ($diskon));
+        $sheet->setCellValue("L$row", ($total));
 
-        // Simpan sebagai file Excel
-        $writer = new Xls($spreadsheet);
-        $filename = 'laporan-detail-kaca' . date('Ymd') . '.xls';
+        $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);
+        $sheet->getStyle("A$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Simpan file Excel
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
+        $filename = 'laporan-detail-invoice-kaca.xls';
 
         // Bersihkan output buffer sebelum mengirim file
         ob_end_clean();
 
         header("Content-type: application/vnd-ms-excel");
-        header("Content-Disposition: attachment; filename=$filename");  
+        header("Content-Disposition: attachment; filename=$filename");
         header("Pragma: no-cache");
         header("Expires: 0");
 
         $writer->save('php://output');
         exit;
     }
-
 }

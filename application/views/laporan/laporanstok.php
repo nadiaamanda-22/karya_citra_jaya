@@ -1,6 +1,5 @@
 <?php
 $id_kelompok_terpilih = isset($_POST['id_kelompok']) ? $_POST['id_kelompok'] : '*';
-$stok_terpilih = isset($_POST['stok']) ? $_POST['stok'] : '*';
 ?>
 
 <style>
@@ -88,7 +87,7 @@ $stok_terpilih = isset($_POST['stok']) ? $_POST['stok'] : '*';
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="background-color: #fff;">
     <div class="col-12 tablePrint">
         <h4 style="font-weight: bold;" class="mb-5">Laporan Stok Barang</h4>
         <table class="table table-bordered" width="100%">

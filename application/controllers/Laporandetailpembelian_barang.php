@@ -3,9 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set('Asia/Jakarta');
 
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 
 class Laporandetailpembelian_barang extends CI_Controller
@@ -20,120 +21,45 @@ class Laporandetailpembelian_barang extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'Laporan Detail Pembelian Barang';  
-        $tgl =  date('Y-m-d');
-        $tglawal =  date('Y-m-01');
-          
-        $this->db->select('t_pembelian_barang.tgl_pembelian, t_pembelian_barang_detail.*, t_supplier.supplier');
-        $this->db->from('t_pembelian_barang_detail');
-        $this->db->join('t_pembelian_barang', 't_pembelian_barang.no_transaksi = t_pembelian_barang_detail.no_transaksi', 'left');
-        $this->db->join('t_supplier', 't_pembelian_barang.id_supplier = t_supplier.id_supplier', 'left'); // JOIN ke supplier
-            
-        $data['laporandetailpembelian_barang'] = $this->db->get()->result();
+        $data['title'] = 'Laporan Detail Pembelian Barang';
+        $tgl_awal =  date('Y-m-01');
+        $tgl_akhir =  date('Y-m-d');
+
+        $data['laporandetailpembelian_barang'] = $this->db->query("SELECT d.*, b.no_transaksi, b.tgl_pembelian, b.id_supplier FROM t_pembelian_barang_detail AS d JOIN t_pembelian_barang AS b ON b.id_pembelian = d.id_pembelian WHERE b.tgl_pembelian BETWEEN '$tgl_awal' AND '$tgl_akhir'")->result();
+
         $this->template->load('template/template', 'laporan/laporandetailpembelian_barang', $data);
     }
-        
-//         echo "<pre>";
-// var_dump($data['laporandetailpembelian_barang']);
-// echo "</pre>";
-// die();
 
-     
-public function filterData()
-{
-    $tgl_awal = $this->input->post('tgl_awal');
-    $tgl_akhir = $this->input->post('tgl_akhir');
-    $metode_pembayaran = $this->input->post('metode_pembayaran');
-    $supplier = $this->input->post('supplier');
-
-    if (empty($tgl_awal)) {
-        $tgl_awal = date('Y-m-01');
-    }
-    if (empty($tgl_akhir)) {
-        $tgl_akhir = date('Y-m-d');
-    }
-
-    $this->db->select('t_pembelian_barang.tgl_pembelian, t_pembelian_barang_detail.*, t_supplier.supplier');
-    $this->db->from('t_pembelian_barang_detail');
-    $this->db->join('t_pembelian_barang', 't_pembelian_barang.no_transaksi = t_pembelian_barang_detail.no_transaksi', 'left');
-    $this->db->join('t_supplier', 't_pembelian_barang.id_supplier = t_supplier.id_supplier', 'left');
-    $this->db->where('t_pembelian_barang.tgl_pembelian >=', $tgl_awal);
-    $this->db->where('t_pembelian_barang.tgl_pembelian <=', $tgl_akhir);
-
-    if ($metode_pembayaran !== '*') {
-        $this->db->where('t_pembelian_barang.metode_pembayaran', $metode_pembayaran);
-    }
-
-    if ($supplier !== '*') {
-        $this->db->where('t_pembelian_barang.id_supplier', $supplier);
-    }
-
-    $data['title'] = 'Laporan Detail Pembelian Barang';
-    $data['laporandetailpembelian_barang'] = $this->db->get()->result();
-
-    $this->template->load('template/template', 'laporan/laporandetailpembelian_barang', $data);
-}
-
-    
-
-    public function printData()
+    public function filterData()
     {
-        $tgl_awal = $this->input->get('tgl_awal');
-        $tgl_akhir = $this->input->get('tgl_akhir');
-        $metode_pembayaran = $this->input->get('metode_pembayaran');
-        $supplier = $this->input->get('supplier');
-  
-        $this->db->select('t_pembelian_barang.tgl_pembelian, t_pembelian_barang_detail.*, t_supplier.supplier');
-        $this->db->from('t_pembelian_barang_detail');
-        $this->db->join('t_pembelian_barang', 't_pembelian_barang.no_transaksi = t_pembelian_barang_detail.no_transaksi', 'left');
-        $this->db->join('t_supplier', 't_pembelian_barang.id_supplier = t_supplier.id_supplier', 'left');
-            
+        $tgl_awal = $this->input->post('tgl_awal');
+        $tgl_akhir = $this->input->post('tgl_akhir');
+        $no_transaksi = $this->input->post('no_transaksi');
 
-        if ($metode_pembayaran !== '*') {
-            $this->db->where('metode_pembayaran', $metode_pembayaran);
+        if ($no_transaksi == '*') {
+            $nt = "";
+        } else {
+            $nt = "AND b.id_pembelian = '$no_transaksi'";
         }
 
-        if ($supplier !== '*') {
-            $this->db->where('t_pembelian_barang.id_supplier', $supplier);
-        }
+        $data['title'] = 'Laporan Detail Pembelian Barang';
+        $data['laporandetailpembelian_barang'] = $this->db->query("SELECT d.*, b.no_transaksi, b.tgl_pembelian, b.id_supplier FROM t_pembelian_barang_detail AS d JOIN t_pembelian_barang AS b ON b.id_pembelian = d.id_pembelian WHERE b.tgl_pembelian BETWEEN '$tgl_awal' AND '$tgl_akhir' $nt")->result();
 
-        $data['title'] = 'Cetak Laporan Pembelian Barang';
-        $data['laporandetailpembelian_barang'] = $this->db->get()->result();
-
-        $this->load->view('laporan/laporandetailpembelian_barang', $data);
+        $this->template->load('template/template', 'laporan/laporandetailpembelian_barang', $data);
     }
 
     public function exportData()
     {
-      
+
         $tgl_awal = $this->input->get('tgl_awal');
         $tgl_akhir = $this->input->get('tgl_akhir');
-        $metode_pembayaran = $this->input->get('metode_pembayaran');
-        $supplier = $this->input->get('supplier');
+        $no_transaksi = $this->input->get('no_transaksi');
 
-        if (empty($tgl_awal)) {
-            $tgl_awal = date('Y-m-01'); 
+        if ($no_transaksi == '*') {
+            $nt = "";
+        } else {
+            $nt = "AND b.id_pembelian = '$no_transaksi'";
         }
-        if (empty($tgl_akhir)) {
-            $tgl_akhir = date('Y-m-d');
-        }
-
-        $this->db->select('t_pembelian_barang_detail.*, t_pembelian_barang.tgl_pembelian, t_supplier.supplier');
-        $this->db->from('t_pembelian_barang_detail');
-        $this->db->join('t_pembelian_barang', 't_pembelian_barang.no_transaksi = t_pembelian_barang_detail.no_transaksi', 'left');
-        $this->db->join('t_supplier', 't_pembelian_barang.id_supplier = t_supplier.id_supplier', 'left');
-        $this->db->where('t_pembelian_barang.tgl_pembelian >=', $tgl_awal);
-        $this->db->where('t_pembelian_barang.tgl_pembelian <=', $tgl_akhir);
-        
-        if ($metode_pembayaran != '*') {
-            $this->db->where('t_pembelian_barang.metode_pembayaran', $metode_pembayaran);
-        }
-
-        if ($supplier != '*') {
-            $this->db->where('t_supplier.id_supplier', $supplier);
-        }
-
-        $laporandetailpembelian_barang = $this->db->get()->result();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -149,8 +75,8 @@ public function filterData()
         $sheet->setCellValue('I1', 'Diskon');
         $sheet->setCellValue('J1', 'Jumlah');
 
-          // Styling Header (warna abu-abu)
-          $styleArray = [
+        // Styling Header (warna abu-abu)
+        $styleArray = [
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
                 'startColor' => ['rgb' => 'D3D3D3'], // Warna abu-abu
@@ -164,36 +90,54 @@ public function filterData()
         ];
 
         // Terapkan gaya ke header
-        $sheet->getStyle('A1:G1')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:J1')->applyFromArray($styleArray);
 
-        $data = $this->db->query("SELECT * FROM t_pembelian_barang detail JOIN t_pembelian_barang ON t_pembelian_barang.id_pembelian = t_pembelian_barang_detail.id_pembelian_detail")->result_array();
+        $laporandetailpembelian_barang = $this->db->query("SELECT d.*, b.no_transaksi, b.tgl_pembelian, b.id_supplier FROM t_pembelian_barang_detail AS d JOIN t_pembelian_barang AS b ON b.id_pembelian = d.id_pembelian WHERE b.tgl_pembelian BETWEEN '$tgl_awal' AND '$tgl_akhir' $nt")->result_array();
         $row = 2;
+        $diskon = 0;
+        $total = 0;
         foreach ($laporandetailpembelian_barang as $data) {
-            $sheet->setCellValue('A' . $row, $data->no_transaksi);
-            $sheet->setCellValue('B' . $row, $data->tgl_pembelian);
-            $sheet->setCellValue('C' . $row, $data->supplier); 
-            $sheet->setCellValue('D' . $row, $data->id_barang);
-            $sheet->setCellValue('E' . $row, $data->nama_barang);
-            $sheet->setCellValue('F' . $row, $data->stok);
-            $sheet->setCellValue('G' . $row, $data->harga_beli);
-            $sheet->setCellValue('H' . $row, $data->diskon_persen);
-            $sheet->setCellValue('I' . $row, $data->diskon_nominal);
-            $sheet->setCellValue('J' . $row, $data->jumlah);
+            $diskon += $data['diskon_nominal'];
+            $total += $data['jumlah'];
+
+            $supplier = $this->db->query("SELECT supplier FROM t_supplier WHERE id_supplier = ?", [$data['id_supplier']])->row()->supplier;
+
+            $kodeBrg = $this->db->query("SELECT kode_barang FROM t_stok WHERE id = ?", [$data['id_barang']])->row()->kode_barang;
+
+            $sheet->setCellValue('A' . $row, $data['no_transaksi']);
+            $sheet->setCellValue('B' . $row, $data['tgl_pembelian']);
+            $sheet->setCellValue('C' . $row, $supplier);
+            $sheet->setCellValue('D' . $row, $kodeBrg);
+            $sheet->setCellValue('E' . $row, $data['nama_barang']);
+            $sheet->setCellValue('F' . $row, $data['stok']);
+            $sheet->setCellValue('G' . $row, $data['harga_beli']);
+            $sheet->setCellValue('H' . $row, $data['diskon_persen']);
+            $sheet->setCellValue('I' . $row, $data['diskon_nominal']);
+            $sheet->setCellValue('J' . $row, $data['jumlah']);
             $row++;
         }
 
+        // Total
+        $sheet->mergeCells("A$row:H$row");
+        $sheet->setCellValue("A$row", "Total");
+        $sheet->setCellValue("I$row", ($diskon));
+        $sheet->setCellValue("J$row", ($total));
+
+        $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);
+        $sheet->getStyle("A$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
         // Simpan file Excel
-        $filename = 'Laporan_Detail_Pembelian_Barang_' . date('Ymd') . '.xlsx';
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
+        $filename = 'Laporan-Detail-Pembelian-Barang.xls';
+
+        // Bersihkan output buffer sebelum mengirim file
+        ob_end_clean();
+
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
+        exit;
     }
-
-    
-
 }
-
-?>

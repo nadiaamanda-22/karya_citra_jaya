@@ -71,7 +71,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                         <thead>
                             <tr>
                                 <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
-                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode </td>
+                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode Barang</td>
                                 <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
                                 <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
                                 <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
@@ -107,7 +107,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                         <thead>
                             <tr>
                                 <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
-                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode </td>
+                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode Barang</td>
                                 <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
                                 <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
                                 <td width="5" style="text-align: center; background-color:#3b5998; color:#fff;">Panjang</td>
