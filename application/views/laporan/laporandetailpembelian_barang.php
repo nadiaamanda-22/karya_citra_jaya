@@ -6,6 +6,25 @@ $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
 ?>
+
+<style>
+    .tablePrint {
+        display: none;
+    }
+
+    @media print {
+
+        .container-fluid,
+        #accordionSidebar,
+        .footer {
+            display: none;
+        }
+
+        .tablePrint {
+            display: block;
+        }
+    }
+</style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
@@ -42,15 +61,8 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
             </form>
                 
                 <div class="mt-4">
-                    <a href="<?= base_url('Laporanpembelianbarang/printData') ?>?tgl_awal=<?= $tgl_awal ?>&tgl_akhir=<?= $tgl_akhir ?>&metode_pembayaran=<?= $metode_pembayaran ?>&supplier=<?= $supplier ?>" 
-                    class="btn btn-primary" 
-                    target="_blank">
-                    Print
-                    </a>
-                </div>
-                <div class="mt-4">
-                    <a class="btn btn-primary" onclick="printLaporan()">Print</a>
-                    <a class="btn btn-success">Export</a>
+                    <a class="btn btn-primary" onclick="window.print()">Print</a>
+                    <a href="<?= base_url('Laporandetailpembelian_barang/exportData') ?>" class="btn btn-success">Export</a>
                 </div>
                 
              <div class="table-responsive mt-4">
@@ -61,7 +73,7 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
                              <td width="12%" style="text-align: center;">Tanggal</td>
                              <td width="12"  style="text-align: center;">Supplier</td>
                              <td width="8"  style="text-align: center;">Kode</td>
-                             <td width="10"  style="text-align: center;">Nama Barang</td>
+                             <td width="15"  style="text-align: center;">Nama Barang</td>
                              <td width="8"  style="text-align: center;">Stok</td>
                              <td width="10"  style="text-align: center;">Harga Beli</td>
                              <td width="4"  style="text-align: center;">Diskon (%)</td>
@@ -75,26 +87,30 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
                             $totalStok = 0;
                             $totalDiskon = 0;
                             $total = 0;
+
                             foreach ($laporandetailpembelian_barang as $ldpb) {
-                        ?>
-                             <tr>
-                                 <td style="text-align: center;"><?= $ldpb->no_transaksi ?></td>
-                                 <td style="text-align: center;"><?= formatTanggal($lpb->tgl_pembelian) ?></td>
-                                 <td style="text-align: center;"><?= $ldpb->id_supplier?> </td>
-                                 <td style="text-align: center;"><?= $ldpb->id_barang ?></td>
-                                 <td style="text-align: center;"><?= $ldpb->nama_barang ?></td>
-                                 <td style="text-align: center;"><?= $ldpb->stok?></td>
-                                 <td style="text-align: center;"><<?= formatPrice($ldpb->harga_beli) ?></td>
-                                 <td style="text-align: center;"><?= $ldpb->diskon_persen ?></td>
-                                 <td style="text-align: center;"><<?= formatPrice($ldpb->diskon_nominal) ?></td>
-                                 <td style="text-align: center;"><?= $ldpb->jumlah ?></td>
-                             </tr>
-                         <?php } ?>
-                     </tbody>   
-                     <tfoot>
+                                $totalStok += $ldpb->stok;
+                                $totalDiskon += $ldpb->diskon_nominal;
+                                $total += $ldpb->jumlah;
+                                ?>
+                            <tr>
+                                <td style="text-align: center;"><?= $ldpb->no_transaksi ?></td>
+                                <td style="text-align: center;"><?= formatTanggal($ldpb->tgl_pembelian) ?></td>
+                                <td style="text-align: center;"><?= $ldpb->supplier; ?></td>
+                                <td style="text-align: center;"><?= $ldpb->id_barang ?></td>
+                                <td style="text-align: center;"><?= $ldpb->nama_barang ?></td>
+                                <td style="text-align: center;"><?= $ldpb->stok ?></td>
+                                <td style="text-align: center;"><?= formatPrice($ldpb->harga_beli) ?></td>
+                                <td style="text-align: center;"><?= $ldpb->diskon_persen ?></td>
+                                <td style="text-align: center;"><?= formatPrice($ldpb->diskon_nominal) ?></td>
+                                <td style="text-align: center;"><?= $ldpb->jumlah ?></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>   
+                    <tfoot>
                         <tr>
                             <td colspan="5" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
-                            <td style="text-align: right;"><?= formatPrice($totalStok) ?></td>
+                            <td style="text-align: right;"><?= $totalStok ?></td>
                             <td style="background-color: #3b5998;"></td>
                             <td style="background-color: #3b5998;"></td>
                             <td style="text-align: right;"><?= formatPrice($totalDiskon) ?></td>

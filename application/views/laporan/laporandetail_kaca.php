@@ -7,6 +7,26 @@ $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_
 $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
 ?>
 
+<style>
+    .tablePrint {
+        display: none;
+    }
+
+    @media print {
+
+        .container-fluid,
+        #accordionSidebar,
+        .footer {
+            display: none;
+        }
+
+        .tablePrint {
+            display: block;
+        }
+    }
+</style>
+
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
      <div class="card shadow mb-4">
@@ -31,7 +51,7 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
                         <?php
                         $getCustomer = $this->db->query("SELECT * FROM t_customer")->result();
                         foreach ($getCustomer as $gc) { ?>
-                            <option value="<?= $gc->id_customer ?>" <?= $customer == $gc->id_customer ? 'selected' : '' ?>><?= $gc->customer ?></option>
+                            <option value="<?= $gc->id_customer ?>" <?= $customer == $gc->id_customer ? 'selected' : '' ?>><?= $gc->nama_customer ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -41,8 +61,8 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
             </form>
 
                 <div class="mt-4">
-                    <a class="btn btn-primary" onclick="printLaporan()">Print</a>
-                    <a class="btn btn-success">Export</a>
+                <a class="btn btn-primary" onclick="window.print()">Print</a>
+                    <a href="<?= base_url('Laporandetail_kaca/export?tgl_awal='.$tgl_awal.'&tgl_akhir='.$tgl_akhir.'&metode_pembayaran='.$metode_pembayaran.'&customer='.$customer) ?>" class="btn btn-success">Export</a>
                 </div>
                 
              <div class="table-responsive mt-4">
@@ -54,8 +74,6 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
                              <td width="12"  style="text-align: center;">Customer</td>
                              <td width="10"  style="text-align: center;">Kode</td>
                              <td width="16"  style="text-align: center;">Nama Barang</td>
-                             <td width="16"  style="text-align: center;">Jenis Kaca</td>
-                             <td width="16"  style="text-align: center;">Tebal</td>
                              <td width="16"  style="text-align: center;">Panjang</td>
                              <td width="16"  style="text-align: center;">Lebar</td>
                              <td width="16"  style="text-align: center;">Stok</td>
@@ -70,12 +88,10 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
                             foreach ($laporandetail_kaca as $ldk) { ?>
                              <tr>
                                  <td style="text-align: center;"><?= $ldk->no_invoice ?></td>
-                                 <td style="text-align: center;"><?= $ldk->tanggal?></td>
-                                 <td style="text-align: center;"><?= $ldk->id_customer?></td>
+                                 <td style="text-align: center;"><?= $ldk->tgl_jual?></td>
+                                 <td style="text-align: center;"><?= $ldk->nama_customer?></td>
                                  <td style="text-align: center;"><?= $ldk->id_barang?> </td>
                                  <td style="text-align: center;"><?= $ldk->nama_barang?></td>
-                                 <td style="text-align: center;"><?= $ldk->jenis_kaca?></td>
-                                 <td style="text-align: center;"><?= $ldk->tebal?></td>
                                  <td style="text-align: center;"><?= $ldk->panjang?></td>
                                  <td style="text-align: center;"><?= $ldk->lebar?></td>
                                  <td style="text-align: center;"><?= $ldk->stok?></td>

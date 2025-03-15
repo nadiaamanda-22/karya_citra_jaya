@@ -2,6 +2,7 @@
 $id_kelompok_terpilih = isset($_POST['id_kelompok']) ? $_POST['id_kelompok'] : '*';
 $stok_terpilih = isset($_POST['stok']) ? $_POST['stok'] : '*';
 ?>
+
 <style>
     .tablePrint {
         display: none;
@@ -20,6 +21,7 @@ $stok_terpilih = isset($_POST['stok']) ? $_POST['stok'] : '*';
         }
     }
 </style>
+
 
 <div class="container-fluid">
     <div class="card shadow mb-4">

@@ -8,6 +8,26 @@ $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
 $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] : '*';
 ?>
 
+<style>
+    .tablePrint {
+        display: none;
+    }
+
+    @media print {
+
+        .container-fluid,
+        #accordionSidebar,
+        .footer {
+            display: none;
+        }
+
+        .tablePrint {
+            display: block;
+        }
+    }
+</style>
+
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
@@ -33,7 +53,7 @@ $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice']
                         $getCustomer = $this->db->query("SELECT * FROM t_customer")->result();
                         foreach ($getCustomer as $gc) { ?>
                             <option value="<?= $gc->id_customer ?>" <?= $customer == $gc->id_customer ? 'selected' : '' ?>>
-                                <?= $gc->customer ?>
+                                <?= $gc->nama_customer ?>
                             </option>
                         <?php } ?>
                     </select>
@@ -53,21 +73,23 @@ $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice']
 
                 <div class="mt-4">
                     <a class="btn btn-primary" onclick="printLaporan()">Print</a>
-                    <a class="btn btn-success">Export</a>
+                    <a href="<?= base_url("Laporandetail_invoice/export?tgl_awal=$tgl_awal&tgl_akhir=$tgl_akhir&metode_pembayaran=$metode_pembayaran&customer=$customer&jenis_invoice=$jenis_invoice") ?>" class="btn btn-success">Export</a>
                 </div>
                 
              <div class="table-responsive mt-4">
                  <table class="table table-bordered" id="dataTable-data" width="100%">
                      <thead>
                          <tr>
-                             <td width="14%" style="text-align: center;">No Transaksi </td>
-                             <td width="12%" style="text-align: center;">Tanggal</td>
-                             <td width="12"  style="text-align: center;">Customer</td>
-                             <td width="10"  style="text-align: center;">Kode</td>
-                             <td width="16"  style="text-align: center;">Nama Barang</td>
-                             <td width="12"  style="text-align: center;">Diskon (%)</td>
-                             <td width="8"  style="text-align: center;">Diskon</td>
-                             <td width="10"  style="text-align: center;">Jumlah</td>
+                            <td width="12%" style="text-align: center;">No Invoice</td>
+                            <td width="10%" style="text-align: center;">Tanggal</td>
+                            <td width="15%" style="text-align: center;">Customer</td>
+                            <td width="10"  style="text-align: center;">Kode</td>
+                            <td width="16"  style="text-align: center;">Nama Barang</td>
+                            <td width="16"  style="text-align: center;">Stok</td>
+                            <td width="10%" style="text-align: center;">Harga Jual</td>
+                            <td width="12"  style="text-align: center;">Diskon (%)</td>
+                            <td width="8"  style="text-align: center;">Diskon</td>
+                            <td width="10"  style="text-align: center;">Jumlah</td>
                          </tr>
                      </thead>
                      <tbody>
@@ -75,14 +97,15 @@ $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice']
                             $no = 1;
                             foreach ($laporandetail_invoice as $ldi) { ?>
                              <tr>
-                                 <td style="text-align: center;"><?= $no++ ?></td>
                                  <td style="text-align: center;"><?= $ldi->no_invoice ?></td>
-                                 <td style="text-align: center;"><?= $ldi->id_customer?></td>
+                                 <td style="text-align: center;"><?= $ldi->tgl_jual ?></td>
+                                 <td style="text-align: center;"><?= $ldi->nama_customer?></td>
                                  <td style="text-align: center;"><?= $ldi->id_barang?> </td>
                                  <td style="text-align: center;"><?= $ldi->nama_barang?></td>
+                                 <td style="text-align: center;"><?= $ldi->stok?></td>
+                                 <td style="text-align: center;"><?= $ldi->harga_jual?></td>
                                  <td style="text-align: center;"><?= $ldi->diskon_persen?></td>
                                  <td style="text-align: center;"><?= $ldi->diskon_nominal?></td>
-                                 <td style="text-align: center;"><?= $ldi->status_pembayaran?></td>
                                  <td style="text-align: center;"><?= $ldi->jumlah?></td>
                              </tr>
                          <?php } ?>
