@@ -180,16 +180,20 @@
                 </div>
             </div>
 
-            <div class="row ttd mt-5">
+            <div class="row ttd mt-4" align="center">
                 <div class="col-6">
                     <p>Tanda Terima</p>
-                    <br><br><br>
+                    <br><br><br> <br><br><br>
                     <hr style="background-color: #424649; height:1px; width:270px;">
                 </div>
 
-                <div class="col-6" align="right">
-                    <p style="text-align: center; margin-left:38px;">Hormat Kami</p>
-                    <br><br><br>
+                <div class="col-6" align="center">
+                    <p>Hormat Kami</p>
+                    <?php if ($setting->ttd != 'no-image.jpg') { ?>
+                        <img src="<?= base_url('assets/img/setting/' . $setting->ttd) ?>" class="img-fluid" style="max-width:30%; margin-top:-10px; margin-bottom:-25px;">
+                    <?php } else { ?>
+                        <br><br><br> <br><br><br>
+                    <?php } ?>
                     <hr style="background-color: #424649; height:1px; width:270px;">
                 </div>
             </div>

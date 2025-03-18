@@ -188,6 +188,11 @@ class Manajemenuser extends CI_Controller
                 ];
                 $this->db->insert('t_user_menu', $data);
             }
+
+            // Perbarui session userdata
+            $this->session->set_userdata('nama_user', $namaUser);
+            $this->session->set_userdata('image', $image);
+
             $this->session->set_flashdata('message', 'berhasil ubah');
             redirect('manajemenuser');
         } else {
