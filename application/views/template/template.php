@@ -56,7 +56,7 @@
             }
 
             if (in_array(1, $menu)) { ?>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('Dashboard') ?>">
                         <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span></a>

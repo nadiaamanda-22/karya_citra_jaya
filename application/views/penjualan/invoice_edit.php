@@ -234,18 +234,32 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             source: "<?= base_url() ?>penjualan/searchBarang",
             minLength: 1,
             select: function(evt, ui) {
+                var id = ui.item.id_barang;
                 var stok = ui.item.stok;
                 var harga_jual = ui.item.harga_jual;
 
-                $('#nama_barang31').val(ui.item.nama_barang);
-                $('#id_barang11').val(ui.item.id_barang);
-                $('#satuan51').val(ui.item.satuan);
-                $('#harga_jual61').val(formatHarga(harga_jual));
-                $('#diskon_nominal81').val(0);
-                $('#diskon_persen71').val(0);
-                $('#stok41').focus();
-                totalGen();
-                $("#plus-content").prop('disabled', false);
+                $.post('<?= base_url() ?>penjualan/validasiStok', {
+                    id: id
+                }, function(e) {
+                    var st = e;
+                    if (st == 0) {
+                        alert('Tidak dapat melakukan transaksi dengan barang ini. Stok barang ini adalah 0!');
+                        $("#plus-content").prop('disabled', true);
+                        $(".btnSimpan").prop('disabled', true);
+                        return false;
+                    } else {
+                        $('#nama_barang31').val(ui.item.nama_barang);
+                        $('#id_barang11').val(id);
+                        $('#satuan51').val(ui.item.satuan);
+                        $('#harga_jual61').val(formatHarga(harga_jual));
+                        $('#diskon_nominal81').val(0);
+                        $('#diskon_persen71').val(0);
+                        $('#stok41').focus();
+                        totalGen();
+                        $("#plus-content").prop('disabled', false);
+                        $(".btnSimpan").prop('disabled', false);
+                    }
+                }, 'json');
             }
         });
 
@@ -287,19 +301,33 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 minLength: 1,
                 select: function(evt, ui) {
                     var cekValidasi = validasiInput(ui.item.value, rowstats)
-
                     if (cekValidasi == 0) {
+                        var id = ui.item.id_barang;
                         var stok = ui.item.stok;
                         var harga_jual = ui.item.harga_jual;
 
-                        $('#id_barang1' + rowstats).val(ui.item.id_barang);
-                        $('#nama_barang3' + rowstats).val(ui.item.nama_barang);
-                        $('#satuan5' + rowstats).val(ui.item.satuan);
-                        $('#harga_jual6' + rowstats).val(formatHarga(harga_jual));
-                        $('#diskon_nominal8' + rowstats).val(0);
-                        $('#diskon_persen7' + rowstats).val(0);
-                        $('#stok4' + rowstats).focus();
-                        totalGen();
+                        $.post('<?= base_url() ?>penjualan/validasiStok', {
+                            id: id
+                        }, function(e) {
+                            var st = e;
+                            if (st == 0) {
+                                alert('Tidak dapat melakukan transaksi dengan barang ini. Stok barang ini adalah 0!');
+                                $("#plus-content").prop('disabled', true);
+                                $(".btnSimpan").prop('disabled', true);
+                                return false;
+                            } else {
+                                $('#id_barang1' + rowstats).val(id);
+                                $('#nama_barang3' + rowstats).val(ui.item.nama_barang);
+                                $('#satuan5' + rowstats).val(ui.item.satuan);
+                                $('#harga_jual6' + rowstats).val(formatHarga(harga_jual));
+                                $('#diskon_nominal8' + rowstats).val(0);
+                                $('#diskon_persen7' + rowstats).val(0);
+                                $('#stok4' + rowstats).focus();
+                                totalGen();
+                                $("#plus-content").prop('disabled', false);
+                                $(".btnSimpan").prop('disabled', false);
+                            }
+                        }, 'json');
                     } else {
                         alert('Kode barang tidak boleh double!');
                         $("#plus-content").prop('disabled', true);

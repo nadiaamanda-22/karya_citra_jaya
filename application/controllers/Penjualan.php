@@ -104,6 +104,19 @@ class Penjualan extends CI_Controller
         $this->template->load('template/template', 'penjualan/invoice_add', $data);
     }
 
+    public function validasiStok()
+    {
+        $id = $this->input->post('id');
+        $getStok = $this->db->query("SELECT stok FROM t_stok WHERE id ='$id'")->row()->stok;
+
+        if ($getStok <= "0") {
+            $st = 0;
+        } else {
+            $st = 1;
+        }
+        echo json_decode($st);
+    }
+
     public function addData()
     {
         $this->form_validation->set_rules('id_customer', 'Customer', 'required');
