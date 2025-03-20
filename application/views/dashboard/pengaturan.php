@@ -22,7 +22,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="no_telp" class="form-label">No Telp *</label>
-                            <input type="text" class="form-control" id="pengaturan" name="no_telp" value="<?= $pengaturan->no_telp ?? '' ?>">
+                            <input type="text" class="form-control numeric-only" id="pengaturan" name="no_telp" value="<?= $pengaturan->no_telp ?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="no_hp" class="form-label">No Hp *</label>

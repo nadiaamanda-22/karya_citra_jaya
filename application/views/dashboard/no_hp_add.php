@@ -10,7 +10,7 @@
                      <form action="<?= base_url('Nohandphone/addData') ?>" method="post">
                          <div class="mb-3">
                              <label for="no_hp" class="form-label">No Handphone *</label>
-                             <input type="text" class="form-control" id="no_hp" name="no_hp">
+                             <input type="text" class="form-control numeric-only" id="no_hp" name="no_hp">
                              <?php if ($this->session->flashdata('message', 'error')): ?>
                                  <small class="text-danger">No Handphone harus diisi!</small>
                              <?php endif; ?>

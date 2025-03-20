@@ -23,7 +23,11 @@
                     <form action="<?= base_url('profil/editProfil/' . $user->id_user) ?>" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="nama_user" class="form-label">Nama *</label>
-                            <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>">
+                            <?php if ($user->id_user == '1') { ?>
+                                <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>" readonly>
+                            <?php } else { ?>
+                                <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>">
+                            <?php } ?>
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username *</label>

@@ -78,9 +78,12 @@ class Profil extends CI_Controller
             $this->db->where('id_user', $idUser);
             $this->db->update('t_user', $updateData);
 
-            // Perbarui session userdata
-            $this->session->set_userdata('nama_user', $nama_user);
-            $this->session->set_userdata('image', $image);
+            $userLogin = $this->session->userdata('id_user');
+            if ($idUser == $userLogin) {
+                // Perbarui session userdata
+                $this->session->set_userdata('nama_user', $nama_user);
+                $this->session->set_userdata('image', $image);
+            }
 
             $this->session->set_flashdata('message', 'berhasil ubah');
             redirect('profil');
