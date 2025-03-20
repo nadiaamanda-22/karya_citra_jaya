@@ -5,14 +5,16 @@ $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $status_pembayaran = !empty($_REQUEST['status_pembayaran']) ? $_REQUEST['status_pembayaran'] : '*';
 $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
-
+$level = $this->session->userdata('level');
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <a href="<?= base_url('pembelianbarang/addView') ?>" class="btn btn-primary">Tambah</a>
+            <?php if ($level == '0' || $level == '1') { ?>
+                <a href="<?= base_url('pembelianbarang/addView') ?>" class="btn btn-primary">Tambah</a>
+            <?php } ?>
 
             <form class="row g-3 pt-3" action="<?= base_url('Pembelianbarang/filterData') ?>" method="post">
                 <div class="col-sm-2">
@@ -98,8 +100,10 @@ $supplier = !empty($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '*';
                                 <td style="text-align: right;"><?= formatPrice($pb->total) ?></td>
                                 <td style="text-align: center;">
                                     <a href="<?= base_url('pembelianbarang/detailData/' . $pb->id_pembelian) ?>" style="color: #3b5998;" title="Detail" class="mr-2"><i class="bi bi-eye-fill"></i></a>
-                                    <a href="<?= base_url('pembelianbarang/editView/' . $pb->id_pembelian) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $pb->id_pembelian ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php if ($level == '0') { ?>
+                                        <a href="<?= base_url('pembelianbarang/editView/' . $pb->id_pembelian) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $pb->id_pembelian ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>

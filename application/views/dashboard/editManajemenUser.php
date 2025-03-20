@@ -28,7 +28,11 @@
                          <div class="mb-3">
                              <label for="nama_user" class="form-label">Nama *</label>
                              <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $user->id_user ?>">
-                             <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>">
+                             <?php if ($user->id_user != '1') { ?>
+                                 <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>">
+                             <?php } else { ?>
+                                 <input type="text" class="form-control" id="nama_user" name="nama_user" value="<?= $user->nama_user ?>" readonly>
+                             <?php } ?>
                          </div>
                          <div class="mb-3">
                              <div class="row">
@@ -51,7 +55,7 @@
                                          <select class="form-select mb-3" name="level" id="level">
                                              <option value="0" <?= $user->level == '0' ? 'selected' : '' ?>>Add/Edit/Delete</option>
                                              <option value="1" <?= $user->level == '1' ? 'selected' : '' ?>>Add</option>
-                                             <option <?= $user->level == '2' ? 'selected' : '' ?>>Read</option>
+                                             <option value="2" <?= $user->level == '2' ? 'selected' : '' ?>>Read</option>
                                          </select>
                                      </div>
                                  <?php } else { ?>

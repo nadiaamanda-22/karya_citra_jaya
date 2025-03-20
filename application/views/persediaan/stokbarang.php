@@ -1,7 +1,7 @@
 <?php
 $templateImport = '';
 $templateImport = "<a href='" . base_url() . "assets/template/template_import_stok.xlsx' class='t-green-1'><i>Download Template</i></a>";
-
+$level = $this->session->userdata('level');
 ?>
 
 <!-- Begin Page Content -->
@@ -32,8 +32,10 @@ $templateImport = "<a href='" . base_url() . "assets/template/template_import_st
                 </div>
             </div>
 
-            <a href="<?= base_url('stokbarang/addView') ?>" class="btn btn-primary">Tambah</a>
-            <a class="btn btn-success" id="importData">Import</a>
+            <?php if ($level == '0' || $level == '1') { ?>
+                <a href="<?= base_url('stokbarang/addView') ?>" class="btn btn-primary">Tambah</a>
+                <a class="btn btn-success" id="importData">Import</a>
+            <?php } ?>
 
             <div class="table-responsive mt-4">
                 <table class="table table-bordered" id="dataTable-data" width="100%">
@@ -47,7 +49,9 @@ $templateImport = "<a href='" . base_url() . "assets/template/template_import_st
                             <td width="10" style="text-align: center;">Harga Beli</td>
                             <td width="10" style="text-align: center;">Harga Jual</td>
                             <td width="10" style="text-align: center;">Harga Per Meter</td>
-                            <td width="8%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
+                            <?php if ($level == '0') { ?>
+                                <td width="8%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,15 +68,18 @@ $templateImport = "<a href='" . base_url() . "assets/template/template_import_st
                                 <td style="text-align: right;"><?= formatPrice($sb->harga_jual) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($sb->harga_permeter) ?></td>
 
-                                <td style="text-align: center;">
-                                    <a href="<?= base_url('stokbarang/editView/' . $sb->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                    <?php $cekStok = $this->db->query("SELECT id_barang FROM t_pembelian_barang_detail WHERE id_barang = '$sb->id'");
-                                    if ($cekStok->num_rows() > 0) { ?>
-                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapusV"><i class="bi bi-trash3-fill"></i></a>
-                                    <?php } else { ?>
-                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $sb->id ?>"><i class="bi bi-trash3-fill"></i></a>
-                                    <?php } ?>
-                                </td>
+                                <?php if ($level == '0') { ?>
+                                    <td style="text-align: center;">
+                                        <a href="<?= base_url('stokbarang/editView/' . $sb->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                        <?php $cekStok = $this->db->query("SELECT id_barang FROM t_pembelian_barang_detail WHERE id_barang = '$sb->id'");
+                                        if ($cekStok->num_rows() > 0) { ?>
+                                            <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapusV"><i class="bi bi-trash3-fill"></i></a>
+                                        <?php } else { ?>
+                                            <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $sb->id ?>"><i class="bi bi-trash3-fill"></i></a>
+                                        <?php } ?>
+                                    </td>
+                                <?php } ?>
+
                             </tr>
                         <?php } ?>
                     </tbody>

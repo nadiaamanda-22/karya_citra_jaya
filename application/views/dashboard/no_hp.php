@@ -1,16 +1,23 @@
+<?php
+$level = $this->session->userdata('level');
+?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
             <a href="<?= base_url('pengaturan') ?>" class="btn btn-danger">Kembali</a>
-            <a href="<?= base_url('Nohandphone/addView') ?>" class="btn btn-primary">Tambah</a>
+            <?php if ($level == '0' || $level == '1') { ?>
+                <a href="<?= base_url('Nohandphone/addView') ?>" class="btn btn-primary">Tambah</a>
+            <?php } ?>
             <div class="table-responsive mt-4">
                 <table class="table table-bordered" id="dataTable-data" width="100%">
                     <thead>
                         <tr>
                             <td width="10%" style="text-align: center;"><i class="bi bi-circle"></i></td>
                             <td width="80%" style="text-align: center;">No Handphone</td>
-                            <td width="10%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
+                            <?php if ($level == '0') { ?>
+                                <td width="10%" style="text-align: center;"><i class="bi bi-gear-fill mr-2"></i></td>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -20,10 +27,12 @@
                             <tr>
                                 <td style="text-align: center;"><?= $no++ ?></td>
                                 <td style="text-align: center;"><?= $nh->no_hp ?></td>
-                                <td style="text-align: center;">
-                                    <a href="<?= base_url('Nohandphone/editView/' . $nh->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $nh->id ?>"><i class="bi bi-trash3-fill"></i></a>
-                                </td>
+                                <?php if ($level == '0') { ?>
+                                    <td style="text-align: center;">
+                                        <a href="<?= base_url('Nohandphone/editView/' . $nh->id) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $nh->id ?>"><i class="bi bi-trash3-fill"></i></a>
+                                    </td>
+                                <?php } ?>
                             </tr>
                         <?php } ?>
                     </tbody>

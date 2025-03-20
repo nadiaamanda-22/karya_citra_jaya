@@ -6,14 +6,18 @@ $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_
 $status_pembayaran = !empty($_REQUEST['status_pembayaran']) ? $_REQUEST['status_pembayaran'] : '*';
 $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
 $jenis_invoice = isset($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] : '*';
+$level = $this->session->userdata('level');
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <a href="<?= base_url('penjualan/addView') ?>" class="btn btn-primary">Tambah Invoice</a>
-            <a href="<?= base_url('penjualan/addViewKaca') ?>" class="btn btn-primary">Tambah Invoice Kaca</a>
+
+            <?php if ($level == '0' || $level == '1') { ?>
+                <a href="<?= base_url('penjualan/addView') ?>" class="btn btn-primary">Tambah Invoice</a>
+                <a href="<?= base_url('penjualan/addViewKaca') ?>" class="btn btn-primary">Tambah Invoice Kaca</a>
+            <?php } ?>
 
             <form class="row g-3 pt-3" action="<?= base_url('penjualan/filterData') ?>" method="post">
                 <div class="col-sm-2">
@@ -128,18 +132,20 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] 
                                             <a href="<?= base_url('penjualan/cetakInvoice/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Nota Invoice" class="mr-2" target="_blank"><i class="bi bi-printer-fill"></i></a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <?php if ($pb->jenis_invoice == '0') { ?>
-                                                <a href="<?= base_url('penjualan/editView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                            <?php } else { ?>
-                                                <a href="<?= base_url('penjualan/editKacaView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
-                                            <?php } ?>
+                                    <?php if ($level == '0') { ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <?php if ($pb->jenis_invoice == '0') { ?>
+                                                    <a href="<?= base_url('penjualan/editView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                                <?php } else { ?>
+                                                    <a href="<?= base_url('penjualan/editKacaView/' . $pb->id_invoice) ?>" style="color: #3b5998;" title="Edit" class="mr-2"><i class="bi bi-pencil-square"></i></a>
+                                                <?php } ?>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $pb->id_invoice ?>"><i class="bi bi-trash3-fill"></i></a>
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <a href="#" style="color: #3b5998;" title="Hapus" class="tombolHapus" data-id="<?= $pb->id_invoice ?>"><i class="bi bi-trash3-fill"></i></a>
-                                        </div>
-                                    </div>
+                                    <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>
