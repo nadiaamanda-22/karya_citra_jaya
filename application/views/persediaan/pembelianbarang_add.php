@@ -106,7 +106,7 @@
                                              </td>
 
                                              <td class="gray">
-                                                 <input type="text" id="diskon_persen71" name="diskon_persen71" class='form-control text-center diskon_persen numeric-only' placeholder="0" onKeyUp="dicSumPer(1,1)" />
+                                                 <input type="text" id="diskon_persen71" name="diskon_persen71" class='form-control text-center diskon_persen' placeholder="0" onKeyUp="dicSumPer(1,1)" />
                                              </td>
                                              <td class=" gray">
                                                  <input type="text" id="diskon_nominal81" name="diskon_nominal81" class='form-control text-right diskon_nominal numeric-only iptPrice' placeholder="0" onKeyUp="dicSum(1,1)" />
@@ -231,7 +231,7 @@
 
                          "<td><input type='text' id='harga_beli6" + rowstats + "' name='harga_beli6" + rowstats + "' class='form-control text-right harga_beli numeric-only iptPrice' onKeyUp='accSum(" + rowstats + ",2)' placeholder='0' required/></td>" +
 
-                         "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen numeric-only' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
+                         "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
 
                          "<td><input type='text' id='diskon_nominal8" + rowstats + "' name='diskon_nominal8" + rowstats + "' class='form-control text-right diskon_nominal numeric-only iptPrice' onKeyUp='dicSum(" + rowstats + ",1)' placeholder='0'/></td>" +
 
@@ -393,8 +393,9 @@
                  jumlah = stok * harga_beli;
              } else {
                  var diskonPersen = (diskon_nominal / harga_beli) * 100;
-                 $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                 jumlah = stok * harga_beli - diskon_nominal;
+                 $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
+                 hitung = harga_beli - diskon_nominal;
+                 jumlah = stok * hitung;
              }
 
              $("#jumlah9" + row).val(formatHarga(jumlah));
@@ -415,8 +416,9 @@
                  jumlah = stok * harga_beli;
              } else {
                  var diskonPersen = (diskon_nominal / harga_beli) * 100;
-                 $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                 jumlah = stok * harga_beli - diskon_nominal;
+                 $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
+                 hitung = harga_beli - diskon_nominal;
+                 jumlah = stok * hitung;
              }
 
              $("#jumlah9" + row).val(formatHarga(jumlah));
@@ -429,7 +431,7 @@
          setTimeout(() => {
              var stok = $("#stok4" + row).val();
              var harga_beli = parseHarga($("#harga_beli6" + row).val());
-             var diskonPersen = parseFloat($("#diskon_persen7" + row).val()) || 0;
+             var diskonPersen = $("#diskon_persen7" + row).val() || 0;
 
              var diskon_nominal = (diskonPersen / 100) * harga_beli;
              $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
@@ -440,9 +442,10 @@
                  $("#diskon_persen7" + row).val(0);
                  jumlah = stok * harga_beli;
              } else {
-                 var diskonPersen = (diskon_nominal / harga_beli) * 100;
-                 $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                 jumlah = stok * harga_beli - diskon_nominal;
+                 var diskon_nominal = Math.round((diskonPersen / 100) * harga_beli);
+                 $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
+                 hitung = harga_beli - diskon_nominal;
+                 jumlah = stok * hitung;
              }
 
              $("#jumlah9" + row).val(formatHarga(jumlah));

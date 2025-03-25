@@ -132,7 +132,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                                 </td>
 
                                                 <td class="gray">
-                                                    <input type="text" id="diskon_persen7<?= $c ?>" name="diskon_persen7<?= $c ?>" class='form-control text-center diskon_persen numeric-only' placeholder="0" onKeyUp="dicSumPer(<?= $c ?>,1)" value="<?= $dt->diskon_persen ?>" />
+                                                    <input type="text" id="diskon_persen7<?= $c ?>" name="diskon_persen7<?= $c ?>" class='form-control text-center diskon_persen' placeholder="0" onKeyUp="dicSumPer(<?= $c ?>,1)" value="<?= $dt->diskon_persen ?>" />
                                                 </td>
                                                 <td class=" gray">
                                                     <input type="text" id="diskon_nominal8<?= $c ?>" name="diskon_nominal8<?= $c ?>" class='form-control text-right diskon_nominal numeric-only iptPrice' placeholder="0" onKeyUp="dicSum(<?= $c ?>,1)" value="<?= formatPrice($dt->diskon_nominal) ?>" />
@@ -304,7 +304,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
 
                         "<td><input type='text' id='harga_jual6" + rowstats + "' name='harga_jual6" + rowstats + "' class='form-control text-right harga_jual numeric-only iptPrice' readonly placeholder='0' required/></td>" +
 
-                        "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen numeric-only' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
+                        "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
 
                         "<td><input type='text' id='diskon_nominal8" + rowstats + "' name='diskon_nominal8" + rowstats + "' class='form-control text-right diskon_nominal numeric-only iptPrice' onKeyUp='dicSum(" + rowstats + ",1)' placeholder='0'/></td>" +
 
@@ -512,8 +512,9 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             } else {
                 if (hargaJual != 0) {
                     var diskonPersen = (diskon_nominal / hargaJual) * 100;
-                    $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                    jumlah = stok * hargaJual - diskon_nominal;
+                    $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
+                    hitung = hargaJual - diskon_nominal;
+                    jumlah = stok * hitung;
                 }
             }
 
@@ -535,8 +536,9 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 jumlah = stok * harga_jual;
             } else {
                 var diskonPersen = (diskon_nominal / harga_jual) * 100;
-                $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                jumlah = stok * harga_jual - diskon_nominal;
+                $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
+                hitung = harga_jual - diskon_nominal;
+                jumlah = stok * hitung;
             }
 
             $("#jumlah9" + row).val(formatHarga(jumlah));
@@ -549,7 +551,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
         setTimeout(() => {
             var stok = $("#stok4" + row).val();
             var harga_jual = parseHarga($("#harga_jual6" + row).val());
-            var diskonPersen = parseFloat($("#diskon_persen7" + row).val()) || 0;
+            var diskonPersen = $("#diskon_persen7" + row).val() || 0;
 
             var diskon_nominal = (diskonPersen / 100) * harga_jual;
             $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
@@ -560,9 +562,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * harga_jual;
             } else {
-                var diskonPersen = (diskon_nominal / harga_jual) * 100;
-                $("#diskon_persen7" + row).val(Math.round(diskonPersen));
-                jumlah = stok * harga_jual - diskon_nominal;
+                var diskon_nominal = Math.round((diskonPersen / 100) * harga_jual);
+                $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
+                hitung = harga_jual - diskon_nominal;
+                jumlah = stok * hitung;
             }
 
             $("#jumlah9" + row).val(formatHarga(jumlah));

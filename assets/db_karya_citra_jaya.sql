@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.11
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2025 at 02:22 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Mar 25, 2025 at 03:27 PM
+-- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
+-- PHP Version: 7.2.34-54+ubuntu22.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -265,7 +266,7 @@ CREATE TABLE `t_rekening` (
 
 CREATE TABLE `t_stok` (
   `id` int(11) NOT NULL,
-  `kode_barang` varchar(10) NOT NULL,
+  `kode_barang` varchar(50) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `id_kelompok` int(11) NOT NULL,
   `stok` double NOT NULL,
