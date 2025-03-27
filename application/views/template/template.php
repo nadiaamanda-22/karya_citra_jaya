@@ -311,11 +311,13 @@
             if (!harga || harga === "0") {
                 return 0;
             }
-            return parseInt(harga.replace(/\./g, ''), 10) || 0;
+            // return parseInt(harga.replace(/\./g, ''), 10) || 0;
+            return parseFloat(harga.replace(/\./g, '').replace(',', '.')) || 0;
         }
 
         function formatHarga(angka) {
-            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return angka.toLocaleString("id-ID");
         }
     </script>
 

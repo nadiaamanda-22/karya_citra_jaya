@@ -106,7 +106,7 @@
                             <td width="37%" id="headerTbl">Nama Barang</td>
                             <td width="10" id="headerTbl" style="text-align: center;">Qty</td>
                             <td width="12" id="headerTbl" style="text-align: center;">Ukuran</td>
-                            <td width="12" id="headerTbl" style="text-align: right;">Harga Per Meter</td>
+                            <!-- <td width="12" id="headerTbl" style="text-align: right;">Harga Per Meter</td> -->
                             <td width="12" id="headerTbl" style="text-align: right;">Harga Jual</td>
                             <td width="12" id="headerTbl" style="text-align: right;">Jumlah</td>
                         </tr>
@@ -123,8 +123,8 @@
                                 <td><?= $r->nama_barang ?></td>
                                 <td style="text-align: center;"><?= $r->stok ?></td>
                                 <td style="text-align: center;"><?= $r->panjang ?> x <?= $r->lebar ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                <!-- <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td> -->
+                                <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
                         <?php } ?>

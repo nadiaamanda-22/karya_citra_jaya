@@ -74,6 +74,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
                             <td width="6" style="text-align: center;">Lebar</td>
                             <td width="8" style="text-align: center;">Harga Per Meter</td>
                             <td width="8" style="text-align: center;">Harga Jual</td>
+                            <td width="8" style="text-align: center;">Harga After Diskon</td>
                             <td width="4" style="text-align: center;">Diskon (%)</td>
                             <td width="8" style="text-align: center;">Diskon</td>
                             <td width="8" style="text-align: center;">Jumlah</td>
@@ -102,6 +103,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
                                 <td style="text-align: center;"><?= $r->lebar ?> </td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                 <td style="text-align: center;"><?= $r->diskon_persen ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
@@ -110,7 +112,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="11" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
+                            <td colspan="12" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
                             <td style="text-align: right;"><?= formatPrice($totalDiskon) ?></td>
                             <td style="text-align: right;"><?= formatPrice($total) ?></td>
                         </tr>
@@ -136,6 +138,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
                     <td id="headerTabel" width="6" style="text-align: center;">Satuan</td>
                     <td id="headerTabel" width="8" style="text-align: center;">Harga Per Meter</td>
                     <td id="headerTabel" width="8" style="text-align: center;">Harga Jual</td>
+                    <td id="headerTabel" width="8" style="text-align: center;">Harga After Diskon</td>
                     <td id="headerTabel" width="4" style="text-align: center;">Diskon (%)</td>
                     <td id="headerTabel" width="8" style="text-align: center;">Diskon</td>
                     <td id="headerTabel" width="8" style="text-align: center;">Jumlah</td>
@@ -160,6 +163,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
                         <td style="text-align: center;"><?= $r->panjang ?> X <?= $r->lebar ?></td>
                         <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
                         <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                        <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                         <td style="text-align: center;"><?= $r->diskon_persen ?></td>
                         <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                         <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
@@ -168,7 +172,7 @@ $no_invoice = !empty($_REQUEST['no_invoice']) ? $_REQUEST['no_invoice'] : '*';
             </tbody>
             <tfoot>
                 <tr>
-                    <td id="headerTabel" colspan="9" style="text-align:center">Total</td>
+                    <td id="headerTabel" colspan="10" style="text-align:center">Total</td>
                     <td style="text-align: right;"><?= formatPrice($totalDiskon) ?></td>
                     <td style="text-align: right;"><?= formatPrice($total) ?></td>
                 </tr>

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.11
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2025 at 03:27 PM
--- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
--- PHP Version: 7.2.34-54+ubuntu22.04.1+deb.sury.org+1
+-- Generation Time: Mar 27, 2025 at 04:05 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -76,6 +75,7 @@ CREATE TABLE `t_invoice_detail` (
   `id_barang` int(11) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `harga_jual` decimal(20,2) NOT NULL,
+  `harga_after_diskon` decimal(20,2) NOT NULL DEFAULT 0.00,
   `stok` double NOT NULL,
   `satuan` varchar(20) NOT NULL,
   `diskon_persen` double NOT NULL,
@@ -98,6 +98,7 @@ CREATE TABLE `t_invoice_detail_kaca` (
   `id_barang` int(11) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `harga_jual` decimal(20,2) NOT NULL,
+  `harga_after_diskon` decimal(20,2) NOT NULL DEFAULT 0.00,
   `harga_permeter` decimal(20,2) DEFAULT NULL,
   `stok` double NOT NULL,
   `satuan` varchar(20) NOT NULL,

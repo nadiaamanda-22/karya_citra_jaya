@@ -120,7 +120,7 @@
                                 <td style="text-align: center;"><?= $no++ ?></td>
                                 <td><?= $r->nama_barang ?></td>
                                 <td style="text-align: center;"><?= $r->stok ?></td>
-                                <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
                         <?php } ?>

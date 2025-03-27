@@ -77,7 +77,7 @@ class Pembelianbarang extends CI_Controller
         $data = array();
         foreach ($getBarang as $r) {
             $data[] = array(
-                "label" => $r['kode_barang'] . ' - ' . $r['nama_barang'],
+                "label" => $r['kode_barang'] . ' - ' . $r['nama_barang'] . ' - ' . $r['stok'],
                 "value" => $r['kode_barang'],
                 "id_barang" => $r['id'],
                 "nama_barang" => $r['nama_barang'],
