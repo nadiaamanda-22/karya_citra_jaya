@@ -358,7 +358,11 @@ class Penjualan extends CI_Controller
         $deleteData = $this->db->delete('t_invoice', ['id_invoice' => $id]);
         if ($deleteData) {
             //balikin stok barang ke semula
-            $id_barang = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+            if ($jenis_inv == '0') {
+                $id_barang = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+            } else {
+                $id_barang = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
+            }
             foreach ($id_barang as $ib) {
                 $this->db->query("UPDATE t_stok SET stok = stok + " . $ib->stok . " WHERE id = '$ib->id_barang'");
             }

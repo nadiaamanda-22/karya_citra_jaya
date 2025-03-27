@@ -520,6 +520,7 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * hargaJual;
+                $("#harga_after_diskon" + row).val(formatHarga(hargaJual));
             } else {
                 if (hargaJual != 0) {
                     var diskonPersen = (diskon_nominal / hargaJual) * 100;
@@ -546,6 +547,7 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * harga_jual;
+                $("#harga_after_diskon" + row).val(formatHarga(harga_jual));
             } else {
                 var diskonPersen = (diskon_nominal / harga_jual) * 100;
                 $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
@@ -574,6 +576,7 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * harga_jual;
+                $("#harga_after_diskon" + row).val(formatHarga(harga_jual));
             } else {
                 var diskon_nominal = Math.round((diskonPersen / 100) * harga_jual);
                 $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
