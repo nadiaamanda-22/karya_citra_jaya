@@ -75,6 +75,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                                 <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
                                 <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
                                 <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Harga After Diskon</td>
                                 <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
                                 <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
                                 <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
@@ -92,6 +93,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                                     <td><?= $r->nama_barang ?></td>
                                     <td style="text-align: center;"><?= $r->stok ?> </td>
                                     <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                     <td style="text-align: center;"><?= $r->diskon_persen ?></td>
                                     <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                     <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
@@ -106,17 +108,18 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                     <table class="table table-bordered" id="tabelDetail" width="100%">
                         <thead>
                             <tr>
-                                <td width="5%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
-                                <td width="13%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode Barang</td>
-                                <td width="23%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
-                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
+                                <td width="4%" style="text-align: center; background-color:#3b5998; color:#fff;">No</td>
+                                <td width="12%" style="text-align: center; background-color:#3b5998; color:#fff;">Kode Barang</td>
+                                <td width="14%" style="text-align: center; background-color:#3b5998; color:#fff;">Nama Barang</td>
+                                <td width="8" style="text-align: center; background-color:#3b5998; color:#fff;">Stok</td>
                                 <td width="5" style="text-align: center; background-color:#3b5998; color:#fff;">Panjang</td>
                                 <td width="5" style="text-align: center; background-color:#3b5998; color:#fff;">Lebar</td>
-                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Permeter</td>
-                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
-                                <td width="10" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
-                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
-                                <td width="13" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Permeter</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Harga Jual</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Harga After Diskon</td>
+                                <td width="9" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon (%)</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Diskon</td>
+                                <td width="12" style="text-align: center; background-color:#3b5998; color:#fff;">Jumlah</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,6 +137,7 @@ $customer = $this->db->query("SELECT nama_customer FROM t_customer WHERE id_cust
                                     <td style="text-align: center;"><?= $r->lebar ?> </td>
                                     <td style="text-align: right;"><?= formatPrice($r->harga_permeter) ?></td>
                                     <td style="text-align: right;"><?= formatPrice($r->harga_jual) ?></td>
+                                    <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                     <td style="text-align: center;"><?= $r->diskon_persen ?></td>
                                     <td style="text-align: right;"><?= formatPrice($r->diskon_nominal) ?></td>
                                     <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>

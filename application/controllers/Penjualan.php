@@ -46,7 +46,7 @@ class Penjualan extends CI_Controller
         $data = array();
         foreach ($getBarang as $r) {
             $data[] = array(
-                "label" => $r['kode_barang'] . ' - ' . $r['nama_barang'],
+                "label" => $r['kode_barang'] . ' - ' . $r['nama_barang'] . ' - ' . $r['stok'],
                 "value" => $r['kode_barang'],
                 "id_barang" => $r['id'],
                 "nama_barang" => $r['nama_barang'],
@@ -176,6 +176,7 @@ class Penjualan extends CI_Controller
                         $stok = $_REQUEST['stok4' . $d];
                         $satuan = $_REQUEST['satuan5' . $d];
                         $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                        $harga_after_diskon = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_after_diskon' . $d]));
                         $diskon_persen = $_REQUEST['diskon_persen7' . $d];
                         $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
                         $jumlah = str_replace(',', '.', str_replace('.', '', $_REQUEST['jumlah9' . $d]));
@@ -186,6 +187,7 @@ class Penjualan extends CI_Controller
                             'id_barang' => $id_barang,
                             'nama_barang' => $nama_barang,
                             'harga_jual' => $harga_jual,
+                            'harga_after_diskon' => $harga_after_diskon,
                             'stok' => $stok,
                             'satuan' => $satuan,
                             'diskon_persen' => $diskon_persen,
@@ -309,6 +311,7 @@ class Penjualan extends CI_Controller
                 $stok = $_REQUEST['stok4' . $d];
                 $satuan = $_REQUEST['satuan5' . $d];
                 $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                $harga_after_diskon = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_after_diskon' . $d]));
                 $diskon_persen = $_REQUEST['diskon_persen7' . $d];
                 $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
                 $jumlah = str_replace(',', '.', str_replace('.', '', $_REQUEST['jumlah9' . $d]));
@@ -319,6 +322,7 @@ class Penjualan extends CI_Controller
                     'id_barang' => $id_barang,
                     'nama_barang' => $nama_barang,
                     'harga_jual' => $harga_jual,
+                    'harga_after_diskon' => $harga_after_diskon,
                     'stok' => $stok,
                     'satuan' => $satuan,
                     'diskon_persen' => $diskon_persen,
@@ -354,7 +358,11 @@ class Penjualan extends CI_Controller
         $deleteData = $this->db->delete('t_invoice', ['id_invoice' => $id]);
         if ($deleteData) {
             //balikin stok barang ke semula
-            $id_barang = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+            if ($jenis_inv == '0') {
+                $id_barang = $this->db->query("SELECT * FROM t_invoice_detail WHERE id_invoice='$id'")->result();
+            } else {
+                $id_barang = $this->db->query("SELECT * FROM t_invoice_detail_kaca WHERE id_invoice='$id'")->result();
+            }
             foreach ($id_barang as $ib) {
                 $this->db->query("UPDATE t_stok SET stok = stok + " . $ib->stok . " WHERE id = '$ib->id_barang'");
             }
@@ -460,6 +468,7 @@ class Penjualan extends CI_Controller
                         $panjang = $_REQUEST['panjang' . $d];
                         $lebar = $_REQUEST['lebar' . $d];
                         $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                        $harga_after_diskon = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_after_diskon' . $d]));
                         $harga_permeter = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_permeter' . $d]));
                         $diskon_persen = $_REQUEST['diskon_persen7' . $d];
                         $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
@@ -471,6 +480,7 @@ class Penjualan extends CI_Controller
                             'id_barang' => $id_barang,
                             'nama_barang' => $nama_barang,
                             'harga_jual' => $harga_jual,
+                            'harga_after_diskon' => $harga_after_diskon,
                             'harga_permeter' => $harga_permeter,
                             'stok' => $stok,
                             'satuan' => $satuan,
@@ -583,6 +593,7 @@ class Penjualan extends CI_Controller
                 $panjang = $_REQUEST['panjang' . $d];
                 $lebar = $_REQUEST['lebar' . $d];
                 $harga_jual = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_jual6' . $d]));
+                $harga_after_diskon = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_after_diskon' . $d]));
                 $harga_permeter = str_replace(',', '.', str_replace('.', '', $_REQUEST['harga_permeter' . $d]));
                 $diskon_persen = $_REQUEST['diskon_persen7' . $d];
                 $diskon_nominal = str_replace(',', '.', str_replace('.', '', $_REQUEST['diskon_nominal8' . $d]));
@@ -594,6 +605,7 @@ class Penjualan extends CI_Controller
                     'id_barang' => $id_barang,
                     'nama_barang' => $nama_barang,
                     'harga_jual' => $harga_jual,
+                    'harga_after_diskon' => $harga_after_diskon,
                     'harga_permeter' => $harga_permeter,
                     'stok' => $stok,
                     'satuan' => $satuan,

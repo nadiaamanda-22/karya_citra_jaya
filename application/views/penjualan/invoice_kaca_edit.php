@@ -1,6 +1,7 @@
 <?php
 $dateNow = date('Y-m-d');
-$maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->get()->row()->max_detail_input;
+$getmaxDetailInput = $this->db->query("SELECT max_detail_input FROM t_pengaturan")->row();
+$maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInput->max_detail_input : 1;
 ?>
 
 <!-- Begin Page Content -->
@@ -79,16 +80,17 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                 <table class="table table-bordered table-striped table-hover" width="100%">
                                     <thead>
                                         <tr align="center">
-                                            <td width="5%" id="headerTabel">&nbsp;</td>
-                                            <td width="8%" id="headerTabel">Kode</td>
-                                            <td width="15%" id="headerTabel">Nama Barang</td>
+                                            <td width="3%" id="headerTabel">&nbsp;</td>
+                                            <td width="9%" id="headerTabel">Kode</td>
+                                            <td width="12%" id="headerTabel">Nama Barang</td>
                                             <td width="6%" id="headerTabel">Stok</td>
-                                            <td width="8%" id="headerTabel">Satuan</td>
-                                            <td width="7%" id="headerTabel">Panjang</td>
-                                            <td width="7%" id="headerTabel">Lebar</td>
+                                            <td width="6%" id="headerTabel">Satuan</td>
+                                            <td width="6%" id="headerTabel">Panjang</td>
+                                            <td width="6%" id="headerTabel">Lebar</td>
                                             <td width="9%" id="headerTabel">Harga Per Meter</td>
                                             <td width="9%" id="headerTabel">Harga Jual</td>
-                                            <td width="7%" id="headerTabel">Diskon (%)</td>
+                                            <td width="9%" id="headerTabel">Harga After Diskon</td>
+                                            <td width="6%" id="headerTabel">Diskon (%)</td>
                                             <td width="9%" id="headerTabel">Diskon</td>
                                             <td width="9%" id="headerTabel">Jumlah</td>
                                         </tr>
@@ -131,6 +133,10 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                                     <input type="text" id="harga_jual6<?= $c ?>" name="harga_jual6<?= $c ?>" placeholder='0' class='form-control text-right harga_jual numeric-only iptPrice' required readonly value="<?= formatPrice($dt->harga_jual) ?>" />
                                                 </td>
 
+                                                <td>
+                                                    <input type="text" id="harga_after_diskon<?= $c ?>" name="harga_after_diskon<?= $c ?>" placeholder='0' class='form-control text-right harga_after_diskon numeric-only iptPrice' required value="<?= formatPrice($dt->harga_after_diskon) ?>" />
+                                                </td>
+
                                                 <td class="gray">
                                                     <input type="text" id="diskon_persen7<?= $c ?>" name="diskon_persen7<?= $c ?>" class='form-control text-center diskon_persen' placeholder="0" onKeyUp="dicSumPer(<?= $c ?>,1)" value="<?= $dt->diskon_persen ?>" />
                                                 </td>
@@ -151,7 +157,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                             <td>
                                                 <button type="button" id="plus-content" class="btn btn-sm btn-primary" style='width: 100%'><span class="fa fa-plus"></span></button>
                                             </td>
-                                            <td colspan="8">&nbsp;</td>
+                                            <td colspan="9">&nbsp;</td>
                                             <td>SUBTOTAL</td>
                                             <td class="gray">
                                                 <input type="text" id="subtotal" name="subtotal" class='form-control text-right' readonly placeholder="0" value="<?= formatPrice($data->subtotal) ?>" />
@@ -159,7 +165,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td colspan="9">&nbsp;</td>
+                                            <td colspan="10">&nbsp;</td>
                                             <td>ONGKIR</td>
                                             <td class="gray">
                                                 <input type="text" id="ongkir" name="ongkir" class='form-control text-right iptPrice numeric-only' placeholder="0" value="<?= formatPrice($data->ongkir) ?>" />
@@ -167,7 +173,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td colspan="9">&nbsp;</td>
+                                            <td colspan="10">&nbsp;</td>
                                             <td>TOTAL</td>
                                             <td class="gray">
                                                 <input type="text" id="total" name="total" class='form-control text-right' readonly placeholder="0" value="<?= formatPrice($data->total) ?>" />
@@ -303,6 +309,8 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                         "<td><input type='text' id='harga_permeter" + rowstats + "' name='harga_permeter" + rowstats + "' class='form-control text-right harga_permeter numeric-only iptPrice' placeholder='0'/></td>" +
 
                         "<td><input type='text' id='harga_jual6" + rowstats + "' name='harga_jual6" + rowstats + "' class='form-control text-right harga_jual numeric-only iptPrice' readonly placeholder='0' required/></td>" +
+
+                        "<td><input type='text' id='harga_after_diskon" + rowstats + "' name='harga_after_diskon" + rowstats + "' class='form-control text-right harga_after_diskon numeric-only iptPrice' readonly placeholder='0'/></td>" +
 
                         "<td><input type='text' id='diskon_persen7" + rowstats + "' name='diskon_persen7" + rowstats + "' class='form-control text-center diskon_persen' onKeyUp='dicSumPer(" + rowstats + ",1)' placeholder='0'/></td>" +
 
@@ -448,6 +456,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             var panjang = $(this).find('.panjang');
             var lebar = $(this).find('.lebar');
             var harga_jual = $(this).find('.harga_jual');
+            var harga_after_diskon = $(this).find('.harga_after_diskon');
             var harga_permeter = $(this).find('.harga_permeter');
             var diskon_persen = $(this).find('.diskon_persen');
             var diskon_nominal = $(this).find('.diskon_nominal');
@@ -462,6 +471,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             panjang.attr('id', 'panjang' + i);
             lebar.attr('id', 'lebar' + i);
             harga_jual.attr('id', 'harga_jual6' + i);
+            harga_after_diskon.attr('id', 'harga_after_diskon' + i);
             harga_permeter.attr('id', 'harga_permeter' + i);
             diskon_persen.attr('id', 'diskon_persen7' + i);
             diskon_nominal.attr('id', 'diskon_nominal8' + i);
@@ -476,6 +486,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
             panjang.attr('name', 'panjang' + i);
             lebar.attr('name', 'lebar' + i);
             harga_jual.attr('name', 'harga_jual6' + i);
+            harga_after_diskon.attr('name', 'harga_after_diskon' + i);
             harga_permeter.attr('name', 'harga_permeter' + i);
             diskon_persen.attr('name', 'diskon_persen7' + i);
             diskon_nominal.attr('name', 'diskon_nominal8' + i);
@@ -509,12 +520,14 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * hargaJual;
+                $("#harga_after_diskon" + row).val(formatHarga(hargaJual));
             } else {
                 if (hargaJual != 0) {
                     var diskonPersen = (diskon_nominal / hargaJual) * 100;
                     $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
                     hitung = hargaJual - diskon_nominal;
                     jumlah = stok * hitung;
+                    $("#harga_after_diskon" + row).val(formatHarga(hitung));
                 }
             }
 
@@ -534,11 +547,13 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * harga_jual;
+                $("#harga_after_diskon" + row).val(formatHarga(harga_jual));
             } else {
                 var diskonPersen = (diskon_nominal / harga_jual) * 100;
                 $("#diskon_persen7" + row).val(diskonPersen.toFixed(3));
                 hitung = harga_jual - diskon_nominal;
                 jumlah = stok * hitung;
+                $("#harga_after_diskon" + row).val(formatHarga(hitung));
             }
 
             $("#jumlah9" + row).val(formatHarga(jumlah));
@@ -561,11 +576,13 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
                 $("#diskon_nominal8" + row).val(0);
                 $("#diskon_persen7" + row).val(0);
                 jumlah = stok * harga_jual;
+                $("#harga_after_diskon" + row).val(formatHarga(harga_jual));
             } else {
                 var diskon_nominal = Math.round((diskonPersen / 100) * harga_jual);
                 $("#diskon_nominal8" + row).val(formatHarga(diskon_nominal));
                 hitung = harga_jual - diskon_nominal;
                 jumlah = stok * hitung;
+                $("#harga_after_diskon" + row).val(formatHarga(hitung));
             }
 
             $("#jumlah9" + row).val(formatHarga(jumlah));
@@ -586,7 +603,7 @@ $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->g
         subtotal = Math.round(subtotal);
         $("#subtotal").val(formatHarga(subtotal));
 
-        var ongkir = parseHarga($("#ongkir").val()) || '';
+        var ongkir = parseHarga($("#ongkir").val()) || 0;
         total = subtotal + ongkir;
         $('#total').val(formatHarga(total));
 

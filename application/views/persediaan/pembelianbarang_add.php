@@ -1,6 +1,7 @@
  <?php
     $dateNow = date('Y-m-d');
-    $maxDetailInput = $this->db->select('max_detail_input')->from('t_pengaturan')->get()->row()->max_detail_input;
+    $getmaxDetailInput = $this->db->query("SELECT max_detail_input FROM t_pengaturan")->row();
+    $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInput->max_detail_input : 1;
     ?>
 
  <!-- Begin Page Content -->

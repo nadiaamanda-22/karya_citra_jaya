@@ -70,9 +70,10 @@ class Laporandetail_invoice extends CI_Controller
         $sheet->setCellValue('E1', 'Nama Barang');
         $sheet->setCellValue('F1', 'Stok');
         $sheet->setCellValue('G1', 'Harga Jual');
-        $sheet->setCellValue('H1', 'Diskon (%)');
-        $sheet->setCellValue('I1', 'Diskon');
-        $sheet->setCellValue('J1', 'Jumlah');
+        $sheet->setCellValue('H1', 'Harga After Diskon');
+        $sheet->setCellValue('I1', 'Diskon (%)');
+        $sheet->setCellValue('J1', 'Diskon');
+        $sheet->setCellValue('K1', 'Jumlah');
 
         // Styling Header (warna abu-abu)
         $styleArray = [
@@ -89,7 +90,7 @@ class Laporandetail_invoice extends CI_Controller
         ];
 
         // Terapkan gaya ke header
-        $sheet->getStyle('A1:J1')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:K1')->applyFromArray($styleArray);
         //get data dari database
         $data = $this->db->query("SELECT d.*, i.no_invoice, i.tgl_jual, i.id_customer FROM t_invoice_detail AS d JOIN t_invoice AS i ON i.id_invoice = d.id_invoice WHERE i.jenis_invoice='0' AND i.tgl_jual BETWEEN '$tgl_awal' AND '$tgl_akhir' $nt")->result_array();
 
@@ -112,18 +113,19 @@ class Laporandetail_invoice extends CI_Controller
             $sheet->setCellValue('E' . $row, $data['nama_barang']);
             $sheet->setCellValue('F' . $row, $data['stok']);
             $sheet->setCellValue('G' . $row, $data['harga_jual']);
-            $sheet->setCellValue('H' . $row, $data['diskon_persen']);
-            $sheet->setCellValue('I' . $row, $data['diskon_nominal']);
-            $sheet->setCellValue('J' . $row, $data['jumlah']);
+            $sheet->setCellValue('H' . $row, $data['harga_after_diskon']);
+            $sheet->setCellValue('I' . $row, $data['diskon_persen']);
+            $sheet->setCellValue('J' . $row, $data['diskon_nominal']);
+            $sheet->setCellValue('K' . $row, $data['jumlah']);
             $row++;
         }
         // Total
-        $sheet->mergeCells("A$row:H$row");
+        $sheet->mergeCells("A$row:I$row");
         $sheet->setCellValue("A$row", "Total");
-        $sheet->setCellValue("I$row", ($diskon));
-        $sheet->setCellValue("J$row", ($total));
+        $sheet->setCellValue("J$row", ($diskon));
+        $sheet->setCellValue("K$row", ($total));
 
-        $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);
+        $sheet->getStyle("A$row:K$row")->getFont()->setBold(true);
         $sheet->getStyle("A$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Simpan file Excel

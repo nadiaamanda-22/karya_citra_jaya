@@ -197,12 +197,13 @@
                                     <i class="bi bi-person-fill mr-2"></i>
                                     Profile
                                 </a>
-                                <?php if ($this->session->userdata('role') == '0') { ?>
+                                <?php if ($this->session->userdata('id_user') == '1') { ?>
                                     <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
                                         <i class="bi bi-person-plus-fill mr-2"></i>
                                         Manajemen User
                                     </a>
-
+                                <?php } ?>
+                                <?php if ($this->session->userdata('role') == '0') { ?>
                                     <a class="dropdown-item" href="<?= base_url('Logs') ?>">
                                         <i class="bi bi-hourglass-split"></i>
                                         Logs
@@ -310,11 +311,13 @@
             if (!harga || harga === "0") {
                 return 0;
             }
-            return parseInt(harga.replace(/\./g, ''), 10) || 0;
+            // return parseInt(harga.replace(/\./g, ''), 10) || 0;
+            return parseFloat(harga.replace(/\./g, '').replace(',', '.')) || 0;
         }
 
         function formatHarga(angka) {
-            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return angka.toLocaleString("id-ID");
         }
     </script>
 
