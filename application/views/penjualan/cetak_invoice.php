@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-4" align="right">
                     <table class="table table-sm table-borderless">
-                        <tr>
+                        <!-- <tr>
                             <td id="headerTbl" colspan="2">
                                 &nbsp;Subtotal
                             </td>
@@ -161,7 +161,7 @@
                             </td>
                             <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
                             <td id="headerTbl" class="text-right"><?= formatPrice($diskon) ?>&nbsp;</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td id="headerTbl" colspan="2">
                                 &nbsp;Ongkir
