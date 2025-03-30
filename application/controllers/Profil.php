@@ -57,6 +57,19 @@ class Profil extends CI_Controller
                 $inputPassword = $password;
             }
 
+            //username dan password tidak boleh sama dengan administrator
+            $idUser = $this->session->userdata('id_user');
+            $getDataAdministrator = $this->db->query("SELECT username, password FROM t_user WHERE id_user='1'")->row();
+            $userAdm = $getDataAdministrator->username;
+            $passAdm = $getDataAdministrator->password;
+            if ($idUser != '1') {
+                if ($username == $userAdm || $password == $passAdm) {
+                    $this->session->set_flashdata('message', 'warning');
+                    redirect('profil');
+                    return false;
+                }
+            }
+
             //cek ada gambar yg di upload atau tidak
             if (!empty($newImg)) {
                 if ($oldImg != 'default.png') {

@@ -51,7 +51,7 @@
 
                                  <div class="col-6">
                                      <label for="role" class="form-label">Role</label>
-                                     <select class="form-select mb-3" name="role" id="role" onchange="selectRole(this)">
+                                     <select class="form-select mb-3" name="role" id="role">
                                          <option value="1">Not Admin</option>
                                          <option value="0">Admin</option>
                                      </select>
@@ -125,7 +125,7 @@
                              <div class="md-12">
                                  <div class="checkAll" style="text-align: left; padding:10px;">
                                      <button name="cmdselectall" type="button" onClick="checkAll()" class="btn btn-secondary"><span class="fa fa-check-square">&nbsp;</span>Pilih Semua</button> &nbsp;
-                                     <button name="cmddeselect" type="button" onClick="uncheckAll()" class="btn btn-secondary reset"><span class="fa fa-square-o">&nbsp;</span>Reset</button>
+                                     <button name="cmddeselect" type="button" onClick="uncheckAll()" class="btn btn-secondary"><span class="fa fa-square-o">&nbsp;</span>Reset</button>
                                  </div>
                              </div>
                          </div>
@@ -199,6 +199,15 @@
                  confirmButtonText: "Ya",
                  confirmButtonColor: "#3b5998",
              });
+         } else if (message == 'warning') {
+             Swal.fire({
+                 title: "Username dan password tidak diperbolehkan!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
          } else {
              Swal.fire({
                  title: "Terjadi kesalahan",
@@ -230,16 +239,5 @@
 
      function uncheckAll() {
          $(".menu").prop("checked", false);
-     }
-
-     function selectRole(selectValue) {
-         var role = selectValue.value;
-         if (role == '0') {
-             $('.menu').prop("checked", true);
-             $('.reset').prop('disabled', true);
-         } else {
-             $('.menu').prop("checked", false);
-             $('.reset').prop('disabled', false);
-         }
      }
  </script>

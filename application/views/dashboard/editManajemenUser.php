@@ -234,6 +234,15 @@
                  confirmButtonText: "Ya",
                  confirmButtonColor: "#3b5998",
              });
+         } else if (message == 'warning') {
+             Swal.fire({
+                 title: "Username dan password tidak diperbolehkan!",
+                 icon: "warning",
+                 showDenyButton: false,
+                 showCancelButton: false,
+                 confirmButtonText: "Ya",
+                 confirmButtonColor: "#3b5998",
+             });
          } else {
              Swal.fire({
                  title: "Terjadi kesalahan",

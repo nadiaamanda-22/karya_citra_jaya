@@ -68,6 +68,16 @@ class Manajemenuser extends CI_Controller
                 $inputMenu = $menu;
             }
 
+            //username dan password tidak boleh sama dengan administrator
+            $getDataAdministrator = $this->db->query("SELECT username, password FROM t_user WHERE id_user='1'")->row();
+            $userAdm = $getDataAdministrator->username;
+            $passAdm = $getDataAdministrator->password;
+            if ($username == $userAdm || $password == $passAdm) {
+                $this->session->set_flashdata('message', 'warning');
+                redirect('manajemenuser/addManajemenUser');
+                return false;
+            }
+
             //cek ada gambar yg di upload atau tidak
             if (!empty($_FILES['image']['name'])) {
                 $image = $this->uploadGambar();
@@ -153,6 +163,18 @@ class Manajemenuser extends CI_Controller
                 return false;
             } else {
                 $inputMenu = $menu;
+            }
+
+            //username dan password tidak boleh sama dengan administrator
+            $getDataAdministrator = $this->db->query("SELECT username, password FROM t_user WHERE id_user='1'")->row();
+            $userAdm = $getDataAdministrator->username;
+            $passAdm = $getDataAdministrator->password;
+            if ($idUser != '1') {
+                if ($username == $userAdm || $password == $passAdm) {
+                    $this->session->set_flashdata('message', 'warning');
+                    redirect('manajemenuser/editView/' . $idUser);
+                    return false;
+                }
             }
 
             //cek ada gambar yg di upload atau tidak

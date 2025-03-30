@@ -41,7 +41,7 @@
         <ul class="navbar-nav warna-utama sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" id="namaToko">
                 <div class="sidebar-brand-text mx-2" style="font-family: Arial, Helvetica, sans-serif;">Karya Citra Jaya</div>
             </a>
 
@@ -195,7 +195,7 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="<?= base_url('profil') ?>">
                                     <i class="bi bi-person-fill mr-2"></i>
-                                    Profile
+                                    Profil
                                 </a>
                                 <?php if ($this->session->userdata('id_user') == '1') { ?>
                                     <a class="dropdown-item" href="<?= base_url('manajemenuser') ?>">
@@ -286,6 +286,10 @@
     <script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
 
     <script>
+        document.getElementById("namaToko").addEventListener("click", function(event) {
+            event.preventDefault();
+        });
+
         let table = new DataTable('#dataTable-data');
 
         let tableLogs = new DataTable('#logs_table', {
