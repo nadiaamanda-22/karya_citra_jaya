@@ -6,7 +6,7 @@ $tgl_akhir = !empty($_REQUEST['tgl_akhir']) ? $_REQUEST['tgl_akhir'] : $dateNow;
 $metode_pembayaran = !empty($_REQUEST['metode_pembayaran']) ? $_REQUEST['metode_pembayaran'] : '*';
 $status_pembayaran = !empty($_REQUEST['status_pembayaran']) ? $_REQUEST['status_pembayaran'] : '*';
 $customer = !empty($_REQUEST['customer']) ? $_REQUEST['customer'] : '*';
-$jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice'] : '*';
+$jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice'] !== '' ? $_REQUEST['jenis_invoice'] : '*';
 ?>
 
 <style>
@@ -67,9 +67,9 @@ $jenis_invoice = !empty($_REQUEST['jenis_invoice']) ? $_REQUEST['jenis_invoice']
                 </div>
                 <div class="col-sm-2">
                     <select id="jenis_invoice" name="jenis_invoice" class="form-select">
-                        <option value="*" <?= isset($jenis_invoice) && $jenis_invoice == '*' ? 'selected' : '' ?>>Semua Jenis Invoice</option>
-                        <option value="0" <?= isset($jenis_invoice) && $jenis_invoice == 'invoice' ? 'selected' : '' ?>>Invoice</option>
-                        <option value="1" <?= isset($jenis_invoice) && $jenis_invoice == 'invoicekaca' ? 'selected' : '' ?>>Invoice Kaca</option>
+                        <option value="*" <?= $jenis_invoice == '*' ? 'selected' : '' ?>>Semua Jenis Invoice</option>
+                        <option value="0" <?= $jenis_invoice == '0' ? 'selected' : '' ?>>Invoice</option>
+                        <option value="1" <?= $jenis_invoice == '1' ? 'selected' : '' ?>>Invoice Kaca</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
