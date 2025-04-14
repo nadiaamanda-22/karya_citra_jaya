@@ -31,6 +31,7 @@ $level = $this->session->userdata('level');
                         <option value="*" selected>Semua Metode Pembayaran</option>
                         <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
                         <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
+                        <option value="split" <?= $metode_pembayaran == 'split' ? 'selected' : '' ?>>Tunai dan Non Tunai</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
@@ -72,6 +73,8 @@ $level = $this->session->userdata('level');
                             <td width="17" style="text-align: center;">Customer</td>
                             <td width="11" style="text-align: center;">Metode Pembayaran</td>
                             <td width="11" style="text-align: center;">Status Pembayaran</td>
+                            <td width="7%" style="text-align: center;">Nominal Tunai</td>
+                            <td width="7%" style="text-align: center;">Nominal Non Tunai</td>
                             <td width="7%" style="text-align: center;">Hutang</td>
                             <td width="7%" style="text-align: center;">Subtotal</td>
                             <td width="7%" style="text-align: center;">Ongkir</td>
@@ -82,6 +85,8 @@ $level = $this->session->userdata('level');
                     <tbody>
                         <?php
                         $no = 1;
+                        $totalNT = 0;
+                        $totalNNT = 0;
                         $totalHutang = 0;
                         $totalSubtotal = 0;
                         $totalOngkir = 0;
@@ -96,6 +101,8 @@ $level = $this->session->userdata('level');
 
                             if ($pb->metode_pembayaran == 'tunai') {
                                 $mp = 'Tunai';
+                            } else if ($pb->metode_pembayaran == 'split') {
+                                $mp = 'Tunai dan Non Tunai';
                             } else {
                                 $mp = 'Non Tunai';
                             }
@@ -106,6 +113,8 @@ $level = $this->session->userdata('level');
                                 $inv = 'Invoice Kaca';
                             }
 
+                            $totalNT += $pb->nominal_tunai;
+                            $totalNNT += $pb->nominal_nontunai;
                             $totalHutang += $pb->hutang;
                             $totalSubtotal += $pb->subtotal;
                             $totalOngkir += $pb->ongkir;
@@ -119,6 +128,8 @@ $level = $this->session->userdata('level');
                                 <td><?= $customer ?> </td>
                                 <td style="text-align: center;"><?= $mp ?></td>
                                 <td style="text-align: center;"><?= $sp ?></td>
+                                <td style="text-align: right;"><?= formatPrice($pb->nominal_tunai) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($pb->nominal_nontunai) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->hutang) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->subtotal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->ongkir) ?></td>
@@ -153,6 +164,8 @@ $level = $this->session->userdata('level');
                     <tfoot>
                         <tr>
                             <td colspan="7" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
+                            <td style="text-align: right;"><?= formatPrice($totalNT) ?></td>
+                            <td style="text-align: right;"><?= formatPrice($totalNNT) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalHutang) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalSubtotal) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalOngkir) ?></td>
@@ -190,6 +203,16 @@ $level = $this->session->userdata('level');
         } else if (message == 'melebihi_batas') {
             Swal.fire({
                 title: "Transaksi bulan ini melebihi batas!",
+                icon: "error",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ya",
+                confirmButtonColor: "#3b5998",
+            });
+        } else if (message == 'nominalError') {
+            Swal.fire({
+                title: "Nominal tunai dan non tunai tidak sesuai!",
+                text: "Silahkan melakukan transaksi ulang.",
                 icon: "error",
                 showDenyButton: false,
                 showCancelButton: false,

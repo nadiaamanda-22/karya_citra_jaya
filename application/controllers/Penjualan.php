@@ -70,8 +70,12 @@ class Penjualan extends CI_Controller
 
         if ($metode_pembayaran == '*') {
             $mp = "";
-        } else {
-            $mp = "AND metode_pembayaran = '$metode_pembayaran'";
+        } else if ($metode_pembayaran == 'tunai') {
+            $mp = "AND metode_pembayaran = 'tunai' OR nominal_tunai != '0.00'";
+        } else if ($metode_pembayaran == 'nontunai') {
+            $mp = "AND metode_pembayaran = 'nontunai' OR nominal_nontunai != '0.00'";
+        } else if ($metode_pembayaran == 'split') {
+            $mp = "AND metode_pembayaran = 'split'";
         }
 
         if ($status_pembayaran == '*') {
@@ -129,6 +133,8 @@ class Penjualan extends CI_Controller
             $jatuh_tempo = $this->input->post('jatuh_tempo');
             $spg = $this->input->post('spg');
             $term = $this->input->post('term');
+            $nominal_tunai = str_replace(',', '.', str_replace('.', '', $this->input->post('nominal_tunai')));
+            $nominal_nontunai = str_replace(',', '.', str_replace('.', '', $this->input->post('nominal_nontunai')));
 
             $subtotal = str_replace(',', '.', str_replace('.', '', $this->input->post('subtotal')));
             $ongkir = str_replace(',', '.', str_replace('.', '', $this->input->post('ongkir')));
@@ -144,6 +150,14 @@ class Penjualan extends CI_Controller
             $metode_pembayaran = $this->input->post('metode_pembayaran');
             if ($metode_pembayaran == 'tunai') {
                 $id_rekening = '0';
+            } else if ($metode_pembayaran == 'split') {
+                $totalNominal = $nominal_tunai + $nominal_nontunai;
+                if ($totalNominal != $total) {
+                    $this->session->set_flashdata('message', 'nominalError');
+                    redirect('penjualan');
+                } else {
+                    $id_rekening = $this->input->post('id_rekening');
+                }
             } else {
                 $id_rekening = $this->input->post('id_rekening');
             }
@@ -161,6 +175,8 @@ class Penjualan extends CI_Controller
                 'status_pembayaran' => $status_pembayaran,
                 'hutang' => $hutang,
                 'metode_pembayaran' => $metode_pembayaran,
+                'nominal_tunai' => $nominal_tunai,
+                'nominal_nontunai' => $nominal_nontunai,
                 'id_rekening' => $id_rekening,
                 'subtotal' => $subtotal,
                 'ongkir' => $ongkir,
@@ -253,6 +269,8 @@ class Penjualan extends CI_Controller
         $jatuh_tempo = $this->input->post('jatuh_tempo');
         $spg = $this->input->post('spg');
         $term = $this->input->post('term');
+        $nominal_tunai = str_replace(',', '.', str_replace('.', '', $this->input->post('nominal_tunai')));
+        $nominal_nontunai = str_replace(',', '.', str_replace('.', '', $this->input->post('nominal_nontunai')));
 
         $subtotal = str_replace(',', '.', str_replace('.', '', $this->input->post('subtotal')));
         $ongkir = str_replace(',', '.', str_replace('.', '', $this->input->post('ongkir')));
@@ -268,6 +286,14 @@ class Penjualan extends CI_Controller
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         if ($metode_pembayaran == 'tunai') {
             $id_rekening = '0';
+        } else if ($metode_pembayaran == 'split') {
+            $totalNominal = $nominal_tunai + $nominal_nontunai;
+            if ($totalNominal != $total) {
+                $this->session->set_flashdata('message', 'nominalError');
+                redirect('penjualan');
+            } else {
+                $id_rekening = $this->input->post('id_rekening');
+            }
         } else {
             $id_rekening = $this->input->post('id_rekening');
         }
@@ -285,6 +311,8 @@ class Penjualan extends CI_Controller
             'status_pembayaran' => $status_pembayaran,
             'hutang' => $hutang,
             'metode_pembayaran' => $metode_pembayaran,
+            'nominal_tunai' => $nominal_tunai,
+            'nominal_nontunai' => $nominal_nontunai,
             'id_rekening' => $id_rekening,
             'subtotal' => $subtotal,
             'ongkir' => $ongkir,
