@@ -56,6 +56,7 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
                                 <select class="form-select" id="metode_pembayaran" name="metode_pembayaran">
                                     <option value="tunai" <?= $data->metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
                                     <option value="nontunai" <?= $data->metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai (Transfer atau Debit)</option>
+                                    <option value="split" <?= $data->metode_pembayaran == 'split' ? 'selected' : '' ?>>Tunai dan Non Tunai</option>
                                 </select>
                             </div>
                             <div class="col-6 rekening">
@@ -70,6 +71,19 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
                                 </select>
                             </div>
                         </div>
+
+                        <div class="row align-items-start mt-3 mb-3 nominal">
+                            <div class="col-6">
+                                <label for="nominal_tunai" class="form-label">Nominal Tunai</label>
+                                <input type="text" class="form-control numeric-only iptPrice" id="nominal_tunai" name="nominal_tunai" placeholder="0" value="<?= formatPrice($data->nominal_tunai) ?>">
+                            </div>
+                            <div class="col-6">
+                                <label for="nominal_nontunai" class="form-label">Nominal Non Tunai</label>
+                                <input type="text" class="form-control numeric-only iptPrice" id="nominal_nontunai" name="nominal_nontunai" placeholder="0" value="<?= formatPrice($data->nominal_nontunai) ?>">
+                            </div>
+                            <small class="text-danger mt-1">Nominal harus sesuai dengan TOTAL transaksi.</small>
+                        </div>
+
                         <div class="mt-3 mb-4">
                             <small>[*] Kolom harus diisi</small>
                         </div>
@@ -203,9 +217,19 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
 
     <?php if ($data->id_rekening == 0) { ?>
         $(".rekening").hide();
+        $(".nominal").hide();
     <?php } else { ?>
-        $(".rekening").show();
+        <?php if ($data->nominal_tunai != '0' || $data->nominal_nontunai != '0') { ?>
+            $(".rekening").show();
+            $(".nominal").show();
+            $("#nominal_tunai").attr("required", true);
+            $("#nominal_nontunai").attr("required", true);
+        <?php } else { ?>
+            $(".rekening").show();
+            $(".nominal").hide();
+        <?php } ?>
     <?php } ?>
+
 
     $(document).ready(function() {
         $("#customer").autocomplete({
@@ -244,8 +268,23 @@ $maxDetailInput = isset($getmaxDetailInput->max_detail_input) ? $getmaxDetailInp
             var mp = $("#metode_pembayaran").val();
             if (mp == 'nontunai') {
                 $(".rekening").show();
+                $(".nominal").hide();
+                $("#nominal_tunai").val('');
+                $("#nominal_nontunai").val('');
+                $("#nominal_tunai").removeAttr("required");
+                $("#nominal_nontunai").removeAttr("required");
+            } else if (mp == 'split') {
+                $(".rekening").show();
+                $(".nominal").show();
+                $("#nominal_tunai").attr("required", true);
+                $("#nominal_nontunai").attr("required", true);
             } else {
+                $(".nominal").hide();
                 $(".rekening").hide();
+                $("#nominal_tunai").val('');
+                $("#nominal_nontunai").val('');
+                $("#nominal_tunai").removeAttr("required");
+                $("#nominal_nontunai").removeAttr("required");
             }
         });
 
