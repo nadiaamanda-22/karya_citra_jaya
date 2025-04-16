@@ -30,8 +30,32 @@
     <link href="<?= base_url('assets/') ?>css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
+         @font-face {
+            font-family: 'DotMatrix';
+            src: url('<?= base_url("assets/dot_matrix/DotMatrix.ttf") ?>') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @media print {
+            @page {
+                size: Letter; 
+                margin: 0;     
+            }
+
+            body {
+                margin: 0; 
+            }
+
+            .card {
+                margin: auto; 
+            }
+        }
+        body {
+            font-family: 'DotMatrix', monospace;
+            font-size: 14px;
+        }
         .card {
-            width: 1056px;
+            width: 950px;
             height: 640;
             background: white;
             border-radius: 0%;
@@ -41,6 +65,16 @@
         .header {
             font-family: 'Roboto';
             font-weight: bold;
+        }
+
+        
+        .table.borderless th,
+        .table.borderless td,
+        .table.borderless,
+        .table.borderless thead,
+        .table.borderless tbody,
+        .table.borderless tr {
+            border: none !important;
         }
 
         #headerTbl {
@@ -54,10 +88,10 @@
     <div class="card">
         <div class="card-body">
             <div class="row header mb-2">
-                <h6 class="text-danger" style="font-size: 20px;">KARYA CITRA JAYA</h6>
+                <h6 class="text-danger" style="font-size: 25px; font-weight:bold;">KARYA CITRA JAYA</h6>
             </div>
 
-            <div class="row headerToko">
+            <div class="row headerToko" style="font-size: 18px; font-weight:bold;">
                 <div class="col-6">
                     <p><?= $setting->alamat ?>
                         <br>Telp : <?= $setting->no_telp ?>
@@ -96,12 +130,13 @@
                 </div>
             </div>
 
-            <hr style="background-color: #424649;" class="mt-2">
+            <div class="mt-2" style="backround-color: #424649;"></div>
+            <!-- <hr style="background-color: #424649;" class="mt-2"> -->
 
             <div class="row dataInv mt-2">
-                <table class="table table-sm table-bordered" width="100%">
-                    <thead>
-                        <tr>
+                <table class="table table-sm table-borderless" style="font-size: 18px;" width="100%">
+                    <thead style= "font-weight: bold; font-size:20px;">
+                        <tr style="border-bottom: 1px solid black; border-top: 1px solid black;">
                             <td width="5%" id="headerTbl" style="text-align: center;">No</td>
                             <td width="37%" id="headerTbl">Nama Barang</td>
                             <td width="10" id="headerTbl" style="text-align: center;">Qty</td>
@@ -132,17 +167,12 @@
                 </table>
             </div>
 
-            <div class="row mt-5">
-                <div class="col-6">
-                    <hr style="background-color: #424649; height:3px;">
-                </div>
-            </div>
-
-            <div class="row total">
-                <div class="col-8">
+            <div class="row total" style="font-size: 18px; ">
+                <div class="col-8" style="border-top: 1px solid black; font-weight: bold; border-top: 1px solid black;">
                     <?php if ($inv->id_rekening != "0") { ?>
                         <?php $rekening = $this->db->query("SELECT rekening FROM t_rekening WHERE id_rekening ='$inv->id_rekening'")->row()->rekening; ?>
-                        <p><?= $rekening ?></p>
+                        <p style="border-bottom: 1px solid black">Pembayaran dapat dilakukan melalui : 
+                            <br><?= $rekening ?></p>
                     <?php } ?>
                     <p>
                         Alamat :
@@ -150,6 +180,7 @@
                         <?= $alamatCus ?>
                     </p>
                 </div>
+
                 <div class="col-4" align="right">
                     <table class="table table-sm table-borderless">
                         <tr>
@@ -173,7 +204,7 @@
                             <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
                             <td id="headerTbl" class="text-right"><?= formatPrice($inv->ongkir) ?>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="font-weight:bold;">
                             <td id="headerTbl" colspan="2">
                                 &nbsp;Total
                             </td>
@@ -184,16 +215,20 @@
                 </div>
             </div>
 
-            <div class="row ttd mt-5">
-                <div class="col-6">
+            <div class="row ttd mt-3" style="font-size: 18px;">
+                <div class="col-6" align="center">
                     <p>Tanda Terima</p>
-                    <br><br><br>
+                    <br>
                     <hr style="background-color: #424649; height:1px; width:270px;">
                 </div>
 
-                <div class="col-6" align="right">
-                    <p style="text-align: center; margin-left:38px;">Hormat Kami</p>
-                    <br><br><br>
+                <div class="col-6" align="center">
+                    <p>Hormat Kami</p>
+                    <?php if ($setting->ttd != 'no-image.jpg') { ?>
+                        <img src="<?= base_url('assets/img/setting/' . $setting->ttd) ?>" class="img-fluid" style="max-width:30%; margin-top:-10px; margin-bottom:-25px;">
+                    <?php } else { ?>
+                        <br>
+                    <?php } ?>
                     <hr style="background-color: #424649; height:1px; width:270px;">
                 </div>
             </div>
