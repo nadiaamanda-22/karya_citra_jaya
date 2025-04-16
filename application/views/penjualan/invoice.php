@@ -27,14 +27,6 @@ $level = $this->session->userdata('level');
                     <input type="date" class="form-control" name="tgl_akhir" value="<?= $tgl_akhir ?>">
                 </div>
                 <div class="col-sm-2">
-                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
-                        <option value="*" selected>Semua Metode Pembayaran</option>
-                        <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
-                        <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
-                        <option value="split" <?= $metode_pembayaran == 'split' ? 'selected' : '' ?>>Tunai dan Non Tunai</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
                     <select id="status_pembayaran" name="status_pembayaran" class="form-select">
                         <option value="*" selected>Semua Status Pembayaran</option>
                         <option value="lunas" <?= $status_pembayaran == 'lunas' ? 'selected' : '' ?>>Lunas</option>
@@ -55,6 +47,14 @@ $level = $this->session->userdata('level');
                         <option value="*" selected>Semua Jenis Invoice</option>
                         <option value="0" <?= $jenis_invoice == '0' ? 'selected' : '' ?>>Invoice Biasa</option>
                         <option value="1" <?= $jenis_invoice == '1' ? 'selected' : '' ?>>Invoice Kaca</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
+                        <option value="*" selected>Semua Metode Pembayaran</option>
+                        <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
+                        <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
+                        <option value="split" <?= $metode_pembayaran == 'split' ? 'selected' : '' ?>>Tunai dan Non Tunai</option>
                     </select>
                 </div>
                 <div class="col-sm-1">

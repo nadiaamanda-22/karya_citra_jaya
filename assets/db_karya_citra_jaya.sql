@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 27, 2025 at 04:05 PM
+-- Generation Time: Apr 16, 2025 at 12:48 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -53,6 +53,8 @@ CREATE TABLE `t_invoice` (
   `status_pembayaran` varchar(15) NOT NULL,
   `hutang` decimal(20,2) DEFAULT NULL,
   `metode_pembayaran` varchar(50) NOT NULL,
+  `nominal_tunai` decimal(20,2) NOT NULL DEFAULT 0.00,
+  `nominal_nontunai` decimal(20,2) NOT NULL DEFAULT 0.00,
   `id_rekening` int(11) NOT NULL,
   `subtotal` decimal(20,2) NOT NULL,
   `ongkir` decimal(20,2) NOT NULL,

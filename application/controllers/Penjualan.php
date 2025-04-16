@@ -71,9 +71,9 @@ class Penjualan extends CI_Controller
         if ($metode_pembayaran == '*') {
             $mp = "";
         } else if ($metode_pembayaran == 'tunai') {
-            $mp = "AND metode_pembayaran = 'tunai' OR nominal_tunai != '0.00'";
+            $mp = "AND (metode_pembayaran = 'tunai' OR nominal_tunai != '0.00')";
         } else if ($metode_pembayaran == 'nontunai') {
-            $mp = "AND metode_pembayaran = 'nontunai' OR nominal_nontunai != '0.00'";
+            $mp = "AND (metode_pembayaran = 'nontunai' OR nominal_nontunai != '0.00')";
         } else if ($metode_pembayaran == 'split') {
             $mp = "AND metode_pembayaran = 'split'";
         }

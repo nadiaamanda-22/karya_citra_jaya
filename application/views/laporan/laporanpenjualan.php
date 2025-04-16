@@ -40,13 +40,6 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                     <input type="date" class="form-control" name="tgl_akhir" value="<?= $tgl_akhir ?>">
                 </div>
                 <div class="col-sm-2">
-                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
-                        <option value="*" selected>Semua Metode Pembayaran</option>
-                        <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
-                        <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
                     <select id="status_pembayaran" name="status_pembayaran" class="form-select">
                         <option value="*" selected>Semua Status Pembayaran</option>
                         <option value="lunas" <?= $status_pembayaran == 'lunas' ? 'selected' : '' ?>>Lunas</option>
@@ -73,6 +66,14 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                     </select>
                 </div>
                 <div class="col-sm-2">
+                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-select">
+                        <option value="*" selected>Semua Metode Pembayaran</option>
+                        <option value="tunai" <?= $metode_pembayaran == 'tunai' ? 'selected' : '' ?>>Tunai</option>
+                        <option value="nontunai" <?= $metode_pembayaran == 'nontunai' ? 'selected' : '' ?>>Non Tunai</option>
+                        <option value="split" <?= $metode_pembayaran == 'split' ? 'selected' : '' ?>>Tunai dan Non Tunai</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
                     <button class="btn btn-info" type="submit">Tampilkan</button>
                 </div>
             </form>
@@ -92,6 +93,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                             <td width="20" style="text-align: center;">Customer</td>
                             <td width="11" style="text-align: center;">Metode Pembayaran</td>
                             <td width="11" style="text-align: center;">Status Pembayaran</td>
+                            <td width="7%" style="text-align: center;">Nominal Tunai</td>
+                            <td width="7%" style="text-align: center;">Nominal Non Tunai</td>
                             <td width="8%" style="text-align: center;">Hutang</td>
                             <td width="8%" style="text-align: center;">Subtotal</td>
                             <td width="8%" style="text-align: center;">Ongkir</td>
@@ -103,6 +106,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
 
                         <?php
                         $no = 1;
+                        $totalNT = 0;
+                        $totalNNT = 0;
                         $totalHutang = 0;
                         $totalSubtotal = 0;
                         $totalOngkir = 0;
@@ -117,6 +122,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
 
                             if ($pb->metode_pembayaran == 'tunai') {
                                 $mp = 'Tunai';
+                            } else if ($pb->metode_pembayaran == 'split') {
+                                $mp = 'Tunai dan Non Tunai';
                             } else {
                                 $mp = 'Non Tunai';
                             }
@@ -127,6 +134,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                                 $inv = 'Invoice Kaca';
                             }
 
+                            $totalNT += $pb->nominal_tunai;
+                            $totalNNT += $pb->nominal_nontunai;
                             $totalHutang += $pb->hutang;
                             $totalSubtotal += $pb->subtotal;
                             $totalOngkir += $pb->ongkir;
@@ -139,6 +148,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                                 <td><?= $customer ?> </td>
                                 <td style="text-align: center;"><?= $mp ?></td>
                                 <td style="text-align: center;"><?= $sp ?></td>
+                                <td style="text-align: right;"><?= formatPrice($pb->nominal_tunai) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($pb->nominal_nontunai) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->hutang) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->subtotal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->ongkir) ?></td>
@@ -149,6 +160,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                     <tfoot>
                         <tr>
                             <td colspan="6" style="background-color: #3b5998; color:#fff; text-align:center">Total</td>
+                            <td style="text-align: right;"><?= formatPrice($totalNT) ?></td>
+                            <td style="text-align: right;"><?= formatPrice($totalNNT) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalHutang) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalSubtotal) ?></td>
                             <td style="text-align: right;"><?= formatPrice($totalOngkir) ?></td>
@@ -168,16 +181,17 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
         <table class="table table-bordered" width="100%">
             <thead>
                 <tr>
-                    <td id="headerTabel" width="10%" style="text-align: center;">No Invoice </td>
-                    <td id="headerTabel" width="8%" style="text-align: center;">Jenis Invoice </td>
-                    <td id="headerTabel" width="8%" style="text-align: center;">Tanggal Jual</td>
-                    <td id="headerTabel" width="20" style="text-align: center;">Customer</td>
-                    <td id="headerTabel" width="11" style="text-align: center;">Metode Pembayaran</td>
-                    <td id="headerTabel" width="11" style="text-align: center;">Status Pembayaran</td>
+                    <td id="headerTabel" width="8%" style="text-align: center;">No Invoice </td>
+                    <td id="headerTabel" width="7%" style="text-align: center;">Jenis Invoice </td>
+                    <td id="headerTabel" width="7%" style="text-align: center;">Tanggal Jual</td>
+                    <td id="headerTabel" width="12" style="text-align: center;">Customer</td>
+                    <td id="headerTabel" width="10" style="text-align: center;">Metode Pembayaran</td>
+                    <td id="headerTabel" width="8" style="text-align: center;">Nominal Tunai</td>
+                    <td id="headerTabel" width="8" style="text-align: center;">Nominal Non Tunai</td>
                     <td id="headerTabel" width="8%" style="text-align: center;">Hutang</td>
                     <td id="headerTabel" width="8%" style="text-align: center;">Subtotal</td>
-                    <td id="headerTabel" width="8%" style="text-align: center;">Ongkir</td>
-                    <td id="headerTabel" width="8%" style="text-align: center;">Total</td>
+                    <td id="headerTabel" width="6%" style="text-align: center;">Ongkir</td>
+                    <td id="headerTabel" width="6%" style="text-align: center;">Total</td>
 
                 </tr>
             </thead>
@@ -185,6 +199,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
 
                 <?php
                 $no = 1;
+                $totalNT = 0;
+                $totalNNT = 0;
                 $totalHutang = 0;
                 $totalSubtotal = 0;
                 $totalOngkir = 0;
@@ -199,6 +215,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
 
                     if ($pb->metode_pembayaran == 'tunai') {
                         $mp = 'Tunai';
+                    } else if ($pb->metode_pembayaran == 'split') {
+                        $mp = 'Tunai dan Non Tunai';
                     } else {
                         $mp = 'Non Tunai';
                     }
@@ -209,6 +227,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                         $inv = 'Invoice Kaca';
                     }
 
+                    $totalNT += $pb->nominal_tunai;
+                    $totalNNT += $pb->nominal_nontunai;
                     $totalHutang += $pb->hutang;
                     $totalSubtotal += $pb->subtotal;
                     $totalOngkir += $pb->ongkir;
@@ -220,7 +240,8 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
                         <td style="text-align: center;"><?= formatTanggal($pb->tgl_jual) ?></td>
                         <td><?= $customer ?> </td>
                         <td style="text-align: center;"><?= $mp ?></td>
-                        <td style="text-align: center;"><?= $sp ?></td>
+                        <td style="text-align: right;"><?= formatPrice($pb->nominal_tunai) ?></td>
+                        <td style="text-align: right;"><?= formatPrice($pb->nominal_nontunai) ?></td>
                         <td style="text-align: right;"><?= formatPrice($pb->hutang) ?></td>
                         <td style="text-align: right;"><?= formatPrice($pb->subtotal) ?></td>
                         <td style="text-align: right;"><?= formatPrice($pb->ongkir) ?></td>
@@ -230,7 +251,9 @@ $jenis_invoice = isset($_REQUEST['jenis_invoice']) && $_REQUEST['jenis_invoice']
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6" id="headerTabel" style="text-align:center">Total</td>
+                    <td colspan="5" id="headerTabel" style="text-align:center">Total</td>
+                    <td style="text-align: right;"><?= formatPrice($totalNT) ?></td>
+                    <td style="text-align: right;"><?= formatPrice($totalNNT) ?></td>
                     <td style="text-align: right;"><?= formatPrice($totalHutang) ?></td>
                     <td style="text-align: right;"><?= formatPrice($totalSubtotal) ?></td>
                     <td style="text-align: right;"><?= formatPrice($totalOngkir) ?></td>
