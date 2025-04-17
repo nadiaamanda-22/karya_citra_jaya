@@ -36,20 +36,6 @@
             font-weight: normal;
             font-style: normal;
         }
-        @media print {
-            @page {
-                size: Letter; 
-                margin: 0;     
-            }
-
-            body {
-                margin: 0; 
-            }
-
-            .card {
-                margin: auto; 
-            }
-        }
         body {
             font-family: 'DotMatrix', monospace;
             font-size: 14px;
@@ -61,9 +47,24 @@
             border-radius: 0%;
             font-size: 13px;
         }
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
 
-        .header {
-            font-family: 'Roboto';
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            table th, table td {
+                padding: 5px; /* Sesuaikan padding untuk mengurangi jarak */
+            }
+        }
+
+                .header {
+            font-family: 'Montserrat';
             font-weight: bold;
         }
 
@@ -76,6 +77,23 @@
         .table.borderless tr {
             border: none !important;
         }
+        .dot-line {
+            font-family: 'DotMatrix', monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin: 0;
+
+        }
+
+        /* .dot-line {
+            border-bottom: 1px dashed #000;
+            width: 100%;
+            height: 1px;
+            margin: 10px 0;
+        }  ini pakenya
+           <div class="dot-line"></div>*/
 
         #headerTbl {
             background-color: #D9D9D9 !important;
@@ -130,13 +148,17 @@
                 </div>
             </div>
 
-            <div class="mt-2" style="backround-color: #424649;"></div>
+            <!-- <div class="mt-2" style="backround-color: #424649;"></div> -->
             <!-- <hr style="background-color: #424649;" class="mt-2"> -->
 
             <div class="row dataInv mt-2">
                 <table class="table table-sm table-borderless" style="font-size: 18px;" width="100%">
-                    <thead style= "font-weight: bold; font-size:20px;">
-                        <tr style="border-bottom: 1px solid black; border-top: 1px solid black;">
+                <thead>
+                        <!-- <tr>
+                            <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td>  
+                        </tr> -->
+                        <!-- //total 93 - -->
+                        <tr style= "font-weight: bold; border-top: 1px black solid; border-bottom: 1px black solid; " >
                             <td width="5%" id="headerTbl" style="text-align: center;">No</td>
                             <td width="37%" id="headerTbl">Nama Barang</td>
                             <td width="10" id="headerTbl" style="text-align: center;">Qty</td>
@@ -145,11 +167,16 @@
                             <td width="12" id="headerTbl" style="text-align: right;">Harga Jual</td>
                             <td width="12" id="headerTbl" style="text-align: right;">Jumlah</td>
                         </tr>
+                        <!-- <tr>
+                            <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td> 
+                        </tr> -->
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
                         $diskon = 0;
+                        $pageItem = 0;
+                        $totalItems = count($detail);
                         foreach ($detail as $r) {
                             $diskon += $r->diskon_nominal;
                         ?>
@@ -162,81 +189,160 @@
                                 <td style="text-align: right;"><?= formatPrice($r->harga_after_diskon) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
-                        <?php } ?>
+                            <?php 
+                                    $pageItem++;
+
+                                    if ($pageItem % 10 == 0 && $pageItem != $totalItems) {
+                                        ?>
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        </div>
+        
+                                        <div class="page-break"></div>
+                                        <div class="card">
+                        <div class="card-body">
+                            <div class="row header mb-2">
+                                <h6 class="text-danger" style="font-size: 25px; font-weight: bold;">KARYA CITRA JAYA</h6>
+                            </div>
+
+                            <div class="row headerToko" style="font-size: 18px; font-weight: bold;">
+                                <div class="col-6">
+                                    <p><?= $setting->alamat ?>
+                                        <br>Telp : <?= $setting->no_telp ?>
+                                        <?php $noHp = $this->db->query("SELECT GROUP_CONCAT(no_hp SEPARATOR ' - ') AS no_hp_toko FROM t_no_hp WHERE id IN ($setting->id_no_hp)")->row()->no_hp_toko ?>
+                                        <br><?= $noHp ?>
+                                    </p>
+                                </div>
+                                <div class="col-6" align="right" style="font-size: 18px;">
+                                    <table>
+                                        <tr>
+                                            <td colspan="2">No Invoice</td>
+                                            <td>&nbsp;&nbsp;:&nbsp;</td>
+                                            <td class="text-right"><?= $inv->no_invoice ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Tanggal</td>
+                                            <td>&nbsp;&nbsp;:&nbsp;</td>
+                                            <td class="text-right"><?= formatTanggal($inv->tgl_jual) ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Kepada</td>
+                                            <td>&nbsp;&nbsp;:&nbsp;</td>
+                                            <?php $customer = $this->db->query("SELECT alamat, nama_customer FROM t_customer WHERE id_customer ='$inv->id_customer'")->row();
+                                            $alamatCus = $customer->alamat;
+                                            $namaCus = $customer->nama_customer;
+                                            ?>
+                                            <td class="text-right"><?= $namaCus ?></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row dataInv mt-2 print-body">
+                                <table class="table table-sm table-borderless" style="font-size: 18px;" width="100%">
+                                <thead>
+                                    <!-- <tr>
+                                        <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td>  
+                                    </tr> -->
+                                    <!-- //total 93 - -->
+                                    <tr style= "font-weight: bold; border-top: 1px black solid; border-bottom: 1px black solid; " >
+                                        <td width="5%" id="headerTbl" style="text-align: center;">No</td>
+                                        <td width="37%" id="headerTbl">Nama Barang</td>
+                                        <td width="10" id="headerTbl" style="text-align: center;">Qty</td>
+                                        <td width="12" id="headerTbl" style="text-align: center;">Ukuran</td>
+                                        <!-- <td width="12" id="headerTbl" style="text-align: right;">Harga Per Meter</td> -->
+                                        <td width="12" id="headerTbl" style="text-align: right;">Harga Jual</td>
+                                        <td width="12" id="headerTbl" style="text-align: right;">Jumlah</td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td> 
+                                    </tr> -->
+                                </thead>
+                                    <tbody>
+                            <?php 
+                            }
+                        }
+                            ?>
                     </tbody>
                 </table>
+                <div class="dot-line">------------------------------------------------------------------------------</div>
+                    <!-- total 78 (-) -->
+                
+                            <?php if ($pageItem == $totalItems) { ?>
+                                    <div class="row total">
+                                        <div class="col-8" style="font-size: 18px; font-weight: bold; ">
+                                            <?php if ($inv->id_rekening != "0") { ?>
+                                                <?php $rekening = $this->db->query("SELECT rekening FROM t_rekening WHERE id_rekening ='$inv->id_rekening'")->row()->rekening; ?>
+                                                <p>Pembayaran dapat dilakukan melalui : 
+                                                    <br><?= $rekening ?></p>
+                                            <?php } ?>
+                                            <div class="dot-line">---------------------------------------------------------------------------</div>
+                                            <p>
+                                                Alamat :
+                                                <br>
+                                                <?= $alamatCus ?>
+                                            </p>
+                                        </div>
+                        <div class="col-4" align="right" style="font-size: 18px;">
+                            <table class="table table-sm table-borderless">
+                                <!-- <tr>
+                                    <td id="headerTbl" colspan="2">
+                                        &nbsp;Subtotal
+                                    </td>
+                                    <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
+                                    <td id="headerTbl" class="text-right"><?= formatPrice($inv->subtotal) ?>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td id="headerTbl" colspan="2">
+                                        &nbsp;Diskon
+                                    </td>
+                                    <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
+                                    <td id="headerTbl" class="text-right"><?= formatPrice($diskon) ?>&nbsp;</td>
+                                </tr> -->
+                                <tr>
+                                    <td id="headerTbl" colspan="2">
+                                        &nbsp;Ongkir
+                                    </td>
+                                    <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
+                                    <td id="headerTbl" class="text-right"><?= formatPrice($inv->ongkir) ?>&nbsp;</td>
+                                </tr>
+                                <tr style="font-weight:bold;">
+                                    <td id="headerTbl" colspan="2">
+                                        &nbsp;Total
+                                    </td>
+                                    <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
+                                    <td id="headerTbl" class="text-right"><?= formatPrice($inv->total) ?>&nbsp;</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+             
+                    <div class="row ttd mt-3" align="center" style="font-size: 18px;">
+                        <div class="col-6">
+                            <p>Tanda Terima</p>
+                            <br> 
+                            <div class="dot-line">--------------------</div>
+                            <!-- <hr style="background-color: #424649; height:1px; width:270px;">
+                            20(-) -->
+                        </div>
+
+                        <div class="col-6" align="center">
+                            <p>Hormat Kami</p>
+                            <?php if ($setting->ttd != 'no-image.jpg') { ?>
+                                <img src="<?= base_url('assets/img/setting/' . $setting->ttd) ?>" class="img-fluid" style="max-width:30%; margin-top:-10px; margin-bottom:-25px;">
+                            <?php } else { ?>
+                                <br>
+                            <?php } ?>
+                            <div class="dot-line">--------------------</div>
+                            <!--<hr style="background-color: #424649; height:1px; width:270px;"> -->
+                        </div>
+                    </div>
+                <?php } ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="row total" style="font-size: 18px; ">
-                <div class="col-8" style="border-top: 1px solid black; font-weight: bold; border-top: 1px solid black;">
-                    <?php if ($inv->id_rekening != "0") { ?>
-                        <?php $rekening = $this->db->query("SELECT rekening FROM t_rekening WHERE id_rekening ='$inv->id_rekening'")->row()->rekening; ?>
-                        <p style="border-bottom: 1px solid black">Pembayaran dapat dilakukan melalui : 
-                            <br><?= $rekening ?></p>
-                    <?php } ?>
-                    <p>
-                        Alamat :
-                        <br>
-                        <?= $alamatCus ?>
-                    </p>
-                </div>
-
-                <div class="col-4" align="right">
-                    <table class="table table-sm table-borderless">
-                        <tr>
-                            <td id="headerTbl" colspan="2">
-                                &nbsp;Subtotal
-                            </td>
-                            <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
-                            <td id="headerTbl" class="text-right"><?= formatPrice($inv->subtotal) ?>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td id="headerTbl" colspan="2">
-                                &nbsp;Diskon
-                            </td>
-                            <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
-                            <td id="headerTbl" class="text-right"><?= formatPrice($diskon) ?>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td id="headerTbl" colspan="2">
-                                &nbsp;Ongkir
-                            </td>
-                            <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
-                            <td id="headerTbl" class="text-right"><?= formatPrice($inv->ongkir) ?>&nbsp;</td>
-                        </tr>
-                        <tr style="font-weight:bold;">
-                            <td id="headerTbl" colspan="2">
-                                &nbsp;Total
-                            </td>
-                            <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
-                            <td id="headerTbl" class="text-right"><?= formatPrice($inv->total) ?>&nbsp;</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row ttd mt-3" style="font-size: 18px;">
-                <div class="col-6" align="center">
-                    <p>Tanda Terima</p>
-                    <br>
-                    <hr style="background-color: #424649; height:1px; width:270px;">
-                </div>
-
-                <div class="col-6" align="center">
-                    <p>Hormat Kami</p>
-                    <?php if ($setting->ttd != 'no-image.jpg') { ?>
-                        <img src="<?= base_url('assets/img/setting/' . $setting->ttd) ?>" class="img-fluid" style="max-width:30%; margin-top:-10px; margin-bottom:-25px;">
-                    <?php } else { ?>
-                        <br>
-                    <?php } ?>
-                    <hr style="background-color: #424649; height:1px; width:270px;">
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- </div> -->
-
 
     <!-- CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
