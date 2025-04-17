@@ -101,10 +101,16 @@ $level = $this->session->userdata('level');
 
                             if ($pb->metode_pembayaran == 'tunai') {
                                 $mp = 'Tunai';
+                                $nominalTunai = $pb->total;
+                                $nominalNonTunai = '0';
                             } else if ($pb->metode_pembayaran == 'split') {
                                 $mp = 'Tunai dan Non Tunai';
+                                $nominalTunai = $pb->nominal_tunai;
+                                $nominalNonTunai = $pb->nominal_nontunai;
                             } else {
                                 $mp = 'Non Tunai';
+                                $nominalTunai = '0';
+                                $nominalNonTunai = $pb->total;
                             }
 
                             if ($pb->jenis_invoice == '0') {
@@ -113,8 +119,11 @@ $level = $this->session->userdata('level');
                                 $inv = 'Invoice Kaca';
                             }
 
-                            $totalNT += $pb->nominal_tunai;
-                            $totalNNT += $pb->nominal_nontunai;
+                            $totalNT += $nominalTunai;
+                            $totalNNT += $nominalNonTunai;
+
+                            // $totalNT += $pb->nominal_tunai;
+                            // $totalNNT += $pb->nominal_nontunai;
                             $totalHutang += $pb->hutang;
                             $totalSubtotal += $pb->subtotal;
                             $totalOngkir += $pb->ongkir;
@@ -128,8 +137,8 @@ $level = $this->session->userdata('level');
                                 <td><?= $customer ?> </td>
                                 <td style="text-align: center;"><?= $mp ?></td>
                                 <td style="text-align: center;"><?= $sp ?></td>
-                                <td style="text-align: right;"><?= formatPrice($pb->nominal_tunai) ?></td>
-                                <td style="text-align: right;"><?= formatPrice($pb->nominal_nontunai) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($nominalTunai) ?></td>
+                                <td style="text-align: right;"><?= formatPrice($nominalNonTunai) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->hutang) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->subtotal) ?></td>
                                 <td style="text-align: right;"><?= formatPrice($pb->ongkir) ?></td>

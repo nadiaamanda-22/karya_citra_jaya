@@ -157,8 +157,8 @@ class Laporanpenjualan extends CI_Controller
         $ongkir = 0;
         $total = 0;
         foreach ($data as $item) {
-            $totalNT += $item['nominal_tunai'];
-            $totalNNT += $item['nominal_nontunai'];
+            // $totalNT += $item['nominal_tunai'];
+            // $totalNNT += $item['nominal_nontunai'];
             $totalHutang += $item['hutang'];
             $subtotal += $item['subtotal'];
             $ongkir += $item['ongkir'];
@@ -175,11 +175,20 @@ class Laporanpenjualan extends CI_Controller
 
             if ($item['metode_pembayaran'] == 'tunai') {
                 $metode = 'Tunai';
+                $nominalTunai = $item['total'];
+                $nominalNonTunai = '0';
             } else if ($item['metode_pembayaran'] == 'split') {
                 $metode = 'Tunai dan Non Tunai';
+                $nominalTunai = $item['nominal_tunai'];
+                $nominalNonTunai = $item['nominal_nontunai'];
             } else {
                 $metode = 'Non Tunai';
+                $nominalTunai = '0';
+                $nominalNonTunai = $item['total'];
             }
+
+            $totalNT += $nominalTunai;
+            $totalNNT += $nominalNonTunai;
 
             $sheet->setCellValue('A' . $row, $item['no_invoice']);
             $sheet->setCellValue('B' . $row, $jenisInvoice);
@@ -187,8 +196,8 @@ class Laporanpenjualan extends CI_Controller
             $sheet->setCellValue('D' . $row, $customer);
             $sheet->setCellValue('E' . $row, $metode);
             $sheet->setCellValue('F' . $row, $item['status_pembayaran']);
-            $sheet->setCellValue('G' . $row, $item['nominal_tunai']);
-            $sheet->setCellValue('H' . $row, $item['nominal_nontunai']);
+            $sheet->setCellValue('G' . $row, $nominalTunai);
+            $sheet->setCellValue('H' . $row, $nominalNonTunai);
             $sheet->setCellValue('I' . $row, $item['hutang']);
             $sheet->setCellValue('J' . $row, $item['subtotal']);
             $sheet->setCellValue('K' . $row, $item['ongkir']);
