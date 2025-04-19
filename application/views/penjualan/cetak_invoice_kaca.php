@@ -77,12 +77,19 @@
         .table.borderless tr {
             border: none !important;
         }
+        .page-break-note {
+            text-align: center;
+            font-style: italic;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
         .dot-line {
             font-family: 'DotMatrix', monospace;
             white-space: pre-wrap;
-            font-size: 14px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            font-size: 15px;
+            /* word-wrap: break-word;
+            overflow-wrap: break-word; */
             margin: 0;
 
         }
@@ -106,10 +113,10 @@
     <div class="card">
         <div class="card-body">
             <div class="row header mb-2">
-                <h6 class="text-danger" style="font-size: 25px; font-weight:bold;">KARYA CITRA JAYA</h6>
+                <h6 class="text-danger" style="font-size: 23px; font-weight:bold;">KARYA CITRA JAYA</h6>
             </div>
 
-            <div class="row headerToko" style="font-size: 18px; font-weight:bold;">
+            <div class="row headerToko" style="font-size: 17px; font-weight:bold;">
                 <div class="col-6">
                     <p><?= $setting->alamat ?>
                         <br>Telp : <?= $setting->no_telp ?>
@@ -152,7 +159,7 @@
             <!-- <hr style="background-color: #424649;" class="mt-2"> -->
 
             <div class="row dataInv mt-2">
-                <table class="table table-sm table-borderless" style="font-size: 18px;" width="100%">
+                <table class="table table-sm table-borderless" style="font-size: 17px;" width="80%">
                 <thead>
                         <!-- <tr>
                             <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td>  
@@ -190,12 +197,22 @@
                                 <td style="text-align: right;"><?= formatPrice($r->jumlah) ?></td>
                             </tr>
                             <?php 
-                                    $pageItem++;
+                                  $pageItem++;
+                                  if ($pageItem % 10 == 0 && $pageItem != $totalItems) {
+                                      ?>
+                                          <tr>
+                                              <td colspan="5" style="margin-top: 50px; text-align:right; font-style:italic; font-size:14px;">
+                                                  Bersambung ke halaman selanjutnya...
+                                              </td>
+                                          </tr>
+                                      <?php
+                                      }
+                                      
 
                                     if ($pageItem % 10 == 0 && $pageItem != $totalItems) {
-                                        ?>
-                                                </tbody>
-                                                </table>
+                                ?>
+                                        </tbody>
+                                        </table>
                                             </div>
                                         </div>
                                         </div>
@@ -204,10 +221,10 @@
                                         <div class="card">
                         <div class="card-body">
                             <div class="row header mb-2">
-                                <h6 class="text-danger" style="font-size: 25px; font-weight: bold;">KARYA CITRA JAYA</h6>
+                                <h6 class="text-danger" style="font-size: 23px; font-weight: bold;">KARYA CITRA JAYA</h6>
                             </div>
 
-                            <div class="row headerToko" style="font-size: 18px; font-weight: bold;">
+                            <div class="row headerToko" style="font-size: 17px; font-weight: bold;">
                                 <div class="col-6">
                                     <p><?= $setting->alamat ?>
                                         <br>Telp : <?= $setting->no_telp ?>
@@ -215,7 +232,7 @@
                                         <br><?= $noHp ?>
                                     </p>
                                 </div>
-                                <div class="col-6" align="right" style="font-size: 18px;">
+                                <div class="col-6" align="right" style="font-size: 17px;">
                                     <table>
                                         <tr>
                                             <td colspan="2">No Invoice</td>
@@ -240,7 +257,7 @@
                                 </div>
                             </div>
                             <div class="row dataInv mt-2 print-body">
-                                <table class="table table-sm table-borderless" style="font-size: 18px;" width="100%">
+                                <table class="table table-sm table-borderless" style="font-size: 17px;" width="80%">
                                 <thead>
                                     <!-- <tr>
                                         <td colspan="6" style="dot-line">---------------------------------------------------------------------------------------------</td>  
@@ -266,27 +283,30 @@
                             ?>
                     </tbody>
                 </table>
-                <div class="dot-line">------------------------------------------------------------------------------</div>
+                <div class="dot-line">----------------------------------------------------------------------------</div>
                     <!-- total 78 (-) -->
-                
-                            <?php if ($pageItem == $totalItems) { ?>
-                                    <div class="row total">
-                                        <div class="col-8" style="font-size: 18px; font-weight: bold; ">
-                                            <?php if ($inv->id_rekening != "0") { ?>
-                                                <?php $rekening = $this->db->query("SELECT rekening FROM t_rekening WHERE id_rekening ='$inv->id_rekening'")->row()->rekening; ?>
-                                                <p>Pembayaran dapat dilakukan melalui : 
-                                                    <br><?= $rekening ?></p>
+                    <?php if ($pageItem == $totalItems) { ?>
+                                    <div class="footer">
+                                        <div class="row total">
+                                            <div class="col-8" style="font-size: 17px; font-weight: bold;">
+                                                <?php if ($inv->id_rekening != "0") {
+                                                    $rekening = $this->db->query("SELECT rekening FROM t_rekening WHERE id_rekening ='$inv->id_rekening'")->row()->rekening;
+                                                ?>
+                                                    <p>Pembayaran dapat dilakukan melalui : 
+                                                    <br>
+                                                    <?= $rekening ?></p>
                                             <?php } ?>
-                                            <div class="dot-line">---------------------------------------------------------------------------</div>
-                                            <p>
-                                                Alamat :
-                                                <br>
-                                                <?= $alamatCus ?>
-                                            </p>
-                                        </div>
-                        <div class="col-4" align="right" style="font-size: 18px;">
+                                            <!-- <div class="dot-line">-----------------------------------------------------------------------------</div> -->
+                                                <p>
+                                                    Alamat :
+                                                    <br>
+                                                    <?= $alamatCus ?>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-4" align="right" style="font-size: 17px; width: 80%;" >
                             <table class="table table-sm table-borderless">
-                                <!-- <tr>
+                                <tr>
                                     <td id="headerTbl" colspan="2">
                                         &nbsp;Subtotal
                                     </td>
@@ -299,7 +319,7 @@
                                     </td>
                                     <td id="headerTbl">&nbsp;&nbsp;:&nbsp;</td>
                                     <td id="headerTbl" class="text-right"><?= formatPrice($diskon) ?>&nbsp;</td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td id="headerTbl" colspan="2">
                                         &nbsp;Ongkir
@@ -318,7 +338,7 @@
                         </div>
                     </div>
              
-                    <div class="row ttd mt-3" align="center" style="font-size: 18px;">
+                    <div class="row ttd mt-3" align="center" style="font-size: 15px; font-weight:bold;">
                         <div class="col-6">
                             <p>Tanda Terima</p>
                             <br> 
@@ -329,11 +349,12 @@
 
                         <div class="col-6" align="center">
                             <p>Hormat Kami</p>
-                            <?php if ($setting->ttd != 'no-image.jpg') { ?>
+                            <!-- <?php if ($setting->ttd != 'no-image.jpg') { ?>
                                 <img src="<?= base_url('assets/img/setting/' . $setting->ttd) ?>" class="img-fluid" style="max-width:30%; margin-top:-10px; margin-bottom:-25px;">
                             <?php } else { ?>
                                 <br>
-                            <?php } ?>
+                            <?php } ?> -->
+                            <br>
                             <div class="dot-line">--------------------</div>
                             <!--<hr style="background-color: #424649; height:1px; width:270px;"> -->
                         </div>
